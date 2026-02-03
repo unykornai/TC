@@ -1,0 +1,145 @@
+{
+  "version": "1.0",
+  "config_type": "live",
+  "created_date": "2026-02-02",
+  "last_updated": "2026-02-02",
+  "status": "PENDING_SIGNER_C",
+  
+  "multisig_parameters": {
+    "threshold": 2,
+    "total_signers": 3,
+    "settlement_model": "2-of-3"
+  },
+  
+  "signers": [
+    {
+      "signer_id": "A",
+      "entity": "Unykorn 7777, Inc.",
+      "role": "Infrastructure Partner",
+      "designation": "Required Signer",
+      "xrpl_address": "TBD",
+      "evm_address": "TBD",
+      "pubkey_hash": null,
+      "attestation_status": "PENDING",
+      "attestation_date": null,
+      "notes": "Technical operator, settlement initiator"
+    },
+    {
+      "signer_id": "B",
+      "entity": "OPTKAS1-MAIN SPV",
+      "role": "Asset Owner / Borrower",
+      "designation": "Required Signer",
+      "xrpl_address": "TBD",
+      "evm_address": "TBD",
+      "pubkey_hash": null,
+      "attestation_status": "PENDING",
+      "attestation_date": null,
+      "notes": "SPV manager, final settlement approver"
+    },
+    {
+      "signer_id": "C",
+      "entity": "TBD",
+      "role": "Neutral Third Party",
+      "designation": "Governance Signer",
+      "xrpl_address": "TBD",
+      "evm_address": "TBD",
+      "pubkey_hash": null,
+      "attestation_status": "NOT_DESIGNATED",
+      "attestation_date": null,
+      "notes": "Options: Deal counsel (preferred), independent director, lender representative. MUST be neutral party with no direct economic interest in settlement timing."
+    }
+  ],
+  
+  "settlement_rails": {
+    "primary": {
+      "protocol": "XRPL",
+      "network": "mainnet",
+      "payment_address": "rnAF6Ki5sbmPZ4dTNCVzH5iyb9ScdSqyNr",
+      "attestation_address": "rEYYpZJ7KNqj5dqHExM9VCQWNG6j7j1GLV",
+      "currency": "USD",
+      "settlement_time": "3-5 seconds",
+      "status": "CONFIGURED"
+    },
+    "secondary": {
+      "protocol": "EVM",
+      "network": "ethereum_mainnet",
+      "contract_address": "TBD",
+      "currency": "USDC",
+      "settlement_time": "12-15 seconds",
+      "status": "NOT_DEPLOYED"
+    },
+    "fallback": {
+      "method": "USD Wire Transfer",
+      "instructions": "See PARTNER_ISSUANCE_v1/01_AGREEMENT/EXHIBIT_B",
+      "settlement_time": "5 business days",
+      "status": "ALWAYS_AVAILABLE"
+    }
+  },
+  
+  "authorization_workflow": {
+    "step_1": {
+      "action": "Settlement Request Initiated",
+      "required_signer": "Signer A (Unykorn)",
+      "trigger": "Distribution event, interest payment, facility drawdown"
+    },
+    "step_2": {
+      "action": "Settlement Approval Required",
+      "required_approvals": 2,
+      "signers": ["Any 2 of 3 signers"],
+      "timeout": "48 hours",
+      "timeout_action": "Request expires, must re-initiate"
+    },
+    "step_3": {
+      "action": "On-Chain Execution",
+      "method": "Multisig transaction broadcast",
+      "settlement_rail": "XRPL primary, EVM secondary",
+      "confirmation": "TX hash recorded in EXECUTION_v1/04_IPFS_ATTESTATIONS/"
+    }
+  },
+  
+  "security_controls": {
+    "no_single_signer_authority": true,
+    "requires_counterparty_approval": true,
+    "neutral_party_oversight": true,
+    "key_rotation_enabled": false,
+    "key_rotation_process": "Requires unanimous 3-of-3 approval + new config version",
+    "emergency_recovery": "Requires legal process + court order (no technical backdoor)"
+  },
+  
+  "deployment_checklist": {
+    "signer_c_designated": false,
+    "all_addresses_provided": false,
+    "pubkeys_attested": false,
+    "smart_contract_deployed": false,
+    "test_transaction_successful": false,
+    "ipfs_pinned": false,
+    "xrpl_attested": false
+  },
+  
+  "immutability_notice": "Once deployed and attested to IPFS/XRPL, this configuration is immutable. Any changes require new version with unanimous 3-of-3 signer approval.",
+  
+  "ipfs_cid": null,
+  "xrpl_attestation_tx": null,
+  
+  "contact_information": {
+    "signer_a_contact": "Technical Lead, Unykorn 7777",
+    "signer_b_contact": "jimmy@optkas.com",
+    "signer_c_contact": "TBD"
+  },
+  
+  "legal_framework": {
+    "governing_law": "Wyoming",
+    "dispute_resolution": "As specified in Strategic Infrastructure & Execution Agreement",
+    "regulatory_compliance": "Non-custodial settlement only, no asset custody"
+  },
+  
+  "change_log": [
+    {
+      "version": "1.0",
+      "date": "2026-02-02",
+      "change": "Initial configuration created",
+      "author": "System",
+      "status": "PENDING_SIGNER_C"
+    }
+  ]
+}
