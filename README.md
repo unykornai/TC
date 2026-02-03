@@ -32,17 +32,20 @@ This repository contains the complete infrastructure for the **TC Advantage Secu
 
 | Component | Description | Status |
 |:----------|:------------|:------:|
-| 🏛️ **SPV Structure** | Wyoming Series LLC bankruptcy-remote vehicle | ✅ Active |
-| 📊 **Borrowing Base** | 40% haircut methodology with 250%+ coverage | ✅ Implemented |
-| ⛓️ **XRPL Attestation** | Immutable chain-of-custody verification | ✅ Live |
-| 🔐 **Smart Contracts** | 2-of-3 multisig automated settlement | ✅ Configured |
-| 📁 **Data Room** | Institutional-grade document repository | ✅ Frozen |
+| 🏛️ **SPV Structure** | Wyoming Series LLC bankruptcy-remote vehicle | ✅ Established |
+| 📊 **Borrowing Base** | 40% haircut methodology with 250%+ coverage | ✅ Defined |
+| ⛓️ **XRPL Attestation** | Immutable chain-of-custody verification | ✅ Specified |
+| 🔐 **Smart Contracts** | 2-of-3 multisig automated settlement | ✅ Architected |
+| 📁 **Data Room** | Institutional-grade document repository | ✅ Version-locked |
 
 ### Key Metrics
 
+**All parameters are illustrative and subject to final documentation and counterparty approval.**
+
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                        FACILITY OVERVIEW                            │
+│           ILLUSTRATIVE FACILITY PARAMETERS                          │
+│              (For Structural Reference)                             │
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                     │
 │   COLLATERAL VALUE          ADVANCE RATE         FACILITY SIZE     │
@@ -145,8 +148,7 @@ graph TB
 |:----------|:------|
 | **Issuer** | TC Advantage Traders, Inc. |
 | **Security Type** | Secured Medium Term Notes |
-| **CUSIP** | `87225HAB4` |
-| **ISIN** | `US87225HAB42` |
+| **CUSIP / ISIN** | Disclosed in Annex A (Institutional Data Room) |
 | **Face Value** | $10,000,000.00 |
 | **Coupon Rate** | 5.00% per annum |
 | **Payment Frequency** | Semi-annual |
@@ -432,7 +434,7 @@ flowchart TB
     { "role": "SPV Manager", "entity": "OPTKAS1-MAIN SPV" },
     { "role": "Neutral Escrow", "entity": "TBD" }
   ],
-  "payment_address": "rnAF6Ki5sbmPZ4dTNCVzH5iyb9ScdSqyNr",
+  "payment_address": "Designated per executed agreement",
   "networks": ["XRPL", "EVM-compatible"]
 }
 ```
@@ -463,9 +465,9 @@ flowchart TB
                                     ▼
                     ┌─────────────────────────────────────┐
                     │   RECIPIENT ADDRESS                  │
-                    │   rnAF6Ki5sbmPZ4dTNCVzH5iyb9ScdSqyNr │
+                    │   Designated per executed agreement  │
                     │   ─────────────────────────────────  │
-                    │   Explorer: livenet.xrpl.org         │
+                    │   Specified in PARTNER_ISSUANCE_v1   │
                     └─────────────────────────────────────┘
 ```
 
@@ -712,6 +714,8 @@ flowchart LR
 | **Purpose** | Evidence-only (no custody) |
 | **Explorer** | [View on XRPL](https://livenet.xrpl.org/accounts/rEYYpZJ7KNqj5dqHExM9VCQWNG6j7j1GLV) |
 
+**Note:** XRPL attestations are performed post-execution and post-freeze of final documents.
+
 ---
 
 ## 🛡️ Security Model
@@ -933,9 +937,9 @@ interface ISettlementContract {
 |:----------|:------:|:------------:|:------|
 | DATA_ROOM_v1 | 🟢 Frozen | 2026-02-02 | 33 documents, 7 categories |
 | PARTNER_ISSUANCE_v1 | 🟢 Ready | 2026-02-02 | 15 documents |
-| XRPL Attestation | 🟢 Active | 2026-02-02 | Account funded |
-| Smart Contracts | 🟡 Testing | 2026-02-02 | Awaiting deployment |
-| Lender Outreach | 🟡 In Progress | 2026-02-02 | Active discussions |
+| XRPL Attestation | 🟢 Specified | 2026-02-02 | Account established |
+| Smart Contracts | 🟡 Architected | 2026-02-02 | Awaiting deployment |
+| Lender Outreach | 🟡 Preparation Phase | 2026-02-02 | Documentation complete |
 
 ---
 
