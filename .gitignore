@@ -1,0 +1,50 @@
+# Dependencies
+node_modules/
+.npm/
+
+# Build outputs
+dist/
+build/
+*.log
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+
+# Sensitive files (do not commit)
+*.key
+*.pem
+private/
+secrets/
+
+# Large binary files (use IPFS instead)
+*.zip
+*.tar.gz
+
+# Python
+__pycache__/
+*.py[cod]
+.Python
+venv/
+.venv/
+
+# Test outputs
+coverage/
+.nyc_output/

@@ -1,0 +1,227 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OPTKAS1 Day-0 Snapshot",
+  "description": "Initial collateral snapshot for facility closing",
+  "version": "1.0",
+  "generated_at": "2026-02-02T00:00:00Z",
+  
+  "facility": {
+    "facility_id": "OPTKAS1-MAIN",
+    "borrower": {
+      "name": "OPTKAS1-MAIN SPV",
+      "entity_type": "Wyoming Series LLC",
+      "formation_date": null,
+      "ein": null
+    },
+    "lender": {
+      "name": "[LENDER NAME]",
+      "contact": "[LENDER CONTACT]"
+    },
+    "effective_date": "[CLOSING DATE]",
+    "maturity_date": "[FACILITY MATURITY]",
+    "commitment_amount": "[FACILITY SIZE]",
+    "currency": "USD"
+  },
+
+  "collateral": {
+    "assets": [
+      {
+        "asset_id": "TCAT-10M-2030-001",
+        "asset_type": "SECURED_MEDIUM_TERM_NOTE",
+        "issuer": "TC Advantage Traders, Ltd.",
+        "issuer_jurisdiction": "Commonwealth of The Bahamas",
+        
+        "identifiers": {
+          "cusip_144a": "87225HAB4",
+          "cusip_regs": "P9000TAA8",
+          "isin_144a": "US87225HAB42",
+          "isin_regs": "BSP9000TAA83",
+          "security_id": "ST409-BD3",
+          "serial_number": "TCAT-10M-2030-001"
+        },
+        
+        "terms": {
+          "face_value": 10000000.00,
+          "currency": "USD",
+          "coupon_rate": 5.00,
+          "coupon_frequency": "SEMI_ANNUAL",
+          "day_count": "30/360",
+          "issue_date": "2020-05-29",
+          "maturity_date": "2030-05-31"
+        },
+        
+        "custody": {
+          "transfer_agent": "Securities Transfer Corporation",
+          "transfer_agent_location": "Plano, Texas",
+          "settlement_type": "DTC_DWAC_FAST",
+          "physical_certificate": true,
+          "certificate_location": "[VAULT LOCATION]"
+        },
+        
+        "insurance": {
+          "insurer": "C.J. Coleman & Company",
+          "insurer_location": "London",
+          "coverage_amount": 25750000.00,
+          "coverage_currency": "USD",
+          "policy_start": "2024-01-01",
+          "policy_end": "2029-01-01",
+          "coverage_type": "INSURANCE_WRAPPER"
+        },
+        
+        "valuation": {
+          "valuation_date": "[CLOSING DATE]",
+          "face_value": 10000000.00,
+          "haircut_percentage": 40.00,
+          "collateral_value": 6000000.00,
+          "haircut_rationale": "Private placement, limited secondary market, conservative approach"
+        },
+        
+        "status": {
+          "eligible": true,
+          "restrictions": [],
+          "liens": [],
+          "last_verified": "[DATE]",
+          "verification_source": "STC Position Statement"
+        }
+      }
+    ],
+    
+    "totals": {
+      "total_face_value": 10000000.00,
+      "total_collateral_value": 6000000.00,
+      "weighted_average_haircut": 40.00
+    }
+  },
+
+  "borrowing_base": {
+    "calculation_date": "[CLOSING DATE]",
+    "eligible_collateral_value": 6000000.00,
+    "outstanding_advances": 0.00,
+    "letters_of_credit": 0.00,
+    "total_outstandings": 0.00,
+    "excess_availability": 6000000.00,
+    "coverage_ratio": null,
+    "minimum_coverage_ratio": 250.00,
+    "status": "COMPLIANT"
+  },
+
+  "perfection": {
+    "ucc_filings": [
+      {
+        "filing_type": "UCC-1",
+        "jurisdiction": "Wyoming",
+        "filing_number": "[TO BE FILED]",
+        "filing_date": "[CLOSING DATE]",
+        "secured_party": "[LENDER NAME]",
+        "debtor": "OPTKAS1-MAIN SPV",
+        "collateral_description": "All right, title and interest in TC Advantage 5% Secured Medium Term Notes, CUSIP 87225HAB4, together with all proceeds thereof",
+        "status": "PENDING"
+      }
+    ],
+    "control_agreements": [
+      {
+        "agreement_type": "SECURITIES_ACCOUNT_CONTROL",
+        "counterparty": "Securities Transfer Corporation",
+        "effective_date": "[CLOSING DATE]",
+        "status": "PENDING"
+      }
+    ]
+  },
+
+  "attestation": {
+    "xrpl_account": "rEYYpZJ7KNqj5dqHExM9VCQWNG6j7j1GLV",
+    "snapshot_hash": null,
+    "attestation_tx": null,
+    "attestation_timestamp": null,
+    "ipfs_cid": null
+  },
+
+  "documentation": {
+    "closing_documents": [
+      {
+        "document": "Facility Agreement",
+        "status": "PENDING",
+        "hash": null
+      },
+      {
+        "document": "Security Agreement",
+        "status": "PENDING",
+        "hash": null
+      },
+      {
+        "document": "STC Control Agreement",
+        "status": "PENDING",
+        "hash": null
+      },
+      {
+        "document": "UCC-1 Financing Statement",
+        "status": "PENDING",
+        "hash": null
+      },
+      {
+        "document": "Legal Opinion",
+        "status": "PENDING",
+        "hash": null
+      },
+      {
+        "document": "Borrowing Base Certificate",
+        "status": "PENDING",
+        "hash": null
+      }
+    ],
+    "supporting_documents": [
+      {
+        "document": "STC Position Statement",
+        "status": "RECEIVED",
+        "date": "2026-02-01",
+        "hash": null
+      },
+      {
+        "document": "Insurance Premium Invoice",
+        "status": "RECEIVED",
+        "hash": null
+      },
+      {
+        "document": "Certificate of Formation",
+        "status": "PENDING",
+        "hash": null
+      },
+      {
+        "document": "Operating Agreement",
+        "status": "PENDING",
+        "hash": null
+      }
+    ]
+  },
+
+  "representations": {
+    "borrower_representations": [
+      "Borrower is duly organized and validly existing under Wyoming law",
+      "Borrower has full power and authority to execute facility documents",
+      "Collateral is free and clear of all liens except Permitted Liens",
+      "No event of default exists or would result from this borrowing",
+      "All information provided to Lender is true and complete"
+    ],
+    "representation_date": "[CLOSING DATE]"
+  },
+
+  "contact": {
+    "borrower_contact": {
+      "name": "OPTKAS1-MAIN SPV",
+      "email": "jimmy@optkas.com",
+      "phone": null
+    },
+    "transfer_agent_contact": {
+      "name": "Securities Transfer Corporation",
+      "location": "Plano, Texas"
+    }
+  },
+
+  "metadata": {
+    "schema_version": "1.0",
+    "created_by": "OPTKAS1 System",
+    "created_at": null,
+    "last_modified": null,
+    "status": "TEMPLATE"
+  }
+}
