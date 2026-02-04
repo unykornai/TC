@@ -1,0 +1,135 @@
+{
+  "version": "1.0",
+  "created": "2026-02-02",
+  "agreement": "STRATEGIC_INFRASTRUCTURE_EXECUTION_AGREEMENT",
+  "description": "Multisig configuration for smart contract settlement authorization",
+  
+  "threshold": {
+    "required": 2,
+    "total": 3,
+    "description": "2-of-3 signatures required for standard operations"
+  },
+  
+  "elevated_threshold": {
+    "required": 3,
+    "total": 3,
+    "description": "3-of-3 required for address changes and critical modifications"
+  },
+  
+  "signers": [
+    {
+      "id": "SIGNER_A",
+      "role": "Infrastructure Partner",
+      "entity": "Unykorn 7777, Inc.",
+      "status": "PENDING_CONFIRMATION",
+      "xrpl_address": null,
+      "evm_address": null,
+      "public_key": null,
+      "authorized_representative": null,
+      "contact": null
+    },
+    {
+      "id": "SIGNER_B", 
+      "role": "SPV Manager",
+      "entity": "OPTKAS1-MAIN SPV",
+      "status": "PENDING_CONFIRMATION",
+      "xrpl_address": null,
+      "evm_address": null,
+      "public_key": null,
+      "authorized_representative": null,
+      "contact": "jimmy@optkas.com"
+    },
+    {
+      "id": "SIGNER_C",
+      "role": "Neutral Escrow / Co-Manager",
+      "entity": null,
+      "status": "TO_BE_DESIGNATED",
+      "xrpl_address": null,
+      "evm_address": null,
+      "public_key": null,
+      "authorized_representative": null,
+      "contact": null
+    }
+  ],
+  
+  "networks": {
+    "primary": {
+      "name": "XRP Ledger",
+      "chain_id": null,
+      "explorer": "https://livenet.xrpl.org",
+      "multisig_type": "XRPL_MULTISIGN"
+    },
+    "alternative": {
+      "name": "Ethereum / EVM-compatible",
+      "chain_id": null,
+      "explorer": null,
+      "multisig_type": "GNOSIS_SAFE"
+    }
+  },
+  
+  "payment_address": {
+    "primary": {
+      "network": "XRPL",
+      "address": "rnAF6Ki5sbmPZ4dTNCVzH5iyb9ScdSqyNr",
+      "explorer_url": "https://livenet.xrpl.org/accounts/rnAF6Ki5sbmPZ4dTNCVzH5iyb9ScdSqyNr"
+    },
+    "fallback": {
+      "method": "Wire Transfer / ACH",
+      "instructions": "Per Unykorn written instructions",
+      "deadline": "5 business days from trigger"
+    }
+  },
+  
+  "operations": {
+    "standard_distribution": {
+      "threshold": "2-of-3",
+      "notice_period": "None",
+      "description": "Regular payment distributions per Exhibit A"
+    },
+    "address_change": {
+      "threshold": "3-of-3",
+      "notice_period": "5 days",
+      "description": "Change of recipient payment address"
+    },
+    "signer_replacement": {
+      "threshold": "2-of-3 remaining",
+      "notice_period": "5 days",
+      "description": "Replace a compromised or departed signer"
+    },
+    "emergency_pause": {
+      "threshold": "2-of-3",
+      "notice_period": "None",
+      "description": "Halt all distributions pending investigation"
+    },
+    "percentage_change": {
+      "threshold": "Written amendment + 2-of-3",
+      "notice_period": "5 days",
+      "description": "Modify participation percentage"
+    },
+    "network_migration": {
+      "threshold": "2-of-3",
+      "notice_period": "10 days",
+      "description": "Migrate to different blockchain network"
+    }
+  },
+  
+  "security": {
+    "key_storage": "Hardware wallet recommended",
+    "backup": "Encrypted seed phrase in separate secure location",
+    "rotation_policy": "Annual review recommended",
+    "compromise_protocol": "See SIGNING_INSTRUCTIONS.md Section 6"
+  },
+  
+  "audit": {
+    "logging": "All multisig operations logged on-chain",
+    "reporting": "Monthly reconciliation with off-chain records",
+    "verification": "Quarterly signer confirmation"
+  },
+  
+  "notes": [
+    "This configuration is a template pending signer confirmations",
+    "Update signer details before first distribution",
+    "XRPL addresses must be activated before use",
+    "EVM addresses should be verified on preferred network"
+  ]
+}

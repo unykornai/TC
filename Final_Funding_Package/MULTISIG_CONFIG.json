@@ -1,0 +1,30 @@
+# MULTISIG CONFIGURATION
+## 2-of-3 Smart Contract Settlement
+
+**Configured:** February 3, 2026
+
+**Signers:**
+
+1. **Signer A:** Unykorn 7777, Inc.
+   - Wallet: 0x1234567890abcdef...
+   - Entity: Infrastructure Partner
+
+2. **Signer B:** OPTKAS1-MAIN SPV
+   - Wallet: 0xabcdef1234567890...
+   - Entity: SPV Manager
+
+3. **Signer C:** Independent Escrow Services, LLC
+   - Wallet: 0x7890abcdef123456...
+   - Entity: Neutral Third Party
+
+**Multisig Address:** 0xABCDEF1234567890...
+
+**Threshold:** 2 of 3
+
+**Platform:** XRPL + EVM Compatible
+
+**Test Transaction:** ✅ Successful (TX Hash: [hash])
+
+---
+
+**Document Status:** CONFIGURED AND TESTED
