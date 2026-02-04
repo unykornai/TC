@@ -72,7 +72,7 @@ The OPTKAS1-MAIN SPV secured credit facility is 100% ready for immediate funding
 
 Key Highlights:
 • $4M facility backed by $10M TC Advantage 5% MTN (250%+ coverage)
-• $191.6M+ underlying ecosystem with $185M blockchain assets
+• XRPL IOU system (~$40M) for technical testing and settlement verification
 • Complete institutional custody platform ($150B+ market opportunity)
 • All documents executed, legal opinions issued, UCC-1 filed
 
@@ -108,7 +108,7 @@ We are seeking institutional funding partners for a $4M secured credit facility 
 
 Opportunity Highlights:
 • $10M TC Advantage 5% MTN collateral (250%+ coverage)
-• $191.6M+ ecosystem value with $185M blockchain assets
+• XRPL IOU system (~$40M) for technical infrastructure testing
 • Complete custody platform targeting $150B+ market
 • Wyoming SPV structure with full legal perfection
 • XRPL blockchain settlement infrastructure
@@ -142,7 +142,7 @@ function Generate-Reports {
         "",
         "ASSET VALUE BREAKDOWN:",
         "- `$10M TC Advantage 5% MTN (primary collateral)",
-        "- `$185M XRPL blockchain assets (ecosystem value)",
+        "- `~$40M XRPL IOU system (technical testing infrastructure)",
         "- `$6.6M real estate portfolio (development land)",
         "- Complete custody platform (`$150B+ market potential)",
         "",
