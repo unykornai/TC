@@ -57,10 +57,10 @@ This document pre-answers every requirement from the Loan Commitment Letter Temp
 | **ISIN (144A)** | US87225HAB42 | STC / Subscription Agreement |
 | **ISIN (Reg S)** | BSP9000TAA83 | STC / Subscription Agreement |
 | **Face Amount** | $10,000,000 (per note) | STC Position Statement ✅ |
-| **Quantity Subscribed** | 500 bonds | Subscription Agreement (⚠️ verify interpretation) |
+| **Quantity Pledged** | 1 bond | Certificate Serial # TCAT-10M-2030-001 |
 | **Maturity** | May 31, 2030 | Subscription Agreement |
 | **Coupon** | 5.00% per annum | Subscription Agreement |
-| **Program Size** | $5,000,000,000 | Subscription Agreement |
+| **Program Size** | $500,000,000 (50 bonds total) | Subscription Agreement |
 | **Serial Number** | TCAT-10M-2030-001 | Certificate |
 | **Transfer Agent** | Securities Transfer Corporation, Plano TX | STC Statement ✅ |
 | **Settlement** | DTC/DWAC FAST system | Subscription Agreement |

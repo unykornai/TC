@@ -18,7 +18,7 @@ The $10M TC Advantage 5% MTN provides **investment-grade collateral** for the $4
 **Status:** Investment-grade, rated security with proven market acceptance
 - **Face Value:** $10,000,000
 - **Coupon:** 5% annual interest
-- **Maturity:** 5-year term
+- **Maturity:** 10-year term (May 31, 2030)
 - **Coverage:** 250%+ for $4M facility
 - **Market Value:** Established trading history
 

@@ -146,7 +146,7 @@ graph TB
 
 | Attribute | Value |
 |:----------|:------|
-| **Issuer** | TC Advantage Traders, Inc. |
+| **Issuer** | TC Advantage Traders, Ltd. (Bahamas) |
 | **Security Type** | Secured Medium Term Notes |
 | **CUSIP / ISIN** | Disclosed in Annex A (Institutional Data Room) |
 | **Face Value** | $10,000,000.00 |

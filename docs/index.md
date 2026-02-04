@@ -51,7 +51,7 @@ The funding portal contains:
 
 | Attribute | Value |
 |:----------|:------|
-| **Issuer** | TC Advantage Traders, Inc. |
+| **Issuer** | TC Advantage Traders, Ltd. (Bahamas) |
 | **CUSIP** | `87225HAB4` |
 | **ISIN** | `US87225HAB42` |
 | **Face Value** | $10,000,000.00 |

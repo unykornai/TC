@@ -14,7 +14,7 @@
 
 | Parameter | Specification |
 |:----------|:--------------|
-| **Issuer** | TC Advantage Traders, Ltd. |
+| **Issuer** | TC Advantage Traders, Ltd. (Bahamas) |
 | **CUSIP** | 87225HAB4 |
 | **ISIN** | US87225HAB42 |
 | **Face Value** | $10,000,000 |

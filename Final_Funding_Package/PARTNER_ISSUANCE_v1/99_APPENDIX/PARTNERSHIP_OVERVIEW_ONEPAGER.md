@@ -29,7 +29,7 @@
 
 | Attribute | Value |
 |:----------|:------|
-| **Issuer** | TC Advantage Traders, Inc. |
+| **Issuer** | TC Advantage Traders, Ltd. (Bahamas) |
 | **Security** | 5% Secured Medium Term Notes |
 | **CUSIP** | 87225HAB4 |
 | **ISIN** | US87225HAB42 |
