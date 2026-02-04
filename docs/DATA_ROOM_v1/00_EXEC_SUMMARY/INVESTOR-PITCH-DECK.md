@@ -1,6 +1,6 @@
 # INVESTOR PITCH DECK
 ## Institutional-Grade Crypto Custody Platform
-### $185M On-Ledger Assets - Day One Infrastructure
+### ~$40M IOU System - Day One Infrastructure
 
 ---
 
@@ -20,7 +20,7 @@
 - Complex fee structures
 
 ### Our Solution
-- ✅ **$185M on-ledger issued assets DAY ONE** (most start with $0)
+- ✅ **~$40M IOU system DAY ONE** (most start with $0)
 - ✅ **Fully operational** blockchain infrastructure
 - ✅ **Complete transparency** (live blockchain verification)
 - ✅ **Lower fees** (0.50% vs industry 0.75%)
@@ -36,7 +36,7 @@
 **Blockchain Layer:**
 - 6 wallets on XRPL mainnet (1 treasury + 5 entities)
 - 15 trust lines to major stablecoins (USDT, USDC)
-- $185M in assets under management
+- $40M in assets under management
 - Proven liquidity ($5K successfully transferred)
 
 **Technology Layer:**
@@ -53,7 +53,7 @@
 - Investor-ready materials
 
 ### What This Means:
-**We're not starting from zero. We have $185M in on-ledger issued assets (XRPL) with proven settlement capability and a working platform. Asset migration to official stablecoins (Tether/Circle) is required for institutional deployment.**
+**We're not starting from zero. We have ~$40M in on-ledger IOU system (XRPL) with proven settlement capability and a working platform. Asset migration to official stablecoins (Tether/Circle) is required for institutional deployment.**
 
 ---
 
@@ -103,21 +103,21 @@
 - Bank proof-of-funds acceptable
 - Institutional lending/borrowing unlocked
 
-**Net Result:** $182M-$185M in official stablecoins (worst case: $166.5M)
+**Net Result:** ~$40M in official stablecoins (worst case: ~$36M)
 
 ### Why This Doesn't Kill The Deal
 
 **Most crypto custody companies start with $0.**
 
 Even at worst-case 10% haircut:
-- We have $166.5M in official stablecoins
+- We have ~$36M in official stablecoins
 - Competitors have $0
 - We still have working infrastructure
 - We still have proven settlement capability
 - We still have 6 operational wallets
 - We still have client relationships
 
-**The $2M haircut is budgeted in the raise. The infrastructure value remains.**
+**The $4M haircut is budgeted in the raise. The infrastructure value remains.**
 
 ---
 
@@ -127,7 +127,7 @@ Even at worst-case 10% haircut:
 
 #### 1. Asset Management Fees (Primary)
 - **Rate:** 0.50% annually on AUM
-- **Year 1:** $925K (on $185M)
+- **Year 1:** $200K (on $40M)
 - **Year 2:** $2.5M (scale to $500M)
 - **Year 3:** $5M+ (scale to $1B)
 
@@ -139,9 +139,9 @@ Even at worst-case 10% haircut:
 #### 3. Staking/Yield Generation
 - **Strategy:** Deploy idle assets in DeFi protocols
 - **Expected yield:** 3-8% APY
-- **Annual:** $5.5-14.8M (on $185M)
+- **Annual:** $1.2-3.2M (on $40M)
 - **Keep:** 20% as performance fee
-- **Annual:** $1.1-2.9M
+- **Annual:** $240-640K
 
 #### 4. Advisory Services (Future)
 - Institutional onboarding: $50-100K per client
@@ -152,7 +152,7 @@ Even at worst-case 10% haircut:
 
 | Year | AUM | Management Fee | Transaction Fee | Staking Fee | **Total Revenue** |
 |------|-----|----------------|-----------------|-------------|-------------------|
-| 1 | $185M | $925K | $200K | $1.5M | **$2.6M** |
+| 1 | $40M | $200K | $200K | $320K | **$720K** |
 | 2 | $500M | $2.5M | $500K | $4M | **$7M** |
 | 3 | $1B | $5M | $1M | $8M | **$14M** |
 | 4 | $2B | $10M | $2M | $16M | **$28M** |
@@ -210,14 +210,14 @@ Even at worst-case 10% haircut:
 | Company | AUM | Valuation | Fee Rate | Our Advantage |
 |---------|-----|-----------|----------|---------------|
 | **Coinbase Custody** | $130B | $30B+ | 0.50-1.00% | We're cheaper + more transparent |
-| **BitGo** | $64B | $2B | 0.25-0.50% | We have $185M day one |
+| **BitGo** | $64B | $2B | 0.25-0.50% | We have ~$40M IOU system day one |
 | **Anchorage** | $30B+ | $3B | 0.15-0.50% | We own client relationships |
 | **Fireblocks** | $20B+ | $8B | 0.10-0.30% + transaction fees | We have existing assets |
 | **Fidelity Digital** | $15B+ | N/A | 0.20-0.40% | We're more agile/faster |
 
 ### Our Differentiation
 
-1. **On-Ledger Assets Day One:** $185M in on-chain issued assets (convertible to official stablecoins) vs competitors starting with $0
+1. **On-Ledger Assets Day One:** ~$40M in IOU system (convertible to official stablecoins) vs competitors starting with $0
 2. **Transparency:** Live blockchain verification (unique in industry)
 3. **Cost Structure:** Lower fees due to partner model (vs full build)
 4. **Speed:** Infrastructure operational NOW (vs 18-24 month build)
@@ -265,7 +265,7 @@ Even at worst-case 10% haircut:
 
 ### Current: Founder-Led
 - **Kevan Burns** - Founder/CEO
-  - Built complete $185M infrastructure
+  - Built complete ~$40M IOU infrastructure
   - XRPL technical expertise
   - Business development
 
@@ -300,17 +300,17 @@ Even at worst-case 10% haircut:
 ## RISK ANALYSIS & MITIGATION
 
 ### Risk 1: Asset Migration / Issuer Redeemability
-**Risk:** $185M in private-issued IOUs, not official Tether/Circle stablecoins  
+**Risk:** ~$40M in private-issued IOUs, not official Tether/Circle stablecoins  
 **Impact:** CRITICAL - Cannot obtain custody insurance or bank acceptance without migration  
 **Mitigation:**
-- ✅ $2M allocated for exchange haircut (2-10% worst case)
+- ✅ $4M allocated for exchange haircut (10% worst case)
 - ✅ Attempting issuer documentation first (20-30% success rate)
 - ✅ DEX/OTC exchange path identified (liquidity confirmed)
 - ✅ Trust lines to official issuers already established
-- ✅ Worst case: $166.5M in official stablecoins (still >> $0)
+- ✅ Worst case: ~$36M in official stablecoins (still >> $0)
 
 **Timeline:** 3-6 months to fully resolve  
-**Financial Impact:** $3.7M-$18.5M haircut (worst case, budgeted)  
+**Financial Impact:** $4M haircut (worst case, budgeted)  
 **Probability of Full Loss:** <1% (on-ledger balances confirmed, issuer contactable)
 
 ---
@@ -355,7 +355,7 @@ Even at worst-case 10% haircut:
 **Mitigation:**
 - ✅ Lower cost structure (partner model)
 - ✅ Unique transparency features
-- ✅ Existing $185M relationships/network
+- ✅ Existing ~$40M IOU relationships/network
 - ✅ Can be acquisition target (valuable exit)
 
 ---
@@ -443,7 +443,7 @@ See "Use of Funds" section above ($6.5M allocation)
 ### Our Timing
 
 - ✅ Infrastructure built BEFORE fundraising (de-risked)
-- ✅ $185M assets secured (immediate credibility)
+- ✅ ~$40M IOU system secured (immediate credibility)
 - ✅ Partner ecosystem ready (Anchorage, BitGo available)
 - ✅ Regulatory environment improving (easier licensing)
 - ✅ Market growing 40% annually (rising tide)
@@ -507,7 +507,7 @@ Founder & CEO
 
 **Blockchain Proof:**
 - Main Wallet: rpP12ND2K7ZRzXZBEUnQM2i18tMGytXnW1
-- $185M USDT verifiable on-chain
+- ~$40M IOU system verifiable on-chain
 - FUND-MOVEMENT-PROOF.json with all transactions
 
 ---
@@ -515,7 +515,7 @@ Founder & CEO
 ## APPENDIX: KEY METRICS
 
 ### Current State (January 2026):
-- **On-Ledger Assets:** $185M (private-issued, migration required)
+- **On-Ledger Assets:** ~$40M IOU system (private-issued, migration required)
 - **Wallets:** 6 operational (mainnet)
 - **Trust Lines:** 15 active (10 to official issuers, 5 to private)
 - **Settlement Proven:** ✅ $5K successfully transferred
@@ -553,8 +553,8 @@ Founder & CEO
 
 ---
 
-**We're not asking you to fund a dream. We're asking you to scale an operating business with $185M in on-ledger assets and proven infrastructure.**
+**We're not asking you to fund a dream. We're asking you to scale an operating business with ~$40M in IOU system and proven infrastructure.**
 
-**Critical Disclosure:** Current assets are privately-issued IOUs on XRPL, not official Tether/Circle stablecoins. Migration to official stablecoins is budgeted ($2M) and required for institutional deployment. Even with worst-case 10% haircut, resulting $166.5M in official stablecoins still exceeds all competitor starting positions.
+**Critical Disclosure:** Current assets are privately-issued IOUs on XRPL (~$40M system), not official Tether/Circle stablecoins. Migration to official stablecoins is budgeted ($4M) and required for institutional deployment. Even with worst-case 10% haircut, resulting ~$36M in official stablecoins still exceeds most competitor starting positions.
 
 **Join us.**

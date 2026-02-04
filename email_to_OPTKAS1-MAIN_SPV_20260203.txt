@@ -5,9 +5,9 @@ Dear OPTKAS1-MAIN SPV,
 The OPTKAS1-MAIN SPV secured credit facility is 100% ready for immediate funding.
 
 Key Highlights:
-â€¢  facility backed by  TC Advantage 5% MTN (250%+ coverage)
-â€¢ XRPL IOU system (~) for technical testing and settlement verification
-â€¢ Complete institutional custody platform (+ market opportunity)
+â€¢ $4M facility backed by $10M TC Advantage 5% MTN (250%+ coverage)
+â€¢ XRPL IOU system (~$40M) for technical testing and settlement verification
+â€¢ Complete institutional custody platform ($150B+ market opportunity)
 â€¢ All documents executed, legal opinions issued, UCC-1 filed
 
 Access the complete portal: https://unykornai.github.io/TC/funding-portal.html

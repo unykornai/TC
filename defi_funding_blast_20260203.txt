@@ -5,14 +5,16 @@ Dear DeFi Funding Team,
 We are seeking institutional funding partners for a  secured credit facility backed by investment-grade real world assets.
 
 Opportunity Highlights:
-â€¢  TC Advantage 5% MTN collateral (250%+ coverage)
-â€¢ XRPL IOU system (~) for technical infrastructure testing
-â€¢ Complete custody platform targeting + market
+â€¢ $10M TC Advantage 5% MTN collateral (250%+ coverage)
+â€¢ XRPL IOU system (~$40M) for technical infrastructure testing
+â€¢ Complete custody platform targeting $150B+ market
 â€¢ Wyoming SPV structure with full legal perfection
 â€¢ XRPL blockchain settlement infrastructure
 
-Portal: https://unykornai.github.io/TC/funding-portal.html
-Value Prop: https://unykornai.github.io/TC/TRUE_VALUE_PROPOSITION.md
+Key Documents:
+â€¢ Collateral Summary Sheet: https://unykornai.github.io/TC/funding-portal.html#key-documents
+â€¢ Portal: https://unykornai.github.io/TC/funding-portal.html
+â€¢ Value Prop: https://unykornai.github.io/TC/TRUE_VALUE_PROPOSITION.md
 
 All documentation executed and ready for immediate funding.
 

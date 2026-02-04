@@ -71,9 +71,9 @@ Dear {0},
 The OPTKAS1-MAIN SPV secured credit facility is 100% ready for immediate funding.
 
 Key Highlights:
-• $4M facility backed by $10M TC Advantage 5% MTN (250%+ coverage)
-• XRPL IOU system (~$40M) for technical testing and settlement verification
-• Complete institutional custody platform ($150B+ market opportunity)
+• `$4M facility backed by `$10M TC Advantage 5% MTN (250%+ coverage)
+• XRPL IOU system (~`$40M) for technical testing and settlement verification
+• Complete institutional custody platform (`$150B+ market opportunity)
 • All documents executed, legal opinions issued, UCC-1 filed
 
 Access the complete portal: $PortalUrl
@@ -107,14 +107,16 @@ Dear DeFi Funding Team,
 We are seeking institutional funding partners for a $4M secured credit facility backed by investment-grade real world assets.
 
 Opportunity Highlights:
-• $10M TC Advantage 5% MTN collateral (250%+ coverage)
-• XRPL IOU system (~$40M) for technical infrastructure testing
-• Complete custody platform targeting $150B+ market
+• `$10M TC Advantage 5% MTN collateral (250%+ coverage)
+• XRPL IOU system (~`$40M) for technical infrastructure testing
+• Complete custody platform targeting `$150B+ market
 • Wyoming SPV structure with full legal perfection
 • XRPL blockchain settlement infrastructure
 
-Portal: $PortalUrl
-Value Prop: $ValuePropUrl
+Key Documents:
+• Collateral Summary Sheet: $PortalUrl#key-documents
+• Portal: $PortalUrl
+• Value Prop: $ValuePropUrl
 
 All documentation executed and ready for immediate funding.
 
@@ -124,9 +126,44 @@ Best regards,
 OPTKAS1 Funding Team
 "@
 
+    # Generate institutional lender template
+    $institutionalTemplate = @"
+Subject: Secured Credit Facility: `$4M on `$10M TC Advantage MTN Collateral
+
+Dear [Lender Name],
+
+We are pleased to present a `$4M secured credit facility opportunity backed by investment-grade collateral.
+
+Collateral Summary:
+• Security: TC Advantage 5% MTN (CUSIP: 87225HAB4)
+• Face Value: `$10,000,000
+• Advance Rate: 40% (`$4M facility)
+• Coverage: 250%+
+• Maturity: May 31, 2030
+• Transfer Agent: Securities Transfer Corporation
+
+Documentation:
+• Collateral Summary Sheet: $PortalUrl#key-documents
+• Executed Facility Agreement: Available upon request
+• Security Agreement: Available upon request
+
+The facility is structured as a single-asset SPV-backed credit facility with complete legal perfection.
+
+We would welcome the opportunity to discuss this opportunity and provide additional documentation.
+
+Best regards,
+[Your Name]
+OPTKAS1-MAIN SPV
+Contact: jimmy@optkas.com
+"@
+
     $defiContent = $defiTemplate
     $defiContent | Out-File -FilePath "defi_funding_blast_$((Get-Date).ToString('yyyyMMdd')).txt" -Encoding UTF8
     Write-Host "Generated: defi_funding_blast_$((Get-Date).ToString('yyyyMMdd')).txt" -ForegroundColor Green
+
+    $institutionalContent = $institutionalTemplate
+    $institutionalContent | Out-File -FilePath "institutional_lender_template_$((Get-Date).ToString('yyyyMMdd')).txt" -Encoding UTF8
+    Write-Host "Generated: institutional_lender_template_$((Get-Date).ToString('yyyyMMdd')).txt" -ForegroundColor Green
 }
 
 function Generate-Reports {
@@ -142,7 +179,7 @@ function Generate-Reports {
         "",
         "ASSET VALUE BREAKDOWN:",
         "- `$10M TC Advantage 5% MTN (primary collateral)",
-        "- `~$40M XRPL IOU system (technical testing infrastructure)",
+        "- ~`$40M XRPL IOU system (technical testing infrastructure)",
         "- `$6.6M real estate portfolio (development land)",
         "- Complete custody platform (`$150B+ market potential)",
         "",

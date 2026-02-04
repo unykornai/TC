@@ -1,12 +1,12 @@
 # OTC DESK OUTREACH TEMPLATES
-## Professional Communication for $185M Block Trade Quotes
+## Professional Communication for ~$40M Block Trade Quotes
 
 ---
 
 ## OVERVIEW
 
-**Purpose:** Obtain quotes from 6 major OTC desks for converting $185M private IOUs to official stablecoins  
-**Expected Haircut:** 3-8% ($5.5M-$14.8M cost)  
+**Purpose:** Obtain quotes from 6 major OTC desks for converting ~$40M private IOUs to official stablecoins  
+**Expected Haircut:** 3-8% ($1.2M-$3.2M cost)  
 **Timeline:** 4-12 weeks if accepted  
 **Success Probability:** 60-70% (at least one desk accepts)
 
@@ -66,7 +66,7 @@
 
 ## EMAIL TEMPLATE #1: INITIAL INQUIRY (PROFESSIONAL)
 
-**Subject:** OTC Quote Request - $185M XRPL Asset Conversion
+**Subject:** OTC Quote Request - ~$40M XRPL Asset Conversion
 
 **To:** [OTC Desk Email]
 
@@ -129,7 +129,7 @@ Best regards,
 
 ## EMAIL TEMPLATE #2: FOLLOW-UP (AFTER 5 DAYS NO RESPONSE)
 
-**Subject:** Re: OTC Quote Request - $185M XRPL Asset Conversion [FOLLOW-UP]
+**Subject:** Re: OTC Quote Request - ~$40M XRPL Asset Conversion [FOLLOW-UP]
 
 **Body:**
 
@@ -182,7 +182,7 @@ Best regards,
 
 ## EMAIL TEMPLATE #3: TO XRPL-NATIVE DESKS (SOLOGENIC/GATEHUB)
 
-**Subject:** Large XRPL IOU Conversion - $185M Private Issuer to Official Stablecoins
+**Subject:** Large XRPL IOU Conversion - ~$40M Private Issuer to Official Stablecoins
 
 **Body:**
 
@@ -248,7 +248,7 @@ P.S. - I've also prepared a DEX migration plan as fallback, but would strongly p
 
 ## EMAIL TEMPLATE #4: TO CIRCLE OTC (USDC CONVERSION FOCUS)
 
-**Subject:** Large USDC Conversion Opportunity - $185M from XRPL Assets
+**Subject:** Large USDC Conversion Opportunity - ~$40M from XRPL Assets
 
 **Body:**
 
