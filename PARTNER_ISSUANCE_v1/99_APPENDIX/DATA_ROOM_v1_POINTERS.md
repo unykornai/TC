@@ -3,7 +3,18 @@
 **Reference Document for Partner Issuance Package**  
 **Date:** February 2, 2026
 
----
+## Unykorn Agreements & Legal Documents
+
+All Unykorn-related agreements, exhibits, and technical appendices are now organized in the `unykorn_agreements_legal/` folder at the root of the repository for legal review and reference.
+
+### Key Files:
+- Main Agreement: `unykorn_agreements_legal/STRATEGIC_INFRASTRUCTURE_EXECUTION_AGREEMENT.md`
+- Economic Participation: `unykorn_agreements_legal/EXHIBIT_A_ECONOMIC_PARTICIPATION.md`
+- Smart Contract Settlement Spec: `unykorn_agreements_legal/EXHIBIT_B_SMART_CONTRACT_SETTLEMENT_SPEC.md`
+- Multisig Config: `unykorn_agreements_legal/MULTISIG_CONFIG.json`
+- Signature Page: `unykorn_agreements_legal/SIGNATURE_PAGE.md`
+
+For further supporting documents, see the main data room and appendix folders.
 
 ## Purpose
 

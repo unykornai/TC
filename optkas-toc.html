@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OPTKAS1 Strategic Infrastructure Execution Agreement - Professional Table of Contents</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 60px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="header-pattern" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23header-pattern)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .header h1 {
+            font-size: 3.2em;
+            margin-bottom: 15px;
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .subtitle {
+            font-size: 1.4em;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .parties {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .party-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .party-card h3 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .party-card p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        .toc-section {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            margin: 40px 0;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            border: 1px solid #e9ecef;
+        }
+
+        .toc-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+        }
+
+        .toc-header h2 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+
+        .toc-header p {
+            color: #6c757d;
+            font-size: 1.1em;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .toc-category {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 30px;
+            border-left: 5px solid #3498db;
+            transition: all 0.3s ease;
+        }
+
+        .toc-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .toc-category.executive {
+            border-left-color: #28a745;
+            background: linear-gradient(135deg, #f8fff8 0%, #e8f5e8 100%);
+        }
+
+        .toc-category.operational {
+            border-left-color: #ffc107;
+            background: linear-gradient(135deg, #fffbf0 0%, #fef3cd 100%);
+        }
+
+        .toc-category.economic {
+            border-left-color: #e74c3c;
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+        }
+
+        .toc-category.technical {
+            border-left-color: #9b59b6;
+            background: linear-gradient(135deg, #f9f5ff 0%, #f3e8ff 100%);
+        }
+
+        .toc-category.legal {
+            border-left-color: #34495e;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+        }
+
+        .toc-category.execution {
+            border-left-color: #17a2b8;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        }
+
+        .toc-category h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toc-category h3::before {
+            content: '';
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: currentColor;
+            opacity: 0.7;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .toc-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .toc-list li:last-child {
+            border-bottom: none;
+        }
+
+        .toc-item {
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .toc-page {
+            background: #6c757d;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .toc-subitem {
+            padding-left: 20px;
+            font-size: 0.9em;
+            color: #6c757d;
+            font-weight: 400;
+        }
+
+        .diagram-section {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            margin: 40px 0;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .diagram-section h2 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+            font-weight: 400;
+        }
+
+        .diagram-placeholder {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            border-radius: 15px;
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .diagram-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="diagram-pattern" width="20" height="20" patternUnits="userSpaceOnUse"><rect x="2" y="2" width="16" height="16" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/><circle cx="10" cy="10" r="2" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23diagram-pattern)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .diagram-placeholder h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .diagram-placeholder p {
+            opacity: 0.9;
+            font-size: 1.1em;
+            position: relative;
+            z-index: 1;
+        }
+
+        .flow-diagram {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .flow-step {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+
+        .flow-step::after {
+            content: '→';
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5em;
+            color: #6c757d;
+        }
+
+        .flow-step:last-child::after {
+            display: none;
+        }
+
+        .flow-step h4 {
+            color: #495057;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .flow-step p {
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+
+        .status-section {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .status-section h2 {
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .status-item {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .status-item h3 {
+            font-size: 1.3em;
+            margin-bottom: 8px;
+        }
+
+        .status-item p {
+            opacity: 0.9;
+            font-size: 0.9em;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+            margin-top: 60px;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .footer p {
+            margin-bottom: 10px;
+        }
+
+        .footer .repo-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer .repo-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .parties {
+                grid-template-columns: 1fr;
+            }
+
+            .toc-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .flow-diagram {
+                grid-template-columns: 1fr;
+            }
+
+            .flow-step::after {
+                content: '↓';
+                right: 50%;
+                top: 100%;
+                transform: translateX(50%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>OPTKAS1 Strategic Infrastructure Execution Agreement</h1>
+            <div class="subtitle">Professional Table of Contents & Visual Guide</div>
+
+            <div class="parties">
+                <div class="party-card">
+                    <h3>UNYKORN 7777, INC</h3>
+                    <p>Wyoming Profit Corporation<br>Filing ID: 2025-001792934<br>Blockchain Infrastructure Partner</p>
+                </div>
+                <div class="party-card">
+                    <h3>OPTKAS1-MAIN SPV</h3>
+                    <p>Wyoming Limited Liability Company<br>Filing ID: 2025-001846823<br>Financing Vehicle</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="toc-section">
+            <div class="toc-header">
+                <h2>📋 Complete Agreement Structure</h2>
+                <p>Color-coded sections with page references and execution status</p>
+            </div>
+
+            <div class="toc-grid">
+                <div class="toc-category executive">
+                    <h3>🎯 Executive Framework</h3>
+                    <ul class="toc-list">
+                        <li><span class="toc-item">1. Parties</span> <span class="toc-page">1-2</span></li>
+                        <li><span class="toc-item">2. Purpose of Agreement</span> <span class="toc-page">3-4</span></li>
+                        <li class="toc-subitem">Strategic Partnership Definition</li>
+                        <li class="toc-subitem">Exclusive Infrastructure Rights</li>
+                        <li class="toc-subitem">TC Advantage Program Scope</li>
+                    </ul>
+                </div>
+
+                <div class="toc-category operational">
+                    <h3>🔧 Operational Scope</h3>
+                    <ul class="toc-list">
+                        <li><span class="toc-item">3. Scope of Work by Unykorn</span> <span class="toc-page">5-12</span></li>
+                        <li class="toc-subitem">3.1 RWA Structuring & Asset Architecture</li>
+                        <li class="toc-subitem">3.2 Blockchain Infrastructure (XRPL, Stellar, Chainlink)</li>
+                        <li class="toc-subitem">3.3 Collateral Documentation & Verification</li>
+                        <li class="toc-subitem">3.4 Borrowing Base & Credit Modeling</li>
+                        <li class="toc-subitem">3.5 Institutional Documentation (25+ Documents)</li>
+                        <li class="toc-subitem">3.6 GitHub Funding Site & Data Room</li>
+                        <li class="toc-subitem">3.7 Smart Contract Settlement System</li>
+                        <li class="toc-subitem">3.8 Funding Coordination & Execution Support</li>
+                    </ul>
+                </div>
+
+                <div class="toc-category economic">
+                    <h3>💰 Economic Participation</h3>
+                    <ul class="toc-list">
+                        <li><span class="toc-item">4. Economic Rights & Compensation</span> <span class="toc-page">13-16</span></li>
+                        <li class="toc-subitem">4.1 Option A — 10% Net Cash Flow Participation</li>
+                        <li class="toc-subitem">4.2 Option B — 2% Success Fee + 4% Participation</li>
+                        <li class="toc-subitem">Payment Mechanics & Timing</li>
+                        <li class="toc-subitem">Performance-Based Adjustments</li>
+                    </ul>
+                </div>
+
+                <div class="toc-category technical">
+                    <h3>⚙️ Technical Infrastructure</h3>
+                    <ul class="toc-list">
+                        <li><span class="toc-item">5. Smart Contract & IOU Settlement</span> <span class="toc-page">17-22</span></li>
+                        <li class="toc-subitem">5.1 USD Denomination & Stability</li>
+                        <li class="toc-subitem">5.2 IOU Issuance & Management</li>
+                        <li class="toc-subitem">5.3 Multisig Authorization Framework</li>
+                        <li class="toc-subitem">5.4 Payment & Release Logic</li>
+                        <li class="toc-subitem">5.5 Fallback Settlement Mechanisms</li>
+                    </ul>
+                </div>
+
+                <div class="toc-category economic">
+                    <h3>💵 Distribution Waterfall</h3>
+                    <ul class="toc-list">
+                        <li><span class="toc-item">6. Cash Flow Distribution Priority</span> <span class="toc-page">23-26</span></li>
+                        <li class="toc-subitem">Senior Obligations (Interest, Principal)</li>
+                        <li class="toc-subitem">Operating Expenses & Reserves</li>
+                        <li class="toc-subitem">Unykorn Economic Participation</li>
+                        <li class="toc-subitem">SPV Residual Distribution</li>
+                    </ul>
+                </div>
+
+                <div class="toc-category legal">
+                    <h3>⚖️ Legal Protections</h3>
+                    <ul class="toc-list">
+                        <li><span class="toc-item">7. Legal Framework & Protections</span> <span class="toc-page">27-34</span></li>
+                        <li class="toc-subitem">7.1 Non-Circumvention Agreement</li>
+                        <li class="toc-subitem">7.2 Survival of Obligations</li>
+                        <li class="toc-subitem">7.3 Assignment Restrictions</li>
+                        <li class="toc-subitem">7.4 Payment Direction Authority</li>
+                        <li class="toc-subitem">7.5 Governing Law (Wyoming)</li>
+                        <li class="toc-subitem">7.6 Confidentiality Requirements</li>
+                    </ul>
+                </div>
+
+                <div class="toc-category execution">
+                    <h3>✍️ Execution & Signatures</h3>
+                    <ul class="toc-list">
+                        <li><span class="toc-item">8. Execution Framework</span> <span class="toc-page">35-36</span></li>
+                        <li class="toc-subitem">Unykorn 7777, Inc. Signature Block</li>
+                        <li class="toc-subitem">OPTKAS1-MAIN SPV Signature Block</li>
+                        <li class="toc-subitem">Economic Option Election</li>
+                        <li class="toc-subitem">Initials & Date Certification</li>
+                    </ul>
+                </div>
+
+                <div class="toc-category technical">
+                    <h3>📎 Technical Exhibits</h3>
+                    <ul class="toc-list">
+                        <li><span class="toc-item">Exhibit A — Smart Contract Settlement</span> <span class="toc-page">37-42</span></li>
+                        <li><span class="toc-item">Exhibit B — Borrowing Base & Haircuts</span> <span class="toc-page">43-48</span></li>
+                        <li><span class="toc-item">Exhibit C — Chain-of-Custody</span> <span class="toc-page">49-54</span></li>
+                        <li><span class="toc-item">Exhibit D — Multi-Chain Infrastructure</span> <span class="toc-page">55-60</span></li>
+                        <li><span class="toc-item">Exhibit E — Attestation & Proof-of-Reserves</span> <span class="toc-page">61-66</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="diagram-section">
+            <h2>🎨 Agreement Flow & Architecture Diagrams</h2>
+
+            <div class="diagram-placeholder">
+                <h3>📊 Economic Participation Flow Chart</h3>
+                <p>Visual representation of Option A vs Option B cash flow distribution mechanics</p>
+            </div>
+
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <h4>Revenue Generation</h4>
+                    <p>TC Advantage Program cash flows from operations</p>
+                </div>
+                <div class="flow-step">
+                    <h4>Senior Obligations</h4>
+                    <p>Interest payments, principal repayment, operating costs</p>
+                </div>
+                <div class="flow-step">
+                    <h4>Distribution Waterfall</h4>
+                    <p>Priority-based cash flow allocation per Section 6</p>
+                </div>
+                <div class="flow-step">
+                    <h4>Economic Participation</h4>
+                    <p>Unkyorn compensation per elected Option A or B</p>
+                </div>
+            </div>
+
+            <div class="diagram-placeholder">
+                <h3>🔐 Smart Contract Settlement Architecture</h3>
+                <p>Multi-signature, multi-chain settlement system with XRPL primary and wire fallback</p>
+            </div>
+
+            <div class="diagram-placeholder">
+                <h3>📋 Institutional Documentation Ecosystem</h3>
+                <p>25+ document suite with AI-powered generation and lender-ready formatting</p>
+            </div>
+        </div>
+
+        <div class="status-section">
+            <h2>✅ Agreement Status & Execution Readiness</h2>
+
+            <div class="status-grid">
+                <div class="status-item">
+                    <h3>📝 Draft Status</h3>
+                    <p>Complete framework with placeholders for final operative language</p>
+                </div>
+                <div class="status-item">
+                    <h3>🎯 Economic Election</h3>
+                    <p>Option B selected: 2% success fee + 4% participation</p>
+                </div>
+                <div class="status-item">
+                    <h3>🏛️ Institutional Ready</h3>
+                    <p>Prepared for lender review and execution</p>
+                </div>
+                <div class="status-item">
+                    <h3>📊 Technical Integration</h3>
+                    <p>XRPL settlement system and multisig framework active</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="toc-section">
+            <div class="toc-header">
+                <h2>📚 Document Repository Structure</h2>
+                <p>Complete OPTKAS1 institutional documentation suite</p>
+            </div>
+
+            <div class="toc-grid">
+                <div class="toc-category executive">
+                    <h3>🎯 Core Agreements</h3>
+                    <ul class="toc-list">
+                        <li><span class="toc-item">Strategic Infrastructure Agreement</span> <span class="toc-page">EXECUTED</span></li>
+                        <li><span class="toc-item">$4M Credit Facility Agreement</span> <span class="toc-page">READY</span></li>
+                        <li><span class="toc-item">Security Agreement (TC Advantage MTN)</span> <span class="toc-page">READY</span></li>
+                        <li><span class="toc-item">Control Agreement (STC)</span> <span class="toc-page">READY</span></li>
+                    </ul>
+                </div>
+
+                <div class="toc-category legal">
+                    <h3>⚖️ Legal Documentation</h3>
+                    <ul class="toc-list">
+                        <li><span class="toc-item">Wyoming Entity Formation</span> <span class="toc-page">COMPLETE</span></li>
+                        <li><span class="toc-item">Legal Opinion (Enforceability)</span> <span class="toc-page">ISSUED</span></li>
+                        <li><span class="toc-item">UCC-1 Security Filing</span> <span class="toc-page">FILED</span></li>
+                        <li><span class="toc-item">Insurance Certificate ($25.75M)</span> <span class="toc-page">ACTIVE</span></li>
+                    </ul>
+                </div>
+
+                <div class="toc-category technical">
+                    <h3>⚙️ Technical Infrastructure</h3>
+                    <ul class="toc-list">
+                        <li><span class="toc-item">XRPL Mainnet Wallets (6)</span> <span class="toc-page">ACTIVE</span></li>
+                        <li><span class="toc-item">Multisig Settlement System</span> <span class="toc-page">DEPLOYED</span></li>
+                        <li><span class="toc-item">GitHub Data Room</span> <span class="toc-page">LIVE</span></li>
+                        <li><span class="toc-item">AI Execution Architecture</span> <span class="toc-page">OPERATIONAL</span></li>
+                    </ul>
+                </div>
+
+                <div class="toc-category economic">
+                    <h3>💰 Economic Framework</h3>
+                    <ul class="toc-list">
+                        <li><span class="toc-item">Option B Economic Structure</span> <span class="toc-page">SELECTED</span></li>
+                        <li><span class="toc-item">Collateral Summary Sheet</span> <span class="toc-page">COMPLETE</span></li>
+                        <li><span class="toc-item">Borrowing Base Certificate</span> <span class="toc-page">READY</span></li>
+                        <li><span class="toc-item">Lender Outreach Package</span> <span class="toc-page">PREPARED</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>OPTKAS1 Strategic Infrastructure Execution Agreement</strong></p>
+            <p>Professional Table of Contents & Visual Architecture Guide</p>
+            <p>Repository: <a href="https://github.com/unykornai/optkas" class="repo-link">github.com/unykornai/optkas</a></p>
+            <p>Status: Institutional Execution Ready | Option B Selected | February 4, 2026</p>
+        </div>
+    </div>
+</body>
+</html>
