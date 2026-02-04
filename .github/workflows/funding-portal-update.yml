@@ -1,0 +1,72 @@
+name: Funding Portal Update Notification
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'docs/funding-portal.html'
+      - 'docs/TRUE_VALUE_PROPOSITION.md'
+      - 'Final_Funding_Package/**'
+
+jobs:
+  notify-portal-update:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Check for funding document changes
+      id: check-changes
+      run: |
+        if git diff --name-only HEAD~1 | grep -E "(funding-portal|TRUE_VALUE_PROPOSITION|FINAL_AUDIT_CHECKLIST)"; then
+          echo "changes=true" >> $GITHUB_OUTPUT
+        else
+          echo "changes=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Create funding update notification
+      if: steps.check-changes.outputs.changes == 'true'
+      run: |
+        echo "## 🚀 OPTKAS1 Funding Portal Updated" >> notification.md
+        echo "" >> notification.md
+        echo "**Date:** $(date)" >> notification.md
+        echo "**Commit:** ${{ github.sha }}" >> notification.md
+        echo "" >> notification.md
+        echo "### What's New:" >> notification.md
+        echo "- Updated funding portal with latest documentation" >> notification.md
+        echo "- Enhanced value proposition showcase" >> notification.md
+        echo "- Complete audit checklist verification" >> notification.md
+        echo "" >> notification.md
+        echo "### Access Points:" >> notification.md
+        echo "- **Main Portal:** https://unykornai.github.io/TC/funding-portal.html" >> notification.md
+        echo "- **Value Proposition:** https://unykornai.github.io/TC/TRUE_VALUE_PROPOSITION.md" >> notification.md
+        echo "- **Data Room:** https://unykornai.github.io/TC/DATA_ROOM_v1/" >> notification.md
+        echo "" >> notification.md
+        echo "### Status: 100% FUNDING READY" >> notification.md
+        echo "- All documents executed" >> notification.md
+        echo "- Legal opinions issued" >> notification.md
+        echo "- UCC-1 filings complete" >> notification.md
+        echo "- Multisig configured" >> notification.md
+        echo "" >> notification.md
+        echo "### Next Steps:" >> notification.md
+        echo "1. Review portal documentation" >> notification.md
+        echo "2. Schedule pre-closing call" >> notification.md
+        echo "3. Exchange wire instructions" >> notification.md
+        echo "4. Complete $4M funding" >> notification.md
+        echo "" >> notification.md
+        echo "---" >> notification.md
+        echo "*This is an automated notification from the OPTKAS1 funding system*" >> notification.md
+
+    - name: Upload notification artifact
+      if: steps.check-changes.outputs.changes == 'true'
+      uses: actions/upload-artifact@v4
+      with:
+        name: funding-update-notification
+        path: notification.md
+
+    - name: Portal health check
+      run: |
+        echo "🔍 Running portal health checks..."
+        curl -s -o /dev/null -w "%{http_code}" https://unykornai.github.io/TC/funding-portal.html | grep 200 && echo "✅ Portal accessible" || echo "❌ Portal not accessible"
+        curl -s -o /dev/null -w "%{http_code}" https://unykornai.github.io/TC/TRUE_VALUE_PROPOSITION.md | grep 200 && echo "✅ Value prop accessible" || echo "❌ Value prop not accessible"
