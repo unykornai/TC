@@ -1,0 +1,50 @@
+{
+  "Id": "agreement-5b7c664608aa4b11",
+  "Hash": "E46FB6C7177A2F60E009F303FD41B90FAB97CA90541DD170ED1922B6FA1EE2EA",
+  "Data": {
+    "Id": "agr-b8151fb40b2b458c",
+    "Title": "Strategic Infrastructure Agreement",
+    "Content": "STRATEGIC INFRASTRUCTURE & EXECUTION AGREEMENT\n\nBetween: Unykorn 7777, Inc. (Infrastructure Partner)\nAnd: OPTKAS1-MAIN SPV (SPV Manager)\n\nTerms:\n- 10% Net Cash Flow Participation\n- Automated settlement via UNYKORN value layer\n- Instant execution upon full signature",
+    "ContentHash": "3CA94A62B32E566F63B28FFAD47918DC7743030B3D5898AD296236C5FFB3D419",
+    "CreatedAt": "2026-02-06T02:20:49.0714427Z",
+    "Version": "1.0",
+    "Terms": {},
+    "RequiredSigners": [
+      {
+        "Role": "Infrastructure Partner",
+        "Id": "579f80b735d740f7"
+      },
+      {
+        "Role": "SPV Manager",
+        "Id": "01ed28e58e9342f5"
+      }
+    ],
+    "Signatures": [
+      {
+        "SignerId": "579f80b735d740f7",
+        "AgreementHash": "3CA94A62B32E566F63B28FFAD47918DC7743030B3D5898AD296236C5FFB3D419",
+        "Role": "Infrastructure Partner",
+        "SignerName": "Unykorn 7777, Inc.",
+        "Signature": "3694789A669F75B1AFAD08291022220CE9A98A445DAED73AC175277D3871926D",
+        "Timestamp": "2026-02-06T02:20:49.0908819Z"
+      },
+      {
+        "SignerId": "01ed28e58e9342f5",
+        "AgreementHash": "3CA94A62B32E566F63B28FFAD47918DC7743030B3D5898AD296236C5FFB3D419",
+        "Role": "SPV Manager",
+        "SignerName": "OPTKAS1-MAIN SPV",
+        "Signature": "4C5CE74A441F6B8A39547A358C587B8F118874087933F421C79B072075AB6E57",
+        "Timestamp": "2026-02-06T02:20:49.1066912Z"
+      }
+    ],
+    "Status": "Executed",
+    "ExecutionLogic": {
+      "activate_partner": true,
+      "enable_revenue_share": true
+    },
+    "ProofChain": "AA0FBE39FF30599B1538E574297E81E2810F4CE87E2780A403BD5B7015D2F135"
+  },
+  "PreviousProof": "901131D838B17AAC0F7885B81E03CBDC9F5157A00343D30AB22083685ED1416A",
+  "Type": "agreement",
+  "Timestamp": "2026-02-06T02:20:49.115764Z"
+}
