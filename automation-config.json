@@ -1,0 +1,145 @@
+{
+  "version": "2.0.0",
+  "name": "Partner Document Issuance Automation",
+  "description": "Advanced automation with e-signature, batch processing, and infrastructure integration",
+  
+  "docusign": {
+    "enabled": true,
+    "api_base_url": "https://demo.docusign.net/restapi",
+    "account_id": "${DOCUSIGN_ACCOUNT_ID}",
+    "integration_key": "${DOCUSIGN_INTEGRATION_KEY}",
+    "user_id": "${DOCUSIGN_USER_ID}",
+    "private_key_path": "${DOCUSIGN_PRIVATE_KEY_PATH}",
+    "webhook_url": "${WEBHOOK_BASE_URL}/docusign/callback",
+    "template_ids": {
+      "partner_agreement": "${DOCUSIGN_PARTNER_TEMPLATE_ID}"
+    }
+  },
+  
+  "adobe_sign": {
+    "enabled": true,
+    "api_base_url": "https://api.na1.adobesign.com/api/rest/v6",
+    "access_token": "${ADOBE_SIGN_ACCESS_TOKEN}",
+    "webhook_url": "${WEBHOOK_BASE_URL}/adobesign/callback",
+    "template_ids": {
+      "partner_agreement": "${ADOBE_SIGN_PARTNER_TEMPLATE_ID}"
+    }
+  },
+  
+  "partners": [
+    {
+      "id": "unykorn7777",
+      "name": "Unykorn 7777, Inc.",
+      "email": "kevan@xxxiii.io",
+      "role": "Infrastructure Partner",
+      "enabled": true,
+      "signature_required": true,
+      "notification_preferences": {
+        "email": true,
+        "webhook": false
+      }
+    },
+    {
+      "id": "optkas1",
+      "name": "OPTKAS1-MAIN SPV",
+      "email": "jimmy@optkas.com",
+      "role": "SPV Manager",
+      "enabled": true,
+      "signature_required": true,
+      "notification_preferences": {
+        "email": true,
+        "webhook": false
+      }
+    }
+  ],
+  
+  "batch_processing": {
+    "enabled": true,
+    "max_parallel": 5,
+    "retry_attempts": 3,
+    "retry_delay_seconds": 300
+  },
+  
+  "countersign_automation": {
+    "enabled": true,
+    "reminder_schedule": [
+      { "after_days": 2, "message": "Gentle reminder: Please review and sign" },
+      { "after_days": 5, "message": "Follow-up: Signature needed for partner agreement" },
+      { "after_days": 7, "message": "Urgent: Please complete signature process" }
+    ],
+    "auto_escalate_after_days": 10,
+    "escalation_email": "jimmy@optkas.com"
+  },
+  
+  "signed_doc_ingestion": {
+    "enabled": true,
+    "incoming_path": "./SIGNED_DOCUMENTS_INCOMING/",
+    "processed_path": "./SIGNED_DOCUMENTS_PROCESSED/",
+    "failed_path": "./SIGNED_DOCUMENTS_FAILED/",
+    "verify_hashes": true,
+    "auto_pin_to_ipfs": true,
+    "auto_xrpl_attestation": true
+  },
+  
+  "ipfs": {
+    "enabled": true,
+    "api_url": "http://localhost:5001",
+    "gateway_url": "https://ipfs.io",
+    "pin_on_completion": true,
+    "use_pinata": false,
+    "pinata_api_key": "${PINATA_API_KEY}",
+    "pinata_secret_key": "${PINATA_SECRET_KEY}"
+  },
+  
+  "xrpl": {
+    "enabled": true,
+    "network": "mainnet",
+    "attestation_account": "rEYYpZJ7KNqj5dqHExM9VCQWNG6j7j1GLV",
+    "attestation_secret": "${XRPL_ATTESTATION_SECRET}",
+    "auto_attest_on_completion": true
+  },
+  
+  "unykorn_infrastructure": {
+    "enabled": true,
+    "api_base_url": "${UNYKORN_API_BASE_URL}",
+    "api_key": "${UNYKORN_API_KEY}",
+    "event_bus_url": "${UNYKORN_EVENT_BUS_URL}",
+    "webhooks": {
+      "issuance_started": true,
+      "signature_received": true,
+      "document_completed": true,
+      "ipfs_pinned": true,
+      "xrpl_attested": true
+    }
+  },
+  
+  "notifications": {
+    "email": {
+      "enabled": true,
+      "smtp_host": "${SMTP_HOST}",
+      "smtp_port": 587,
+      "smtp_user": "${SMTP_USER}",
+      "smtp_password": "${SMTP_PASSWORD}",
+      "from_address": "noreply@optkas.com",
+      "from_name": "OPTKAS1 Partnership Team"
+    },
+    "webhook": {
+      "enabled": true,
+      "endpoints": []
+    }
+  },
+  
+  "logging": {
+    "level": "info",
+    "file": "./logs/automation.log",
+    "max_size_mb": 100,
+    "max_files": 10
+  },
+  
+  "monitoring": {
+    "enabled": true,
+    "dashboard_port": 8080,
+    "metrics_enabled": true,
+    "health_check_interval_seconds": 60
+  }
+}

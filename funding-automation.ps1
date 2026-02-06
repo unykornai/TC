@@ -17,7 +17,7 @@ $PartnerUrl = "https://unykornai.github.io/TC/PARTNER_ISSUANCE_v1/"
 $Recipients = @(
     @{
         Name = "Unykorn 7777, Inc."
-        Email = "contact@unykorn7777.com"
+        Email = "kevan@xxxiii.io"
         Role = "Infrastructure Partner"
     },
     @{

@@ -1,0 +1,165 @@
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                  PARTNER DOCUMENT ISSUANCE WORKFLOW                       ║
+║                        Production Ready v1.0                              ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                          STEP 1: RUN AUTOMATION                          │
+└──────────────────────────────────────────────────────────────────────────┘
+
+   Choose Your Platform:
+   
+   Windows (PowerShell)          Windows (Interactive)       Linux/macOS
+   ┌──────────────────┐         ┌──────────────────┐       ┌──────────────┐
+   │                  │         │                  │       │              │
+   │  .\issue-partner-│         │  issue-partner-  │       │  ./issue-    │
+   │  documents.ps1   │         │  documents.bat   │       │  partner-    │
+   │  -All            │         │                  │       │  documents.sh│
+   │                  │         │  [Interactive    │       │              │
+   └────────┬─────────┘         │   Menu]          │       └──────┬───────┘
+            │                   └────────┬─────────┘              │
+            │                            │                        │
+            └────────────────────────────┴────────────────────────┘
+                                         │
+                                         ▼
+┌──────────────────────────────────────────────────────────────────────────┐
+│                      AUTOMATION PROCESS (< 1 minute)                     │
+└──────────────────────────────────────────────────────────────────────────┘
+
+   ┌─────────────────┐
+   │ 1. VALIDATION   │ → Checks all required files present
+   └────────┬────────┘
+            │
+   ┌────────▼────────┐
+   │ 2. HASH GEN     │ → Computes SHA-256 for all documents
+   └────────┬────────┘   Creates HASHES.txt & manifest.json
+            │
+   ┌────────▼────────┐
+   │ 3. EMAIL GEN    │ → Customized for Unykorn + OPTKAS
+   └────────┬────────┘   Clear instructions & links
+            │
+   ┌────────▼────────┐
+   │ 4. IPFS PREP    │ → Clean package ready for pinning
+   └────────┬────────┘   With instructions
+            │
+   ┌────────▼────────┐
+   │ 5. SUMMARY      │ → Complete issuance report
+   └────────┬────────┘   Next steps checklist
+            │
+            ▼
+┌──────────────────────────────────────────────────────────────────────────┐
+│                         OUTPUT GENERATED                                 │
+│   ISSUANCE_OUTPUT_[timestamp]/                                           │
+│   ├── EMAIL_TO_Unykorn_7777_Inc_[date].txt                              │
+│   ├── EMAIL_TO_OPTKAS1-MAIN_SPV_[date].txt                              │
+│   ├── IPFS_PACKAGE/ (complete package)                                  │
+│   ├── IPFS_PINNING_INSTRUCTIONS.txt                                     │
+│   └── ISSUANCE_SUMMARY.txt                                              │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                     STEP 2: SEND EMAILS (2 minutes)                      │
+└──────────────────────────────────────────────────────────────────────────┘
+
+   Copy email content from generated files and send to:
+   
+   ┌──────────────────────────┐       ┌──────────────────────────┐
+   │  Unykorn 7777, Inc.      │       │  OPTKAS1-MAIN SPV        │
+   │                          │       │                          │
+   │  kevan@xxxiii.io         │       │  jimmy@optkas.com        │
+   │                          │       │                          │
+   │  Role: Infrastructure    │       │  Role: SPV Manager       │
+   │        Partner           │       │                          │
+   └─────────────┬────────────┘       └──────────┬───────────────┘
+                 │                               │
+                 └───────────────┬───────────────┘
+                                 │
+                                 ▼
+┌──────────────────────────────────────────────────────────────────────────┐
+│                    PARTNERS RECEIVE & REVIEW                             │
+│                         (1-3 business days)                              │
+└──────────────────────────────────────────────────────────────────────────┘
+
+   Email Contents:
+   ✓ Quick action required (15-20 minutes)
+   ✓ Links to all documents
+   ✓ Economic options explained (A vs B)
+   ✓ Clear execution process
+   ✓ Timeline expectations
+   ✓ Contact information
+   
+   What Partners Do:
+   1. Confirm receipt
+   2. Review agreement documents
+   3. Review disclosures
+   4. Ask questions if needed
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│              STEP 3: COORDINATE OPTION SELECTION                         │
+│                      (1-2 business days)                                 │
+└──────────────────────────────────────────────────────────────────────────┘
+
+   Both parties must agree on the same option:
+   
+   ┌──────────────────────────┐       ┌──────────────────────────┐
+   │  OPTION A (Recommended)  │       │  OPTION B                │
+   │                          │       │                          │
+   │  • 10% Net Cash Flow     │       │  • 2% Success Fee        │
+   │  • No upfront fees       │       │  • 4% Cash Flow ongoing  │
+   │  • Simple structure      │       │  • More complex          │
+   └──────────────────────────┘       └──────────────────────────┘
+   
+   Coordination via email or phone call
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                STEP 4: COLLECT SIGNATURES                                │
+│                     (2-5 business days)                                  │
+└──────────────────────────────────────────────────────────────────────────┘
+
+   Each Party:
+   1. Completes signature page
+   2. Initials selected option (A or B)
+   3. Signs document (digital or ink)
+   4. Returns to counterparty
+   
+   Methods Available:
+   • DocuSign / Adobe Sign (digital)
+   • Print, sign, scan (ink)
+   • Cryptographic signature (advanced)
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│          STEP 5: POST-EXECUTION PROCESSING                               │
+│                     (1-2 business days)                                  │
+└──────────────────────────────────────────────────────────────────────────┘
+
+   Technical Team (automated):
+   1. Collect both signed copies
+   2. Generate hashes of signed package
+   3. Pin signed package to IPFS
+   4. Record CID
+   5. Distribute CID to all parties
+   6. (Optional) Anchor hash to XRPL
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│                          COMPLETE! ✓                                     │
+│                                                                          │
+│   Total Time: 7-14 days from issuance to completion                     │
+│   Next Phase: Lender outreach and facility funding                      │
+└──────────────────────────────────────────────────────────────────────────┘
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                            DOCUMENTATION                                  ║
+╠═══════════════════════════════════════════════════════════════════════════╣
+║  HOW_TO_ISSUE_PARTNER_DOCS.md ........... Comprehensive Guide (14KB)    ║
+║  PARTNER_DOCS_QUICK_REFERENCE.md ......... Quick Reference (3KB)        ║
+║  IMPLEMENTATION_SUMMARY.md ............... Complete Details (10KB)      ║
+║  README.md ............................... Main Documentation            ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                              SUPPORT                                      ║
+╠═══════════════════════════════════════════════════════════════════════════╣
+║  Primary Contact: jimmy@optkas.com                                       ║
+║  Role: OPTKAS1 SPV Manager                                               ║
+║  Questions: See HOW_TO_ISSUE_PARTNER_DOCS.md troubleshooting section    ║
+╚═══════════════════════════════════════════════════════════════════════════╝
