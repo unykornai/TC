@@ -116,7 +116,7 @@ Created a complete automated workflow with three platform-specific interfaces:
 
 **Step 2:** Send emails
 - Find in `ISSUANCE_OUTPUT_[timestamp]/` folder
-- Send `EMAIL_TO_Unykorn_7777_Inc_[date].txt` to contact@unykorn7777.com
+- Send `EMAIL_TO_Unykorn_7777_Inc_[date].txt` to kevan@xxxiii.io
 - Send `EMAIL_TO_OPTKAS1-MAIN_SPV_[date].txt` to jimmy@optkas.com
 
 **Step 3:** Done!
@@ -173,7 +173,7 @@ Output: ISSUANCE_OUTPUT_[timestamp]/ folder with:
 
 ### Unykorn 7777, Inc.
 - **Role:** Infrastructure Partner
-- **Contact:** contact@unykorn7777.com
+- **Contact:** kevan@xxxiii.io
 - **Decision:** Select Option A or B
 
 ### OPTKAS1-MAIN SPV

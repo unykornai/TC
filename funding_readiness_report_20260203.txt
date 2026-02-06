@@ -35,7 +35,7 @@ Data Room: https://unykornai.github.io/TC/DATA_ROOM_v1/
 Partner Docs: https://unykornai.github.io/TC/PARTNER_ISSUANCE_v1/
 
 RECIPIENTS NOTIFIED:
-- Unykorn 7777, Inc. (Infrastructure Partner) - contact@unykorn7777.com
+- Unykorn 7777, Inc. (Infrastructure Partner) - kevan@xxxiii.io
 - OPTKAS1-MAIN SPV (Borrower) - jimmy@optkas.com
 - Secure Capital Partners, LLC (Lender) - funding@securecapital.com
 

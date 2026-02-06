@@ -92,7 +92,7 @@ This will:
 2. Copy content to your email client
 
 3. Send to:
-   - Unykorn 7777, Inc.: `contact@unykorn7777.com`
+   - Unykorn 7777, Inc.: `kevan@xxxiii.io`
    - OPTKAS1-MAIN SPV: `jimmy@optkas.com`
 
 **Done!** Partners will receive clear instructions on what to do next.
@@ -176,7 +176,7 @@ Use the generated email templates:
   - Contact information
 
 **Recipients:**
-- **Unykorn 7777, Inc.**: contact@unykorn7777.com
+- **Unykorn 7777, Inc.**: kevan@xxxiii.io
 - **OPTKAS1-MAIN SPV**: jimmy@optkas.com
 
 #### 3.2 Alternative: Share GitHub Links
@@ -327,7 +327,7 @@ PARTNER_ISSUANCE_v1/
 Use this template:
 
 ```
-To: contact@unykorn7777.com, jimmy@optkas.com
+To: kevan@xxxiii.io, jimmy@optkas.com
 Subject: Partner Agreement Ready for Review and Signature
 
 Dear Partners,
@@ -451,7 +451,7 @@ Then try again:
 
 **Solution:**
 1. Check email addresses:
-   - Unykorn: contact@unykorn7777.com
+   - Unykorn: kevan@xxxiii.io
    - OPTKAS: jimmy@optkas.com
 2. Check spam/junk folders
 3. Resend with read receipt requested
@@ -562,7 +562,7 @@ Email: jimmy@optkas.com
 
 ### Step 2: Send Emails
 Copy generated email content and send to:
-- Unykorn: contact@unykorn7777.com
+- Unykorn: kevan@xxxiii.io
 - OPTKAS: jimmy@optkas.com
 
 ### Step 3: Track Progress

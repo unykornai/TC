@@ -13,7 +13,7 @@
 
 ### Step 2: Send the Emails
 Look in the `ISSUANCE_OUTPUT_[timestamp]` folder and send:
-- `EMAIL_TO_Unykorn_7777_Inc_[date].txt` → contact@unykorn7777.com
+- `EMAIL_TO_Unykorn_7777_Inc_[date].txt` → kevan@xxxiii.io
 - `EMAIL_TO_OPTKAS1-MAIN_SPV_[date].txt` → jimmy@optkas.com
 
 ### Step 3: Done!
@@ -74,7 +74,7 @@ Double-click: `issue-partner-documents.bat`
 ## 👥 RECIPIENTS
 
 **Unykorn 7777, Inc.**
-- Email: contact@unykorn7777.com
+- Email: kevan@xxxiii.io
 - Role: Infrastructure Partner
 
 **OPTKAS1-MAIN SPV**

@@ -31,7 +31,7 @@ $OutputPath = "ISSUANCE_OUTPUT_$(Get-Date -Format 'yyyyMMdd_HHmmss')"
 $Parties = @{
     Unykorn = @{
         Name = "Unykorn 7777, Inc."
-        Email = "contact@unykorn7777.com"
+        Email = "kevan@xxxiii.io"
         Role = "Infrastructure Partner"
     }
     OPTKAS = @{
