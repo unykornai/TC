@@ -74,7 +74,7 @@ function Write-Warning {
     Write-Host "⚠ $Text" -ForegroundColor $Colors.Warning
 }
 
-function Write-Error {
+function Write-ErrorMessage {
     param([string]$Text)
     Write-Host "✗ $Text" -ForegroundColor $Colors.Error
 }
@@ -101,7 +101,7 @@ function Test-PackageIntegrity {
         if (Test-Path $file) {
             Write-Success "Found: $file"
         } else {
-            Write-Error "Missing: $file"
+            Write-ErrorMessage "Missing: $file"
             $allValid = $false
         }
     }
@@ -112,7 +112,7 @@ function Test-PackageIntegrity {
         Write-Success "All required files present ✓"
         return $true
     } else {
-        Write-Error "Package validation failed. Missing required files."
+        Write-ErrorMessage "Package validation failed. Missing required files."
         return $false
     }
 }
@@ -128,7 +128,7 @@ function New-DocumentHashes {
     $hashes = @()
     $manifest = @{
         version = "1.0"
-        generated = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")
+        generated = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
         package = "PARTNER_ISSUANCE_v1"
         files = @()
     }
@@ -461,7 +461,7 @@ if (-not (Test-Path $OutputPath)) {
 # Execute based on flags
 if ($All -or $ValidatePackage) {
     if (-not (Test-PackageIntegrity)) {
-        Write-Error "Package validation failed. Please fix missing files before proceeding."
+        Write-ErrorMessage "Package validation failed. Please fix missing files before proceeding."
         exit 1
     }
 }
