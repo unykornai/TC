@@ -1,0 +1,42 @@
+{
+  "document_type": "UNYKORN_ISSUANCE_AUTHORITY",
+  "effective_date": "2026-02-06T17:55:29.434465+00:00",
+  "issuing_entity": "OPTKAS1-MAIN SPV",
+  "receiving_entity": "Unykorn 7777, Inc.",
+  "authority_granted": {
+    "scope": "Institutional stablecoin issuance and receipt",
+    "currencies": [
+      "USDT",
+      "USDC",
+      "USD",
+      "USD"
+    ],
+    "maximum_amounts": {
+      "USDT": "100,000,000",
+      "USDC": "100,000,000",
+      "USD": "50,000,000"
+    },
+    "purposes": [
+      "Economic participation payments",
+      "Facility distributions",
+      "Partnership settlements",
+      "RWA infrastructure compensation"
+    ]
+  },
+  "receiving_addresses": {
+    "primary": "rE17AB793AE6C71C14D57FB6893D90D",
+    "backup": "r238F3CEFDDA0F4F59EC31154878FD5"
+  },
+  "compliance_framework": {
+    "kyc_verification": "Complete",
+    "aml_screening": "Verified",
+    "regulatory_basis": "Strategic Infrastructure Partnership Agreement",
+    "audit_trail": "XRPL blockchain + IPFS documentation"
+  },
+  "integration_points": {
+    "tc_advantage_system": true,
+    "existing_usdt_holdings": "rpP12ND2K7ZRzXZBEUnQM2i18tMGytXnW1",
+    "fresh_xrpl_infrastructure": true,
+    "institutional_documentation": true
+  }
+}

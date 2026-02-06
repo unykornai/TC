@@ -1,0 +1,72 @@
+{
+  "agreement_type": "STRATEGIC_INFRASTRUCTURE_EXECUTION_AGREEMENT",
+  "parties": {
+    "unykorn": "Unykorn 7777, Inc.",
+    "optkas": "OPTKAS1-MAIN SPV"
+  },
+  "fresh_xrpl_config": {
+    "treasury_wallet": "r238F3CEFDDA0F4F59EC31154878FD5",
+    "integration_wallet": "r119E88E809849273B2B350CAF991C7",
+    "settlement_wallet": "rE17AB793AE6C71C14D57FB6893D90D",
+    "attestation_account": "r817859084F3A299AFDD75CCD7C1701"
+  },
+  "stablecoin_support": [
+    {
+      "currency": "USDT",
+      "issuer": "rE85pdvr4icCPh9cpPr1HrSCVJCUhZ1Dqm",
+      "tier": 1,
+      "regulatory_status": "Established"
+    },
+    {
+      "currency": "USDC",
+      "issuer": "rcvxE9PS9YBwxtGg1qNeewV6ZB3wGubZq",
+      "tier": 1,
+      "regulatory_status": "Licensed"
+    },
+    {
+      "currency": "USD",
+      "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+      "tier": 2,
+      "regulatory_status": "EU Licensed Exchange"
+    },
+    {
+      "currency": "USD",
+      "issuer": "rGWrZyQqhTp9Xu7G5Pkayo7bXjH4k4QYpf",
+      "tier": 2,
+      "regulatory_status": "XRPL Native"
+    }
+  ],
+  "economic_options": {
+    "option_a": "10% Net Cash Flow Participation",
+    "option_b": "2% Success Fee + 4% Ongoing Participation",
+    "recommendation": "Option A (simpler, aligned incentives)"
+  },
+  "multisig_config": {
+    "threshold": "2-of-3",
+    "signers": [
+      {
+        "role": "Infrastructure Partner",
+        "entity": "Unykorn 7777, Inc."
+      },
+      {
+        "role": "SPV Manager",
+        "entity": "OPTKAS1-MAIN SPV"
+      },
+      {
+        "role": "Neutral Escrow",
+        "entity": "TBD"
+      }
+    ],
+    "primary_settlement": "rE17AB793AE6C71C14D57FB6893D90D",
+    "networks": [
+      "XRPL",
+      "EVM-compatible"
+    ]
+  },
+  "tc_integration": {
+    "maintains_existing_infrastructure": true,
+    "adds_clean_trustlines": true,
+    "enables_institutional_stablecoins": true,
+    "supports_950m_portfolio": true
+  }
+}

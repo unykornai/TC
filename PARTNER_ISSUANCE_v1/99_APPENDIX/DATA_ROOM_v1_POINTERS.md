@@ -168,4 +168,48 @@ These are tracked in `DATA_ROOM_v1/INDEX.md` and will be added to DATA_ROOM_v2 w
 
 ---
 
+## Web3 Integration (uny-X)
+
+The Partner Issuance Package is integrated with the [uny-X web3 automation framework](https://github.com/UnyKorn-x/uny-X) for:
+
+- **IPFS Pinning** — Decentralized document storage
+- **XRPL Attestation** — On-chain verification
+- **Memory Graph** — Audit trail persistence
+- **Proposal Governance** — Structured execution workflow
+
+### Integration Location
+
+```
+OPTKAS1-Funding-System/web3_integration/
+├── README.md                        # Integration guide
+├── SYSTEM_AUDIT_REPORT.md           # Full audit report
+├── policies/
+│   └── optkas1_governor.json        # Governor policy
+└── core/
+    └── optkas1_bridge.py            # Bridge module
+```
+
+### Quick Commands
+
+```powershell
+# Initialize integration
+python web3_integration/core/optkas1_bridge.py init
+
+# Verify package integrity
+python web3_integration/core/optkas1_bridge.py verify
+
+# Pin to IPFS (requires IPFS daemon)
+python web3_integration/core/optkas1_bridge.py pin
+```
+
+### XRPL Payment Address
+
+```
+Address: rnAF6Ki5sbmPZ4dTNCVzH5iyb9ScdSqyNr
+Network: XRP Ledger Mainnet
+Explorer: https://livenet.xrpl.org/accounts/rnAF6Ki5sbmPZ4dTNCVzH5iyb9ScdSqyNr
+```
+
+---
+
 *This document is part of the Partner Issuance Package (99_APPENDIX).*

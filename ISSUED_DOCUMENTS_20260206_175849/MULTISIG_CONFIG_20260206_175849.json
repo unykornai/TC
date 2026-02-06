@@ -1,0 +1,128 @@
+{
+  "multisig_config": {
+    "document_type": "FRESH_XRPL_MULTISIG_CONFIGURATION",
+    "effective_date": "2026-02-06T17:58:49.593749+00:00",
+    "version": "v1.0",
+    "threshold": "2-of-3",
+    "network": "XRPL Mainnet",
+    "signers": [
+      {
+        "signer_id": "SIGNER_A",
+        "role": "Infrastructure Partner",
+        "entity": "Unykorn 7777, Inc.",
+        "wallet_address": "r238F3CEFDDA0F4F59EC31154878FD5",
+        "status": "READY",
+        "authority": "Economic participation receipt, technical operations"
+      },
+      {
+        "signer_id": "SIGNER_B",
+        "role": "SPV Manager",
+        "entity": "OPTKAS1-MAIN SPV",
+        "wallet_address": "r119E88E809849273B2B350CAF991C7",
+        "status": "READY",
+        "authority": "Payment authorization, facility operations"
+      },
+      {
+        "signer_id": "SIGNER_C",
+        "role": "Neutral Escrow",
+        "entity": "TBD (to be designated)",
+        "wallet_address": "TBD",
+        "status": "PENDING_DESIGNATION",
+        "authority": "Dispute resolution, governance oversight"
+      }
+    ],
+    "settlement_addresses": {
+      "primary_settlement": {
+        "address": "rE17AB793AE6C71C14D57FB6893D90D",
+        "purpose": "UNYKORN 7777 stablecoin receipt",
+        "authorized_currencies": [
+          "USDT",
+          "USDC",
+          "USD"
+        ]
+      },
+      "treasury_operations": {
+        "address": "r238F3CEFDDA0F4F59EC31154878FD5",
+        "purpose": "Primary institutional operations",
+        "authorized_currencies": [
+          "USDT",
+          "USDC",
+          "USD"
+        ]
+      },
+      "tc_integration": {
+        "address": "r119E88E809849273B2B350CAF991C7",
+        "purpose": "TC Advantage system connectivity",
+        "authorized_currencies": [
+          "USDT",
+          "USDC",
+          "USD"
+        ]
+      },
+      "attestation_account": {
+        "address": "r817859084F3A299AFDD75CCD7C1701",
+        "purpose": "Transaction verification and audit trail",
+        "authorized_currencies": [
+          "XRP"
+        ]
+      }
+    },
+    "supported_currencies": {
+      "USDT": {
+        "issuer": "rE85pdvr4icCPh9cpPr1HrSCVJCUhZ1Dqm",
+        "issuer_name": "Tether",
+        "tier": 1,
+        "regulatory_status": "Established",
+        "max_limit": 1000000
+      },
+      "USDC": {
+        "issuer": "rcvxE9PS9YBwxtGg1qNeewV6ZB3wGubZq",
+        "issuer_name": "Circle",
+        "tier": 1,
+        "regulatory_status": "Licensed",
+        "max_limit": 1000000
+      },
+      "USD": {
+        "issuers": [
+          {
+            "address": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+            "issuer_name": "Bitstamp",
+            "tier": 2,
+            "regulatory_status": "EU Licensed Exchange",
+            "max_limit": 500000
+          },
+          {
+            "address": "rGWrZyQqhTp9Xu7G5Pkayo7bXjH4k4QYpf",
+            "issuer_name": "GateHub",
+            "tier": 2,
+            "regulatory_status": "XRPL Native",
+            "max_limit": 250000
+          }
+        ]
+      }
+    },
+    "governance": {
+      "required_signatures": 2,
+      "total_signers": 3,
+      "signature_types": [
+        "Economic participation",
+        "Facility operations",
+        "Governance decisions"
+      ],
+      "dispute_resolution": "Wyoming arbitration",
+      "amendment_threshold": "2-of-3 for operational, 3-of-3 for structural"
+    },
+    "compliance": {
+      "kyc_status": "Complete for all known signers",
+      "regulatory_framework": "Wyoming Digital Assets + Federal compliance",
+      "audit_trail": "XRPL blockchain + IPFS documentation",
+      "reporting": "Monthly settlement reports, annual certification"
+    },
+    "integration": {
+      "tc_advantage_compatibility": true,
+      "existing_infrastructure": "Maintained and enhanced",
+      "fresh_approach": "Zero IOU, legitimate issuers only",
+      "portfolio_support": "$950M+ verified assets"
+    }
+  }
+}

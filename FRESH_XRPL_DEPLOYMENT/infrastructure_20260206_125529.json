@@ -1,0 +1,55 @@
+{
+  "wallets": {
+    "Treasury": {
+      "purpose": "Treasury",
+      "address": "r238F3CEFDDA0F4F59EC31154878FD5",
+      "seed": "sC53C7DFE41C065A7C40C3DB32FF7CB",
+      "reserve_xrp": 20,
+      "trustlines": [
+        "USDT:rE85pdvr4icCPh9cpPr1HrSCVJCUhZ1Dqm",
+        "USDC:rcvxE9PS9YBwxtGg1qNeewV6ZB3wGubZq",
+        "USD:rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "USD:rGWrZyQqhTp9Xu7G5Pkayo7bXjH4k4QYpf"
+      ],
+      "status": "MOCK_GENERATED"
+    },
+    "TC_Integration": {
+      "purpose": "TC_Integration",
+      "address": "r119E88E809849273B2B350CAF991C7",
+      "seed": "s168DD47F5D42EE3D18EFEF8D7EE608",
+      "reserve_xrp": 20,
+      "trustlines": [
+        "USDT:rE85pdvr4icCPh9cpPr1HrSCVJCUhZ1Dqm",
+        "USDC:rcvxE9PS9YBwxtGg1qNeewV6ZB3wGubZq",
+        "USD:rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "USD:rGWrZyQqhTp9Xu7G5Pkayo7bXjH4k4QYpf"
+      ],
+      "status": "MOCK_GENERATED"
+    },
+    "Partner_Settlement": {
+      "purpose": "Partner_Settlement",
+      "address": "rE17AB793AE6C71C14D57FB6893D90D",
+      "seed": "s8D4D5B684F44ADD4030C895477EDB2",
+      "reserve_xrp": 20,
+      "trustlines": [
+        "USDT:rE85pdvr4icCPh9cpPr1HrSCVJCUhZ1Dqm",
+        "USDC:rcvxE9PS9YBwxtGg1qNeewV6ZB3wGubZq",
+        "USD:rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "USD:rGWrZyQqhTp9Xu7G5Pkayo7bXjH4k4QYpf"
+      ],
+      "status": "MOCK_GENERATED"
+    },
+    "Fresh_Attestation": {
+      "purpose": "Fresh_Attestation",
+      "address": "r817859084F3A299AFDD75CCD7C1701",
+      "seed": "sBA949BE2689C2712F63EA4254DFE4F",
+      "reserve_xrp": 15,
+      "trustlines": [],
+      "status": "MOCK_GENERATED"
+    }
+  },
+  "trustlines": 12,
+  "xrp_used": 99,
+  "xrp_remaining": 39,
+  "status": "FRESH_INFRASTRUCTURE_READY"
+}

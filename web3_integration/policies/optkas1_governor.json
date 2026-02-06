@@ -1,0 +1,144 @@
+{
+  "version": "1.0",
+  "created": "2026-02-06",
+  "project": "OPTKAS1-Funding-System",
+  "description": "Governor policy for OPTKAS1 Funding System integration with uny-X",
+  
+  "allow_extensions": [
+    ".md",
+    ".json",
+    ".txt",
+    ".pdf",
+    ".sol",
+    ".py",
+    ".ts",
+    ".js"
+  ],
+  
+  "deny_globs": [
+    "**/.git/**",
+    "**/node_modules/**",
+    "**/__pycache__/**",
+    "**/.env",
+    "**/*.key",
+    "**/*.pem",
+    "**/secrets/**"
+  ],
+  
+  "secrets_regex": [
+    "(?i)(password|passwd|pwd)\\s*[=:]\\s*['\"][^'\"]{8,}['\"]",
+    "(?i)(api[_-]?key|apikey)\\s*[=:]\\s*['\"][^'\"]{16,}['\"]",
+    "(?i)(secret|token)\\s*[=:]\\s*['\"][^'\"]{16,}['\"]",
+    "(?i)private[_-]?key\\s*[=:]",
+    "xprv[a-zA-Z0-9]{107}",
+    "0x[a-fA-F0-9]{64}",
+    "s[A-Za-z0-9]{28,33}"
+  ],
+  
+  "max_file_bytes": 10000000,
+  "max_files": 5000,
+  
+  "execution": {
+    "mode": "ASSISTED_EXECUTION",
+    "allowed_tools": [
+      "python",
+      "git",
+      "ipfs",
+      "node",
+      "npm",
+      "forge",
+      "curl"
+    ],
+    "allowed_roots": [
+      ".",
+      "PARTNER_ISSUANCE_v1",
+      "EXECUTION_v1",
+      "web3_integration",
+      "bond-smart-contracts"
+    ],
+    "deny_command_regex": [
+      "rm\\s+-rf\\s+/",
+      "sudo\\s+rm",
+      "format\\s+[A-Z]:",
+      ">\\s*/dev/",
+      "chmod\\s+777"
+    ],
+    "require_confirm_each": true,
+    "autonomous": {
+      "enabled": false,
+      "zones": [
+        {
+          "name": "ipfs_operations",
+          "roots": ["web3_integration/ipfs"],
+          "allowed_commands": ["ipfs add", "ipfs pin", "ipfs cat"],
+          "description": "IPFS document operations zone"
+        },
+        {
+          "name": "verification",
+          "roots": ["web3_integration/verification"],
+          "allowed_commands": ["python", "sha256sum"],
+          "description": "Hash verification zone"
+        }
+      ]
+    }
+  },
+  
+  "reasoning": {
+    "provider": "heuristic",
+    "ollama_model": "qwen2.5-coder",
+    "ollama_timeout_sec": 120,
+    "ollama_cmd": "ollama"
+  },
+  
+  "ipfs": {
+    "enabled": true,
+    "rpc_url": "http://127.0.0.1:5001",
+    "gateway_url": "http://127.0.0.1:8080",
+    "allowed_actions": ["status", "add", "stat", "pin"],
+    "max_bytes_per_add": 52428800,
+    "require_proposal": true,
+    "require_approval": true,
+    "timeout_sec": 30
+  },
+  
+  "xrpl": {
+    "enabled": true,
+    "network": "mainnet",
+    "websocket": "wss://s1.ripple.com",
+    "explorer": "https://livenet.xrpl.org",
+    "attestation_account": "rnAF6Ki5sbmPZ4dTNCVzH5iyb9ScdSqyNr"
+  },
+  
+  "optkas1": {
+    "spv_entity": "OPTKAS1-MAIN SPV",
+    "partner_entity": "Unykorn 7777, Inc.",
+    "contact": "jimmy@optkas.com",
+    "data_room_version": "v1",
+    "data_room_status": "FROZEN",
+    "partner_issuance_version": "v1",
+    "partner_issuance_status": "EXECUTION_READY"
+  },
+  
+  "multisig": {
+    "threshold": 2,
+    "total_signers": 3,
+    "elevated_threshold": 3,
+    "signers": [
+      {
+        "id": "SIGNER_A",
+        "role": "Infrastructure Partner",
+        "entity": "Unykorn 7777, Inc."
+      },
+      {
+        "id": "SIGNER_B",
+        "role": "SPV Manager",
+        "entity": "OPTKAS1-MAIN SPV"
+      },
+      {
+        "id": "SIGNER_C",
+        "role": "Neutral Escrow",
+        "entity": "TO_BE_DESIGNATED"
+      }
+    ]
+  }
+}

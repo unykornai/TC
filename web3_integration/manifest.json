@@ -1,0 +1,131 @@
+{
+  "version": "1.0",
+  "created": "2026-02-06T00:00:00Z",
+  "project": "OPTKAS1-Funding-System",
+  "description": "Web3 integration manifest for OPTKAS1",
+  
+  "repositories": {
+    "primary": {
+      "name": "TC",
+      "owner": "unykornai",
+      "url": "https://github.com/unykornai/TC",
+      "branch": "main"
+    },
+    "web3": {
+      "name": "uny-X",
+      "owner": "UnyKorn-x",
+      "url": "https://github.com/UnyKorn-x/uny-X",
+      "branch": "main"
+    }
+  },
+  
+  "packages": {
+    "partner_issuance": {
+      "path": "PARTNER_ISSUANCE_v1",
+      "version": "1.0",
+      "status": "EXECUTION_READY",
+      "documents": 15,
+      "categories": [
+        "00_README",
+        "01_AGREEMENT",
+        "02_DISCLOSURES",
+        "03_CRYPTO_PROOFS",
+        "99_APPENDIX"
+      ]
+    },
+    "data_room": {
+      "path": "DATA_ROOM_v1",
+      "version": "1.0",
+      "status": "FROZEN",
+      "documents": 32,
+      "freeze_date": "2026-02-02"
+    },
+    "execution": {
+      "path": "EXECUTION_v1",
+      "version": "1.0",
+      "status": "IN_PROGRESS"
+    }
+  },
+  
+  "integration": {
+    "path": "web3_integration",
+    "components": [
+      {
+        "name": "optkas1_bridge",
+        "type": "python_module",
+        "file": "core/optkas1_bridge.py",
+        "description": "Main integration bridge for IPFS, XRPL, and memory graph"
+      },
+      {
+        "name": "optkas1_governor",
+        "type": "policy",
+        "file": "policies/optkas1_governor.json",
+        "description": "Governor policy for uny-X integration"
+      }
+    ],
+    "logs": {
+      "ipfs": "logs/ipfs.jsonl",
+      "execution": "logs/execution.jsonl"
+    },
+    "memory_graph": "memory-graph.jsonl"
+  },
+  
+  "networks": {
+    "xrpl": {
+      "mainnet": {
+        "websocket": "wss://s1.ripple.com",
+        "explorer": "https://livenet.xrpl.org"
+      },
+      "testnet": {
+        "websocket": "wss://s.altnet.rippletest.net:51233",
+        "explorer": "https://testnet.xrpl.org"
+      }
+    },
+    "ipfs": {
+      "rpc": "http://127.0.0.1:5001",
+      "gateway": "http://127.0.0.1:8080"
+    }
+  },
+  
+  "addresses": {
+    "xrpl_payment": "rnAF6Ki5sbmPZ4dTNCVzH5iyb9ScdSqyNr"
+  },
+  
+  "entities": {
+    "spv": {
+      "name": "OPTKAS1-MAIN SPV",
+      "type": "Wyoming Series LLC",
+      "contact": "jimmy@optkas.com"
+    },
+    "partner": {
+      "name": "Unykorn 7777, Inc.",
+      "type": "Wyoming Corporation"
+    }
+  },
+  
+  "multisig": {
+    "threshold": 2,
+    "total": 3,
+    "elevated_threshold": 3,
+    "signers": ["SIGNER_A", "SIGNER_B", "SIGNER_C"]
+  },
+  
+  "economic_options": {
+    "A": {
+      "success_fee": 0,
+      "net_participation": 0.10,
+      "description": "No success fee, 10% net participation"
+    },
+    "B": {
+      "success_fee": 0.02,
+      "net_participation": 0.04,
+      "description": "2% success fee, 4% net participation"
+    }
+  },
+  
+  "portals": {
+    "funding": "https://unykornai.github.io/TC/funding-portal.html",
+    "data_room": "https://unykornai.github.io/TC/DATA_ROOM_v1/",
+    "partner_issuance": "https://unykornai.github.io/TC/PARTNER_ISSUANCE_v1/"
+  }
+}

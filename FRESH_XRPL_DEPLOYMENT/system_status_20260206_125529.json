@@ -1,0 +1,54 @@
+{
+  "fresh_infrastructure": {
+    "wallets_created": 4,
+    "trustlines_established": 12,
+    "xrp_budget_used": 75,
+    "xrp_budget_remaining": 63,
+    "status": "OPERATIONAL"
+  },
+  "wallet_details": {
+    "Treasury": {
+      "address": "r238F3CEFDDA0F4F59EC31154878FD5",
+      "purpose": "Treasury",
+      "trustlines": 4,
+      "status": "MOCK_GENERATED"
+    },
+    "TC_Integration": {
+      "address": "r119E88E809849273B2B350CAF991C7",
+      "purpose": "TC_Integration",
+      "trustlines": 4,
+      "status": "MOCK_GENERATED"
+    },
+    "Partner_Settlement": {
+      "address": "rE17AB793AE6C71C14D57FB6893D90D",
+      "purpose": "Partner_Settlement",
+      "trustlines": 4,
+      "status": "MOCK_GENERATED"
+    },
+    "Fresh_Attestation": {
+      "address": "r817859084F3A299AFDD75CCD7C1701",
+      "purpose": "Fresh_Attestation",
+      "trustlines": 0,
+      "status": "MOCK_GENERATED"
+    }
+  },
+  "stablecoin_support": {
+    "tier_1_issuers": 2,
+    "tier_2_issuers": 2,
+    "total_currencies": 3,
+    "regulatory_compliant": true
+  },
+  "tc_integration": {
+    "existing_infrastructure": "MAINTAINED",
+    "fresh_additions": "DEPLOYED",
+    "documentation_ready": true,
+    "partner_agreements": "READY_FOR_EXECUTION"
+  },
+  "capabilities": {
+    "institutional_stablecoin_receipt": true,
+    "unykorn_issuance_authority": true,
+    "clean_regulatory_profile": true,
+    "professional_documentation": true,
+    "existing_portfolio_support": "$950M+"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "issuance_package": {
+    "name": "TC_ADVANTAGE_FRESH_XRPL_INTEGRATION",
+    "version": "v1.0",
+    "issue_date": "2026-02-06T17:58:49.593749+00:00",
+    "timestamp": "20260206_175849",
+    "source_repository": "https://github.com/unykornai/TC",
+    "integration_type": "Fresh XRPL Infrastructure"
+  },
+  "documents": [
+    {
+      "name": "STRATEGIC_INFRASTRUCTURE_EXECUTION_AGREEMENT",
+      "version": "Fresh XRPL Integration v1.0",
+      "file_path": "STRATEGIC_INFRASTRUCTURE_EXECUTION_AGREEMENT_20260206_175849.md",
+      "hash_sha256": "c3599700d1a516a202a0247aa187f2bc16ddc53348244b8e1badb3326098b71d",
+      "effective_date": "2026-02-06T17:58:49.593749+00:00"
+    },
+    {
+      "name": "UNYKORN_ISSUANCE_AUTHORITY",
+      "version": "Fresh XRPL Authority v1.0",
+      "file_path": "UNYKORN_ISSUANCE_AUTHORITY_20260206_175849.md",
+      "hash_sha256": "a497917d8c0f04d310cd76623658fb464bb800963e1105677c02c9841145bee3",
+      "effective_date": "2026-02-06T17:58:49.593749+00:00"
+    },
+    {
+      "name": "MULTISIG_CONFIGURATION",
+      "version": "Fresh XRPL Multisig v1.0",
+      "file_path": "MULTISIG_CONFIG_20260206_175849.json",
+      "hash_sha256": "bd137f206128fa655a00eee27cbe61f605efac81f7fc8a9df08995af822b655d",
+      "effective_date": "2026-02-06T17:58:49.593749+00:00"
+    },
+    {
+      "name": "SIGNATURE_PAGE",
+      "version": "Fresh XRPL Integration v1.0",
+      "file_path": "SIGNATURE_PAGE_20260206_175849.md",
+      "hash_sha256": "f809d76db0b9892091f4ce737f74175bb49c7897286b66ca4475db12bd8ec95d",
+      "effective_date": "2026-02-06T17:58:49.593749+00:00"
+    }
+  ],
+  "wallets": {
+    "Treasury": {
+      "address": "r238F3CEFDDA0F4F59EC31154878FD5",
+      "purpose": "Treasury Operations"
+    },
+    "TC_Integration": {
+      "address": "r119E88E809849273B2B350CAF991C7",
+      "purpose": "TC Integration"
+    },
+    "Partner_Settlement": {
+      "address": "rE17AB793AE6C71C14D57FB6893D90D",
+      "purpose": "Partner Settlement"
+    },
+    "Fresh_Attestation": {
+      "address": "r817859084F3A299AFDD75CCD7C1701",
+      "purpose": "Fresh Attestation"
+    }
+  },
+  "verification": {
+    "total_documents": 4,
+    "hash_algorithm": "SHA-256",
+    "compliance_standard": "Institutional Professional"
+  }
+}

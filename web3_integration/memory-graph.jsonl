@@ -1,0 +1,7 @@
+{"ts":"2026-02-06T00:00:00Z","type":"initialization","event":"web3_integration_created","project":"OPTKAS1-Funding-System","repository":"unykornai/TC","web3_repo":"UnyKorn-x/uny-X","id":"sha256:init-001"}
+{"ts":"2026-02-06T00:00:01Z","type":"document","event":"partner_issuance_registered","package":"PARTNER_ISSUANCE_v1","status":"EXECUTION_READY","document_count":15,"id":"sha256:doc-001"}
+{"ts":"2026-02-06T00:00:02Z","type":"document","event":"data_room_registered","package":"DATA_ROOM_v1","status":"FROZEN","freeze_date":"2026-02-02","id":"sha256:doc-002"}
+{"ts":"2026-02-06T00:00:03Z","type":"config","event":"multisig_config_loaded","threshold":2,"total_signers":3,"payment_address":"rnAF6Ki5sbmPZ4dTNCVzH5iyb9ScdSqyNr","id":"sha256:cfg-001"}
+{"ts":"2026-02-06T00:00:04Z","type":"config","event":"governor_policy_created","policy_file":"policies/optkas1_governor.json","execution_mode":"ASSISTED_EXECUTION","id":"sha256:cfg-002"}
+{"ts":"2026-02-06T00:00:05Z","type":"integration","event":"uny_x_bridge_created","bridge_file":"core/optkas1_bridge.py","functions":["initialize_integration","verify_partner_issuance_integrity","ipfs_add","create_memory_node","create_xrpl_attestation_memo"],"id":"sha256:int-001"}
+{"type": "initialization", "timestamp": "2026-02-06T16:56:36.403562+00:00", "cid": null, "data": {"event": "optkas1_integration_init", "verification_status": true}, "edges": [], "id": "sha256:cfc88330d54302f1d0a9a0a35aabe2f3550843adbb25f475fe41d8a5fa9bb82b"}
