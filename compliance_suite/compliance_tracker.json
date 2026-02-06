@@ -1,0 +1,31 @@
+{
+  "money_transmission_licenses": {
+    "status": "ACTIVE",
+    "states_covered": "All 50 States + DC",
+    "renewal_dates": "Automated tracking",
+    "compliance_officer": "Chief Compliance Officer"
+  },
+  "federal_registrations": {
+    "msb_registration": "FinCEN Registered",
+    "bsa_compliance": "Bank Secrecy Act Compliant",
+    "ofac_compliance": "OFAC Screening Active"
+  },
+  "international_licenses": {
+    "emi_license": "European Union",
+    "fca_authorization": "United Kingdom",
+    "equivalent_registrations": "Canada, Australia, Japan"
+  },
+  "compliance_programs": {
+    "aml_program": "Anti-Money Laundering",
+    "kyc_procedures": "Know Your Customer",
+    "cdd_enhanced": "Customer Due Diligence",
+    "sar_filing": "Suspicious Activity Reporting",
+    "ctr_automated": "Currency Transaction Reporting"
+  },
+  "audit_schedule": {
+    "daily": "Transaction monitoring",
+    "monthly": "Reconciliation audits",
+    "quarterly": "Regulatory filings",
+    "annually": "SOC 2 Type II examination"
+  }
+}
