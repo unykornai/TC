@@ -865,6 +865,32 @@ ipfs add -r DATA_ROOM_v1
 # Returns CID for permanent storage
 ```
 
+### Issue Partner Documents for Signing
+
+To issue the Strategic Infrastructure & Execution Agreement to partners:
+
+**Automated (Recommended):**
+```powershell
+# Complete issuance process
+.\issue-partner-documents.ps1 -All
+
+# Or use the batch file on Windows
+.\issue-partner-documents.bat
+```
+
+**What this does:**
+- ✅ Validates package integrity
+- ✅ Generates SHA-256 hashes for verification
+- ✅ Creates email templates for both parties
+- ✅ Prepares IPFS-ready package
+- ✅ Generates issuance summary
+
+**For detailed instructions:** See [HOW_TO_ISSUE_PARTNER_DOCS.md](HOW_TO_ISSUE_PARTNER_DOCS.md)
+
+**Documents issued:**
+- Partner Issuance Package: [PARTNER_ISSUANCE_v1/](PARTNER_ISSUANCE_v1/)
+- Agreement Send Package: [Agreement_Send_Package/](Agreement_Send_Package/)
+
 ---
 
 ## 📚 API Reference
