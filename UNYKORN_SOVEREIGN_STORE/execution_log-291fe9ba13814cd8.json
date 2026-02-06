@@ -1,0 +1,16 @@
+{
+  "Id": "execution_log-291fe9ba13814cd8",
+  "Hash": "E3DCFADD202E173C0E9B31AF8AEC6A24C41D7D6A16681C26E382C05BB352E5DA",
+  "Data": {
+    "Status": "Success",
+    "Result": "Executed successfully",
+    "Context": {
+      "AgreementId": "agr-b8151fb40b2b458c"
+    },
+    "Timestamp": "2026-02-06T02:20:49.2247696Z",
+    "Trigger": "agreement_signed"
+  },
+  "PreviousProof": "4EC1263CFA15EFDB62B2A9EA25E4BF3F73E500A4A051A7FA83E52C98BC8B0A27",
+  "Type": "execution_log",
+  "Timestamp": "2026-02-06T02:20:49.2278404Z"
+}
