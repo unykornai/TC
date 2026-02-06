@@ -1,0 +1,21 @@
+{
+  "token_details": {
+    "symbol": "USDT",
+    "name": "USD Tether",
+    "blockchain": "XRPL",
+    "backing_ratio": "1:1",
+    "issuer_wallet": "rOPTKAS1USDTIssuerWallet123456789"
+  },
+  "issuance_parameters": {
+    "minimum_amount": 100,
+    "maximum_amount": 50000000,
+    "issuance_fee": 0.001,
+    "redemption_fee": 0.001
+  },
+  "operational_features": {
+    "instant_issuance": true,
+    "instant_redemption": true,
+    "blockchain_attestation": true,
+    "real_time_backing_verification": true
+  }
+}

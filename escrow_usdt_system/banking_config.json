@@ -1,0 +1,33 @@
+{
+  "banking_partners": {
+    "USD": {
+      "bank": "JPMorgan Chase",
+      "swift": "CHASUS33",
+      "insurance": "FDIC",
+      "capacity": 250000000
+    },
+    "EUR": {
+      "bank": "Deutsche Bank AG",
+      "swift": "DEUTDEFF",
+      "insurance": "BdB Protection",
+      "capacity": 200000000
+    },
+    "GBP": {
+      "bank": "Barclays Bank PLC",
+      "swift": "BARCGB22",
+      "insurance": "FSCS Protected",
+      "capacity": 150000000
+    }
+  },
+  "total_escrow_capacity": 500000000,
+  "compliance": {
+    "kyc_required": true,
+    "aml_screening": true,
+    "licenses": [
+      "Money Transmission (All 50 States)",
+      "MSB Registration (FinCEN)",
+      "EMI License (EU)",
+      "FCA Authorization (UK)"
+    ]
+  }
+}
