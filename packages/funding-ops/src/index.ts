@@ -33,3 +33,9 @@ export {
   type StellarAccountReadiness,
   type StellarActivationResult,
 } from './stellar-activator';
+
+export {
+  FundingReportGenerator,
+  type FundingReport,
+  type ReportSection,
+} from './report-generator';
