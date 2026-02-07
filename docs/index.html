@@ -1,998 +1,558 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enhanced TC Infrastructure v2.0 | Institutional Financial Platform</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
-    <style>
-        :root {
-            --primary-color: #0B1426;
-            --secondary-color: #1A2B47;
-            --accent-color: #2C5F7F;
-            --gold-color: #D4AF37;
-            --light-gold: #F4E4A6;
-            --text-primary: #FFFFFF;
-            --text-secondary: #B8C5D6;
-            --success-color: #2ECC71;
-            --warning-color: #F39C12;
-            --surface-color: rgba(255, 255, 255, 0.05);
-            --glass-effect: rgba(255, 255, 255, 0.1);
-            --shadow-light: 0 8px 32px rgba(0, 0, 0, 0.1);
-            --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            line-height: 1.7;
-            color: var(--text-primary);
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--accent-color) 100%);
-            overflow-x: hidden;
-        }
-
-        /* Navigation */
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(11, 20, 38, 0.95);
-            backdrop-filter: blur(20px);
-            z-index: 1000;
-            padding: 1rem 0;
-            border-bottom: 1px solid var(--glass-effect);
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--gold-color);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 3rem;
-        }
-
-        .nav-menu a {
-            color: var(--text-primary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav-menu a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -5px;
-            left: 0;
-            background: var(--gold-color);
-            transition: width 0.3s ease;
-        }
-
-        .nav-menu a:hover::after {
-            width: 100%;
-        }
-
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(44, 95, 127, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(26, 43, 71, 0.1) 0%, transparent 50%);
-        }
-
-        .hero-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            text-align: center;
-            z-index: 2;
-            position: relative;
-        }
-
-        .hero-title {
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, var(--gold-color) 0%, var(--light-gold) 50%, #FFFFFF 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1.2;
-        }
-
-        .hero-subtitle {
-            font-size: 1.5rem;
-            font-weight: 400;
-            color: var(--text-secondary);
-            margin-bottom: 3rem;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .hero-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin: 4rem auto;
-            max-width: 1000px;
-        }
-
-        .hero-stat {
-            background: var(--glass-effect);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 2rem;
-            border-radius: 20px;
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .hero-stat:hover {
-            transform: translateY(-5px);
-        }
-
-        .hero-stat-value {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--gold-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .hero-stat-label {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        /* Section Styles */
-        .section {
-            padding: 6rem 0;
-            position: relative;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-title {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 1rem;
-        }
-
-        .section-subtitle {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* Features Grid */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature-card {
-            background: var(--glass-effect);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 3rem;
-            border-radius: 24px;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--gold-color), var(--light-gold));
-            transform: scaleX(0);
-            transition: transform 0.4s ease;
-        }
-
-        .feature-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-heavy);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            color: var(--gold-color);
-            margin-bottom: 1.5rem;
-        }
-
-        .feature-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 1rem;
-        }
-
-        .feature-description {
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-
-        /* Interactive Demo Section */
-        .demo-section {
-            background: var(--surface-color);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .demo-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .demo-interface {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            overflow: hidden;
-            backdrop-filter: blur(20px);
-        }
-
-        .demo-header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            padding: 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .status-indicator {
-            width: 12px;
-            height: 12px;
-            background: var(--success-color);
-            border-radius: 50%;
-            animation: pulse-glow 2s infinite;
-        }
-
-        @keyframes pulse-glow {
-            0%, 100% { 
-                opacity: 1;
-                box-shadow: 0 0 10px var(--success-color);
-            }
-            50% { 
-                opacity: 0.6;
-                box-shadow: 0 0 20px var(--success-color);
-            }
-        }
-
-        .demo-title {
-            font-weight: 600;
-            font-size: 1.2rem;
-        }
-
-        .demo-form {
-            padding: 2rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-label {
-            display: block;
-            font-weight: 500;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .form-input, .form-select {
-            width: 100%;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            color: var(--text-primary);
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .form-input:focus, .form-select:focus {
-            outline: none;
-            border-color: var(--gold-color);
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
-        }
-
-        .form-input::placeholder {
-            color: var(--text-secondary);
-        }
-
-        .btn-primary {
-            width: 100%;
-            padding: 1.2rem;
-            background: linear-gradient(135deg, var(--gold-color), var(--light-gold));
-            color: var(--primary-color);
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
-        }
-
-        .result-display {
-            margin-top: 1.5rem;
-            padding: 1.5rem;
-            background: rgba(46, 204, 113, 0.1);
-            border: 1px solid var(--success-color);
-            border-radius: 12px;
-            display: none;
-        }
-
-        .result-title {
-            color: var(--success-color);
-            font-weight: 600;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .result-details {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        /* Capabilities Section */
-        .capabilities-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 3rem;
-            margin-top: 3rem;
-        }
-
-        .capability-card {
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .capability-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--gold-color), var(--light-gold));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem;
-            font-size: 2rem;
-            color: var(--primary-color);
-        }
-
-        .capability-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 1rem;
-        }
-
-        .capability-value {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--gold-color);
-            margin-bottom: 0.5rem;
-        }
-
-        /* Footer */
-        .footer {
-            background: var(--primary-color);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 4rem 0 2rem;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .footer-section h3 {
-            color: var(--gold-color);
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: var(--gold-color);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 2rem;
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
-            }
-            
-            .demo-container {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-            
-            .hero-stats {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-        }
-
-        /* Scroll animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .animate-fade-in {
-            animation: fadeInUp 0.8s ease forwards;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OPTKAS — Sovereign Capital Markets Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #06090f;
+  --bg2: #0c1220;
+  --card: #111827;
+  --gold: #c9a84c;
+  --gold-b: #e4c76b;
+  --green: #10b981;
+  --blue: #3b82f6;
+  --purple: #8b5cf6;
+  --cyan: #06b6d4;
+  --text: #f1f5f9;
+  --dim: #94a3b8;
+  --muted: #64748b;
+  --border: rgba(201,168,76,0.15);
+  --border-b: rgba(201,168,76,0.4);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.3);border-radius:3px}
+.bg-grid{position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(201,168,76,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+.glow{position:fixed;z-index:0;pointer-events:none;width:600px;height:600px;border-radius:50%;filter:blur(120px);opacity:0.06}
+.g1{top:-200px;left:-200px;background:var(--gold)}
+.g2{bottom:-200px;right:-200px;background:var(--purple)}
+
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(6,9,15,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 2rem}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-weight:800;font-size:1.1rem;letter-spacing:2px;color:var(--gold)}
+.logo span{color:var(--text);font-weight:400;opacity:0.6;font-size:0.8rem;margin-left:8px}
+.nav-links{display:flex;gap:6px}
+.nav-links a{color:var(--dim);text-decoration:none;font-size:0.75rem;font-weight:500;letter-spacing:0.5px;text-transform:uppercase;padding:8px 14px;border-radius:6px;transition:all 0.2s}
+.nav-links a:hover{color:var(--gold);background:rgba(201,168,76,0.08)}
+.live{display:inline-flex;align-items:center;gap:6px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);padding:4px 12px;border-radius:20px;font-size:0.7rem;color:var(--green);font-weight:600;letter-spacing:0.5px}
+.live::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+main{position:relative;z-index:1;padding-top:64px}
+section{padding:5rem 2rem}
+.container{max-width:1200px;margin:0 auto}
+
+/* Hero */
+.hero{min-height:calc(100vh - 64px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4rem 2rem}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,0.08);border:1px solid var(--border-b);padding:8px 20px;border-radius:30px;font-size:0.8rem;color:var(--gold);font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:2rem;animation:fadeIn 0.8s ease}
+.hero h1{font-size:clamp(2.5rem,6vw,5rem);font-weight:900;line-height:1.05;letter-spacing:-2px;margin-bottom:1.5rem;animation:fadeUp 0.8s ease 0.2s both}
+.hero h1 .gold{background:linear-gradient(135deg,var(--gold),var(--gold-b));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero .sub{font-size:clamp(1rem,2vw,1.3rem);color:var(--dim);max-width:750px;line-height:1.7;margin-bottom:3rem;animation:fadeUp 0.8s ease 0.4s both}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1.5rem;max-width:1000px;width:100%;animation:fadeUp 0.8s ease 0.6s both}
+.stat{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:16px;padding:1.5rem 1rem;transition:all 0.3s}
+.stat:hover{border-color:var(--border-b);box-shadow:0 0 40px rgba(201,168,76,0.15);transform:translateY(-2px)}
+.stat .num{font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:700;color:var(--gold);display:block}
+.stat .lbl{font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+
+/* Sections */
+.sec-head{text-align:center;margin-bottom:3rem}
+.sec-num{font-family:'JetBrains Mono',monospace;font-size:0.8rem;font-weight:600;color:var(--gold);letter-spacing:3px;text-transform:uppercase;display:block;margin-bottom:0.5rem}
+.sec-title{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;letter-spacing:-1px;margin-bottom:1rem}
+.sec-sub{font-size:1rem;color:var(--dim);max-width:650px;margin:0 auto}
+
+/* Cards */
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;transition:all 0.3s;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity 0.3s}
+.card:hover{border-color:var(--border-b);box-shadow:0 0 40px rgba(201,168,76,0.15);transform:translateY(-4px)}
+.card:hover::before{opacity:1}
+
+/* Badge */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:6px;font-size:0.7rem;font-weight:600;letter-spacing:0.5px}
+.b-green{background:rgba(16,185,129,0.12);color:var(--green);border:1px solid rgba(16,185,129,0.2)}
+.b-gold{background:rgba(201,168,76,0.12);color:var(--gold);border:1px solid rgba(201,168,76,0.2)}
+.b-purple{background:rgba(139,92,246,0.12);color:var(--purple);border:1px solid rgba(139,92,246,0.2)}
+.b-blue{background:rgba(59,130,246,0.12);color:var(--blue);border:1px solid rgba(59,130,246,0.2)}
+
+/* Table */
+.tw{overflow-x:auto;margin:1.5rem 0;border-radius:12px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:0.85rem}
+thead{background:rgba(201,168,76,0.06)}
+th{text-align:left;padding:12px 16px;font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;color:var(--gold);font-weight:600;border-bottom:1px solid var(--border)}
+td{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--dim)}
+tr:hover td{background:rgba(201,168,76,0.03);color:var(--text)}
+td:first-child{color:var(--text);font-weight:500}
+.mono{font-family:'JetBrains Mono',monospace;font-size:0.8rem}
+
+/* Big number */
+.bigs{display:flex;flex-wrap:wrap;gap:2rem;justify-content:center;margin:3rem 0}
+.big{text-align:center;flex:1;min-width:140px}
+.big .v{font-family:'JetBrains Mono',monospace;font-size:clamp(2rem,5vw,3.5rem);font-weight:800;background:linear-gradient(135deg,var(--gold),var(--gold-b));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.big .d{font-size:0.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+
+/* Buttons */
+.btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2rem}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:10px;font-weight:600;font-size:0.9rem;text-decoration:none;transition:all 0.3s;cursor:pointer;border:none}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-b));color:#000}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(201,168,76,0.3)}
+.btn-out{background:transparent;color:var(--gold);border:1px solid var(--border-b)}
+.btn-out:hover{background:rgba(201,168,76,0.08);transform:translateY(-2px)}
+
+/* Animations */
+@keyframes fadeIn{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.fi{opacity:0;transform:translateY(30px);transition:all 0.8s ease}
+.fi.vis{opacity:1;transform:translateY(0)}
+
+/* Grid helpers */
+.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.g4{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;text-align:center;transition:all 0.3s}
+.kpi:hover{border-color:var(--border-b);box-shadow:0 0 30px rgba(201,168,76,0.12)}
+.kpi-v{font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:700;display:block;margin-bottom:4px}
+.kpi-l{font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+
+.div{width:80px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:2rem auto}
+
+/* Layers */
+.layer{border-radius:10px;padding:16px 20px;display:flex;align-items:center;gap:16px;margin-bottom:4px}
+.layer .ln{font-family:'JetBrains Mono';font-weight:700;min-width:20px}
+.layer .lt{font-weight:700;font-size:0.9rem}
+.layer .ld{font-size:0.75rem;color:var(--dim)}
+
+/* Phone banner */
+.phone-banner{
+  background:linear-gradient(135deg,rgba(139,92,246,0.08),rgba(201,168,76,0.08));
+  border:1px solid rgba(139,92,246,0.25);border-radius:16px;
+  padding:2rem;text-align:center;margin:2rem auto;max-width:600px;
+  position:relative;overflow:hidden;
+}
+.phone-banner::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--purple),var(--gold),var(--purple))}
+.phone-number{
+  font-family:'JetBrains Mono',monospace;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;
+  color:var(--text);letter-spacing:2px;margin:8px 0;
+}
+.phone-number .xrpl{
+  background:linear-gradient(135deg,var(--purple),var(--gold-b));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.phone-mnemonic{
+  font-family:'JetBrains Mono',monospace;font-size:0.9rem;
+  color:var(--purple);letter-spacing:3px;margin-top:4px;
+}
+
+/* XRPL accent card */
+.xrpl-hero-card{
+  background:linear-gradient(135deg,rgba(139,92,246,0.06),rgba(6,182,212,0.04));
+  border:1px solid rgba(139,92,246,0.3);border-radius:16px;
+  padding:2.5rem;max-width:900px;margin:3rem auto 0;
+  animation:fadeUp 0.8s ease 0.8s both;
+}
+.xrpl-hero-card h3{color:var(--purple);font-size:1.1rem;margin-bottom:1rem;display:flex;align-items:center;gap:10px}
+.xrpl-pills{display:flex;flex-wrap:wrap;gap:0.6rem;justify-content:center}
+.xrpl-pill{
+  background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.2);
+  border-radius:8px;padding:8px 16px;font-size:0.8rem;color:var(--dim);
+  display:flex;align-items:center;gap:8px;
+}
+.xrpl-pill strong{color:var(--purple);font-family:'JetBrains Mono',monospace;font-size:0.85rem}
+
+footer{border-top:1px solid var(--border);padding:2rem;text-align:center;font-size:0.75rem;color:var(--muted)}
+
+@media(max-width:768px){
+  nav .nav-links{display:none}
+  .hero h1{font-size:2.2rem;letter-spacing:-1px}
+  section{padding:3rem 1rem}
+  .g3{grid-template-columns:1fr}
+  .phone-number{font-size:1.5rem;letter-spacing:1px}
+}
+</style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="#" class="logo">
-                <i class="fas fa-university"></i>
-                Enhanced TC Infrastructure v2.0
-            </a>
-            <ul class="nav-menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#demo">Live Demo</a></li>
-                <li><a href="#capabilities">Capabilities</a></li>
-                <li><a href="team-portal.html" style="color:var(--gold-color);font-weight:700">⚡ Team Portal</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+<div class="bg-grid"></div>
+<div class="glow g1"></div>
+<div class="glow g2"></div>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo">OPTKAS<span>Sovereign Platform</span></div>
+    <div class="nav-links">
+      <a href="#bond">The Bond</a>
+      <a href="#xrpl">XRPL</a>
+      <a href="#arch">Architecture</a>
+      <a href="#vault">Vault</a>
+      <a href="#proof">Proof</a>
+      <a href="team-portal.html">⚡ Team Portal</a>
+    </div>
+    <div class="live">MAINNET LIVE</div>
+  </div>
+</nav>
+
+<main>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero">
+  <div class="hero-tag">📞 877-570-XRPL · OPTKAS1-MAIN SPV · Wyoming, USA</div>
+  <h1>
+    $500M Bond Program.<br>
+    <span class="gold">XRPL-Native Settlement.</span>
+  </h1>
+  <p class="sub">
+    $10M first tranche pledged. 6 tokens issued on XRPL mainnet. 9 AMM pools. Dual-chain attestation.
+    28 packages, 9 funded wallets, 78 on-chain operations — sovereign infrastructure
+    that rivals what $50M+ hedge funds build with teams of 20. <strong>Monday is go.</strong>
+  </p>
+  <div class="stats">
+    <div class="stat"><span class="num">$500M</span><div class="lbl">Program Size</div></div>
+    <div class="stat"><span class="num">$10M</span><div class="lbl">Tranche 1 Pledged</div></div>
+    <div class="stat"><span class="num">$4.11M</span><div class="lbl">Vault NAV</div></div>
+    <div class="stat"><span class="num">97.4%</span><div class="lbl">On-Chain Success</div></div>
+    <div class="stat"><span class="num">9</span><div class="lbl">XRPL + Stellar Wallets</div></div>
+    <div class="stat"><span class="num">0</span><div class="lbl">Gating Items</div></div>
+  </div>
+
+  <!-- XRPL Showcase -->
+  <div class="xrpl-hero-card">
+    <h3><span style="font-size:1.5rem">⛓️</span> XRPL Mainnet — Primary Settlement Layer</h3>
+    <div class="xrpl-pills">
+      <div class="xrpl-pill"><strong>6</strong> Tokens Issued</div>
+      <div class="xrpl-pill"><strong>6</strong> AMM Pools</div>
+      <div class="xrpl-pill"><strong>6</strong> Funded Wallets</div>
+      <div class="xrpl-pill"><strong>7</strong> NFT Credentials</div>
+      <div class="xrpl-pill"><strong>4</strong> Stablecoin TLs</div>
+      <div class="xrpl-pill"><strong>78</strong> Mainnet Ops</div>
+    </div>
+    <div style="margin-top:1.5rem">
+      <div class="phone-mnemonic">XRPL INGRESS LINE</div>
+      <div class="phone-number">877-570-<span class="xrpl">XRPL</span></div>
+      <div style="font-size:0.75rem;color:var(--muted);margin-top:4px">877-570-9775 · T9 mnemonic: X=9 R=7 P=7 L=5</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ THE BOND ═══════════ -->
+<section id="bond" style="background:linear-gradient(180deg,rgba(201,168,76,0.02),transparent)">
+  <div class="container fi">
+    <div class="sec-head">
+      <span class="sec-num">01 — The Foundation</span>
+      <h2 class="sec-title">$500M Secured MTN Program</h2>
+      <p class="sec-sub">TC Advantage 5% Secured Medium Term Notes — 50 notes issued. Tranche 1 ($10M) pledged to OPTKAS1-MAIN SPV.</p>
+    </div>
+
+    <div class="bigs">
+      <div class="big"><div class="v">$500M</div><div class="d">Program Size</div></div>
+      <div class="big"><div class="v">$10M</div><div class="d">Tranche 1</div></div>
+      <div class="big"><div class="v">$4M</div><div class="d">Facility Target</div></div>
+      <div class="big"><div class="v">250%</div><div class="d">Coverage</div></div>
+      <div class="big"><div class="v">5%</div><div class="d">Coupon</div></div>
+    </div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Issuer</td><td>TC Advantage Traders, Ltd. (Bahamas)</td></tr>
+          <tr><td>Program Size</td><td class="mono">$500,000,000 (50 notes issued)</td></tr>
+          <tr><td>Tranche 1 Face Value</td><td class="mono">$10,000,000</td></tr>
+          <tr><td>CUSIP (144A)</td><td class="mono">87225HAB4</td></tr>
+          <tr><td>CUSIP (Reg S)</td><td class="mono">P9000TAA8</td></tr>
+          <tr><td>ISIN (144A)</td><td class="mono">US87225HAB42</td></tr>
+          <tr><td>ISIN (Reg S)</td><td class="mono">BSP9000TAA83</td></tr>
+          <tr><td>Coupon Rate</td><td>5.00% per annum (semi-annual)</td></tr>
+          <tr><td>Maturity</td><td>May 31, 2030</td></tr>
+          <tr><td>Certificate Serial</td><td class="mono">TCAT-10M-2030-001</td></tr>
+          <tr><td>Transfer Agent</td><td>Securities Transfer Corporation (Plano, TX) <span class="badge b-green">✓ CONFIRMED</span></td></tr>
+          <tr><td>STC Position</td><td>On file — Jan 23, 2026, Confirmed Feb 1 <span class="badge b-green">✓ ON FILE</span></td></tr>
+          <tr><td>Settlement</td><td>DTC/DWAC FAST System</td></tr>
+          <tr><td>Holder</td><td>OPTKAS1-MAIN SPV (single beneficial owner)</td></tr>
+          <tr><td>Form</td><td>Physical certificate — certificated, not book-entry</td></tr>
+          <tr><td>Insurance</td><td>$25.75M blanket — C.J. Coleman &amp; Co., London (FCA), 2024–2029</td></tr>
+          <tr><td>Additional Collateral</td><td>$6.6M real estate (East Durham, Greene County, NY) — evidence weight</td></tr>
+          <tr><td>Facility Target</td><td>$4,000,000 at 40% LTV (250% collateral coverage)</td></tr>
+          <tr><td>Gating Items</td><td><span class="badge b-green" style="font-size:0.8rem">ZERO REMAINING</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ XRPL SHOWCASE ═══════════ -->
+<section id="xrpl">
+  <div class="container fi">
+    <div class="sec-head">
+      <span class="sec-num">02 — XRPL Settlement Layer</span>
+      <h2 class="sec-title">Native XRPL Capital Markets</h2>
+      <p class="sec-sub">6 tokens, 6 AMM pools, 6 funded wallets, 4 stablecoin trustlines — all on XRPL mainnet (wss://xrplcluster.com)</p>
+    </div>
+
+    <!-- Phone banner -->
+    <div class="phone-banner">
+      <div style="font-size:0.75rem;color:var(--purple);text-transform:uppercase;letter-spacing:2px;font-weight:600">XRPL Ingress Line</div>
+      <div class="phone-number">877-570-<span class="xrpl">XRPL</span></div>
+      <div style="font-size:0.8rem;color:var(--dim);margin-top:4px">
+        <span class="mono">877-570-9775</span> · T9: X=9 R=7 P=7 L=5 · Canonical mnemonic binding
+      </div>
+      <div style="display:flex;gap:6px;justify-content:center;margin-top:12px;flex-wrap:wrap">
+        <span class="badge b-purple">XRPL Explorer</span>
+        <span class="badge b-gold">Attestation</span>
+        <span class="badge b-green">Issuer Endpoints</span>
+      </div>
+    </div>
+
+    <!-- Token grid -->
+    <h3 style="text-align:center;margin:2.5rem 0 1rem;font-size:1.1rem">6 Tokens Issued on XRPL Mainnet</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Token</th><th>Type</th><th>Trust Limit</th><th>Freeze</th><th>Transferable</th><th>Legal Basis</th></tr></thead>
+        <tbody>
+          <tr><td><span class="mono" style="color:var(--gold);font-weight:700">OPTKAS</span></td><td>Bond Claim Receipt</td><td class="mono">100,000,000</td><td style="color:var(--green)">✓ Yes</td><td style="color:var(--muted)">✗ No</td><td style="font-size:0.75rem">Off-chain bond indenture &amp; participation agreement</td></tr>
+          <tr><td><span class="mono" style="color:var(--green);font-weight:700">SOVBND</span></td><td>Sovereign Bond</td><td class="mono">100,000,000</td><td style="color:var(--green)">✓ Yes</td><td style="color:var(--muted)">✗ No</td><td style="font-size:0.75rem">Sovereign bond participation</td></tr>
+          <tr><td><span class="mono" style="color:var(--purple);font-weight:700">IMPERIA</span></td><td>Participation</td><td class="mono">100,000,000</td><td style="color:var(--green)">✓ Yes</td><td style="color:var(--muted)">✗ No</td><td style="font-size:0.75rem">Infrastructure participation token</td></tr>
+          <tr><td><span class="mono" style="color:var(--blue);font-weight:700">GEMVLT</span></td><td>Gem Vault</td><td class="mono">100,000,000</td><td style="color:var(--green)">✓ Yes</td><td style="color:var(--muted)">✗ No</td><td style="font-size:0.75rem">Gem-backed vault representation</td></tr>
+          <tr><td><span class="mono" style="color:var(--cyan);font-weight:700">TERRAVL</span></td><td>Real Estate</td><td class="mono">100,000,000</td><td style="color:var(--green)">✓ Yes</td><td style="color:var(--muted)">✗ No</td><td style="font-size:0.75rem">Real estate collateral representation</td></tr>
+          <tr><td><span class="mono" style="color:#f97316;font-weight:700">PETRO</span></td><td>Energy</td><td class="mono">100,000,000</td><td style="color:var(--green)">✓ Yes</td><td style="color:var(--muted)">✗ No</td><td style="font-size:0.75rem">Energy asset representation</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- XRPL Wallets -->
+    <h3 style="text-align:center;margin:2.5rem 0 1rem;font-size:1.1rem">6 XRPL Mainnet Wallets</h3>
+    <div class="g3">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span style="font-weight:700">🏛️ Issuer</span>
+          <span class="badge b-purple">XRPL</span>
         </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-container">
-            <h1 class="hero-title" data-aos="fade-up">
-                The Future of Institutional Finance
-            </h1>
-            <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
-                Enhanced TC Infrastructure v2.0 combines traditional banking with digital asset innovation, 
-                delivering $1.26B+ capacity across multi-currency escrow and USDT issuance platforms.
-            </p>
-            
-            <div class="hero-stats" data-aos="fade-up" data-aos-delay="400">
-                <div class="hero-stat">
-                    <div class="hero-stat-value">$1.26B+</div>
-                    <div class="hero-stat-label">Total Enhanced Capacity</div>
-                </div>
-                <div class="hero-stat">
-                    <div class="hero-stat-value">6</div>
-                    <div class="hero-stat-label">Supported Currencies</div>
-                </div>
-                <div class="hero-stat">
-                    <div class="hero-stat-value">1:1</div>
-                    <div class="hero-stat-label">USDT Fiat Backing</div>
-                </div>
-                <div class="hero-stat">
-                    <div class="hero-stat-value">83.3%</div>
-                    <div class="hero-stat-label">System Operational</div>
-                </div>
-            </div>
+        <div class="mono" style="font-size:0.7rem;color:var(--muted);word-break:break-all;margin-bottom:6px">rpraqLjKmDB9a43F9fURWA2bVaywkyJua3</div>
+        <div style="font-size:0.8rem;color:var(--dim)">Mints ALL 6 tokens. DefaultRipple ON. Single minting authority.</div>
+        <a href="https://livenet.xrpl.org/accounts/rpraqLjKmDB9a43F9fURWA2bVaywkyJua3" target="_blank" rel="noopener" style="font-size:0.7rem;color:var(--blue);text-decoration:none;display:block;margin-top:6px">🔗 View on XRPL Explorer →</a>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span style="font-weight:700">💰 Treasury</span>
+          <span class="badge b-purple">XRPL</span>
         </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" class="section">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2 class="section-title">Enterprise-Grade Financial Infrastructure</h2>
-                <p class="section-subtitle">
-                    Seamlessly bridging traditional finance with digital innovation through institutional-grade security and compliance.
-                </p>
-            </div>
-            
-            <div class="features-grid">
-                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
-                    <i class="feature-icon fas fa-university"></i>
-                    <h3 class="feature-title">Tier 1 Banking Partners</h3>
-                    <p class="feature-description">
-                        Institutional custody through JPMorgan Chase, Deutsche Bank, Barclays, and other Tier 1 institutions. 
-                        Full FDIC protection with segregated client accounts and real-time settlement capabilities.
-                    </p>
-                </div>
-                
-                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
-                    <i class="feature-icon fas fa-coins"></i>
-                    <h3 class="feature-title">USDT Issuance Engine</h3>
-                    <p class="feature-description">
-                        Instant USDT minting with 1:1 fiat backing on XRPL blockchain. Transparent reserve management 
-                        with real-time attestations and 24/7 redemption availability.
-                    </p>
-                </div>
-                
-                <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
-                    <i class="feature-icon fas fa-globe"></i>
-                    <h3 class="feature-title">Multi-Currency Operations</h3>
-                    <p class="feature-description">
-                        Support for USD, EUR, GBP, CAD, AUD, and JPY with competitive FX rates. 
-                        Cross-border settlement in T+1 for major currencies with full regulatory compliance.
-                    </p>
-                </div>
-                
-                <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
-                    <i class="feature-icon fas fa-shield-alt"></i>
-                    <h3 class="feature-title">Regulatory Excellence</h3>
-                    <p class="feature-description">
-                        Comprehensive money transmission licensing, SOC 2 Type II compliance, and institutional-grade 
-                        AML/KYC procedures. Full audit trail and regulatory reporting capabilities.
-                    </p>
-                </div>
-                
-                <div class="feature-card" data-aos="fade-up" data-aos-delay="500">
-                    <i class="feature-icon fas fa-chart-line"></i>
-                    <h3 class="feature-title">Enhanced Credit Facilities</h3>
-                    <p class="feature-description">
-                        $760M traditional credit capacity enhanced with fiat-backed digital asset lines. 
-                        Flexible LTV ratios up to 95% with competitive institutional rates.
-                    </p>
-                </div>
-                
-                <div class="feature-card" data-aos="fade-up" data-aos-delay="600">
-                    <i class="feature-icon fas fa-cogs"></i>
-                    <h3 class="feature-title">API-First Integration</h3>
-                    <p class="feature-description">
-                        Enterprise-ready APIs with 99.9% uptime SLA. Comprehensive documentation, 
-                        sandbox environments, and dedicated technical support for institutional clients.
-                    </p>
-                </div>
-            </div>
+        <div class="mono" style="font-size:0.7rem;color:var(--muted);word-break:break-all;margin-bottom:6px">r3JfTyqU9jwnXh2aWCwr738fb9HygNmBys</div>
+        <div style="font-size:0.8rem;color:var(--dim)">Primary asset custody. RequireDestTag ON. 4 stablecoin + 3 OPTKAS trustlines.</div>
+        <a href="https://livenet.xrpl.org/accounts/r3JfTyqU9jwnXh2aWCwr738fb9HygNmBys" target="_blank" rel="noopener" style="font-size:0.7rem;color:var(--blue);text-decoration:none;display:block;margin-top:6px">🔗 View on XRPL Explorer →</a>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span style="font-weight:700">🔒 Escrow</span>
+          <span class="badge b-purple">XRPL</span>
         </div>
-    </section>
-
-    <!-- Interactive Demo Section -->
-    <section id="demo" class="section demo-section">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2 class="section-title">Live USDT Issuance Demonstration</h2>
-                <p class="section-subtitle">
-                    Experience our institutional-grade fiat-to-USDT conversion process in real-time.
-                </p>
-            </div>
-            
-            <div class="demo-container">
-                <div class="demo-content" data-aos="fade-right">
-                    <h3 style="font-size: 2rem; margin-bottom: 1.5rem; color: var(--gold-color);">
-                        Professional Process Flow
-                    </h3>
-                    <div style="space-y: 1rem;">
-                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; padding: 1rem; background: var(--glass-effect); border-radius: 12px;">
-                            <i class="fas fa-check-circle" style="color: var(--success-color); font-size: 1.2rem;"></i>
-                            <span>Institutional KYC/AML verification</span>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; padding: 1rem; background: var(--glass-effect); border-radius: 12px;">
-                            <i class="fas fa-university" style="color: var(--success-color); font-size: 1.2rem;"></i>
-                            <span>Tier 1 bank escrow account creation</span>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; padding: 1rem; background: var(--glass-effect); border-radius: 12px;">
-                            <i class="fas fa-shield" style="color: var(--success-color); font-size: 1.2rem;"></i>
-                            <span>FDIC-insured segregated custody</span>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; padding: 1rem; background: var(--glass-effect); border-radius: 12px;">
-                            <i class="fas fa-coins" style="color: var(--success-color); font-size: 1.2rem;"></i>
-                            <span>1:1 USDT issuance on XRPL</span>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; padding: 1rem; background: var(--glass-effect); border-radius: 12px;">
-                            <i class="fas fa-certificate" style="color: var(--success-color); font-size: 1.2rem;"></i>
-                            <span>Blockchain attestation & audit trail</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="demo-interface" data-aos="fade-left">
-                    <div class="demo-header">
-                        <div class="status-indicator"></div>
-                        <span class="demo-title">LIVE PRODUCTION INTERFACE</span>
-                    </div>
-                    <form class="demo-form" id="demoForm">
-                        <div class="form-group">
-                            <label class="form-label">Base Currency</label>
-                            <select class="form-select" id="currency" required>
-                                <option value="USD">🇺🇸 USD - US Dollar</option>
-                                <option value="EUR">🇪🇺 EUR - Euro</option>
-                                <option value="GBP">🇬🇧 GBP - British Pound</option>
-                                <option value="CAD">🇨🇦 CAD - Canadian Dollar</option>
-                                <option value="AUD">🇦🇺 AUD - Australian Dollar</option>
-                                <option value="JPY">🇯🇵 JPY - Japanese Yen</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Deposit Amount</label>
-                            <input type="number" class="form-input" id="amount" placeholder="Enter amount (min. $100,000)" min="100000" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Use Case</label>
-                            <select class="form-select" id="purpose" required>
-                                <option value="">Select purpose</option>
-                                <option value="Treasury Management">Treasury Management</option>
-                                <option value="Cross-Border Payments">Cross-Border Payments</option>
-                                <option value="Liquidity Management">Liquidity Management</option>
-                                <option value="Yield Generation">Yield Generation</option>
-                                <option value="Settlement Operations">Settlement Operations</option>
-                                <option value="Risk Management">Risk Management</option>
-                            </select>
-                        </div>
-                        
-                        <button type="submit" class="btn-primary">
-                            <i class="fas fa-rocket"></i> Calculate USDT Issuance
-                        </button>
-                        
-                        <div class="result-display" id="resultDisplay">
-                            <div class="result-title">
-                                <i class="fas fa-check-circle"></i>
-                                Transaction Simulation Complete
-                            </div>
-                            <div class="result-details" id="resultDetails"></div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+        <div class="mono" style="font-size:0.7rem;color:var(--muted);word-break:break-all;margin-bottom:6px">rBC9g8YVU6HZouStFcdE5a8kmsob8napKD</div>
+        <div style="font-size:0.8rem;color:var(--dim)">Bond escrow reserve. Crypto-condition + time-based release. 90-day max.</div>
+        <a href="https://livenet.xrpl.org/accounts/rBC9g8YVU6HZouStFcdE5a8kmsob8napKD" target="_blank" rel="noopener" style="font-size:0.7rem;color:var(--blue);text-decoration:none;display:block;margin-top:6px">🔗 View on XRPL Explorer →</a>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span style="font-weight:700">📜 Attestation</span>
+          <span class="badge b-purple">XRPL</span>
         </div>
-    </section>
-
-    <!-- Capabilities Section -->
-    <section id="capabilities" class="section">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2 class="section-title">Institutional Capacity & Performance</h2>
-                <p class="section-subtitle">
-                    Proven infrastructure supporting enterprise-scale operations with institutional-grade security and compliance.
-                </p>
-            </div>
-            
-            <div class="capabilities-grid">
-                <div class="capability-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="capability-icon">
-                        <i class="fas fa-building"></i>
-                    </div>
-                    <h3 class="capability-title">Total Portfolio Value</h3>
-                    <div class="capability-value">$950M</div>
-                    <p style="color: var(--text-secondary);">Verified institutional assets under management</p>
-                </div>
-                
-                <div class="capability-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="capability-icon">
-                        <i class="fas fa-credit-card"></i>
-                    </div>
-                    <h3 class="capability-title">Enhanced Credit Capacity</h3>
-                    <div class="capability-value">$760M</div>
-                    <p style="color: var(--text-secondary);">Traditional & digital asset-backed credit lines</p>
-                </div>
-                
-                <div class="capability-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="capability-icon">
-                        <i class="fas fa-university"></i>
-                    </div>
-                    <h3 class="capability-title">Multi-Currency Escrow</h3>
-                    <div class="capability-value">$500M+</div>
-                    <p style="color: var(--text-secondary);">Tier 1 banking custody across 6 currencies</p>
-                </div>
-                
-                <div class="capability-card" data-aos="fade-up" data-aos-delay="400">
-                    <div class="capability-icon">
-                        <i class="fas fa-chart-bar"></i>
-                    </div>
-                    <h3 class="capability-title">Monthly Revenue Potential</h3>
-                    <div class="capability-value">$32M</div>
-                    <p style="color: var(--text-secondary);">Combined traditional & digital revenue streams</p>
-                </div>
-            </div>
+        <div class="mono" style="font-size:0.7rem;color:var(--muted);word-break:break-all;margin-bottom:6px">rEUxqL1Rmzciu31Sq7ocx6KZyt6htqjjBv</div>
+        <div style="font-size:0.8rem;color:var(--dim)">Hash anchoring + XLS-20 NFTs. Evidence only — NO economic value.</div>
+        <a href="https://livenet.xrpl.org/accounts/rEUxqL1Rmzciu31Sq7ocx6KZyt6htqjjBv" target="_blank" rel="noopener" style="font-size:0.7rem;color:var(--blue);text-decoration:none;display:block;margin-top:6px">🔗 View on XRPL Explorer →</a>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span style="font-weight:700">🌊 AMM Liquidity</span>
+          <span class="badge b-purple">XRPL</span>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer id="contact" class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-section">
-                    <h3>Enhanced TC Infrastructure v2.0</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
-                        Institutional financial platform bridging traditional banking with digital asset innovation.
-                    </p>
-                    <div style="display: flex; gap: 1rem;">
-                        <div class="status-indicator"></div>
-                        <span style="color: var(--success-color); font-weight: 500;">All Systems Operational</span>
-                    </div>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Core Services</h3>
-                    <ul class="footer-links">
-                        <li><a href="#features">Multi-Currency Escrow</a></li>
-                        <li><a href="#features">USDT Issuance & Redemption</a></li>
-                        <li><a href="#features">Enhanced Credit Facilities</a></li>
-                        <li><a href="#features">Cross-Border Settlement</a></li>
-                        <li><a href="#features">Treasury Management</a></li>
-                        <li><a href="#features">Institutional APIs</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Business Development</h3>
-                    <ul class="footer-links">
-                        <li><i class="fas fa-envelope"></i> partnerships@optkas1.com</li>
-                        <li><i class="fas fa-phone"></i> +1-555-OPTKAS1</li>
-                        <li><i class="fas fa-globe"></i> 24/7 Institutional Support</li>
-                        <li><i class="fas fa-shield-alt"></i> SOC 2 Type II Compliant</li>
-                        <li><i class="fas fa-university"></i> Tier 1 Banking Partners</li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>System Status</h3>
-                    <ul class="footer-links">
-                        <li><span style="color: var(--success-color);">✓</span> Production Ready: 83.3%</li>
-                        <li><span style="color: var(--success-color);">✓</span> Full Regulatory Compliance</li>
-                        <li><span style="color: var(--success-color);">✓</span> Enterprise Security Standards</li>
-                        <li><span style="color: var(--success-color);">✓</span> Institutional Grade Infrastructure</li>
-                        <li><span style="color: var(--gold-color);">⚡</span> Ready for Immediate Deployment</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2026 Enhanced TC Infrastructure v2.0. All rights reserved. | Deployed February 6, 2026 | Production Ready</p>
-            </div>
+        <div class="mono" style="font-size:0.7rem;color:var(--muted);word-break:break-all;margin-bottom:6px">raCevnYFkqAvkDAoeQ7uttf9okSaWxXFuP</div>
+        <div style="font-size:0.8rem;color:var(--dim)">6 AMM pools: OPTKAS/XRP, SOVBND/XRP, IMPERIA/XRP, GEMVLT/XRP, TERRAVL/XRP, PETRO/XRP.</div>
+        <a href="https://livenet.xrpl.org/accounts/raCevnYFkqAvkDAoeQ7uttf9okSaWxXFuP" target="_blank" rel="noopener" style="font-size:0.7rem;color:var(--blue);text-decoration:none;display:block;margin-top:6px">🔗 View on XRPL Explorer →</a>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span style="font-weight:700">🤖 Trading</span>
+          <span class="badge b-purple">XRPL</span>
         </div>
-    </footer>
+        <div class="mono" style="font-size:0.7rem;color:var(--muted);word-break:break-all;margin-bottom:6px">rBAAd5z7e4Yvy4QzZ37WjmbZj1dnzJaTfY</div>
+        <div style="font-size:0.8rem;color:var(--dim)">Algo execution: TWAP, VWAP, limit. Circuit breaker 5%, kill switch 10%.</div>
+        <a href="https://livenet.xrpl.org/accounts/rBAAd5z7e4Yvy4QzZ37WjmbZj1dnzJaTfY" target="_blank" rel="noopener" style="font-size:0.7rem;color:var(--blue);text-decoration:none;display:block;margin-top:6px">🔗 View on XRPL Explorer →</a>
+      </div>
+    </div>
 
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    <script>
-        // Initialize AOS animations
-        AOS.init({
-            duration: 800,
-            easing: 'ease-out-cubic',
-            once: true,
-            offset: 100
-        });
+    <!-- Stablecoin Trustlines -->
+    <h3 style="text-align:center;margin:2.5rem 0 1rem;font-size:1.1rem">💵 XRPL Stablecoin Trustlines</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Provider</th><th>Issuer Address</th><th>Trust Limit</th><th>Tier</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Bitstamp</strong></td><td class="mono" style="font-size:0.7rem">rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B</td><td class="mono">500,000</td><td><span class="badge b-green">Tier 1</span></td></tr>
+          <tr><td><strong>GateHub</strong></td><td class="mono" style="font-size:0.7rem">rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq</td><td class="mono">250,000</td><td><span class="badge b-gold">Tier 2</span></td></tr>
+          <tr><td><strong>Tether (USDT)</strong></td><td class="mono" style="font-size:0.7rem">rE85pdvr4icCPh9cpPr1HrSCVJCUhZ1Dqm</td><td class="mono">1,000,000</td><td><span class="badge b-green">Tier 1</span></td></tr>
+          <tr><td><strong>Circle (USDC)</strong></td><td class="mono" style="font-size:0.7rem">rcvxE9PS9YBwxtGg1qNeewV6ZB3wGubZq</td><td class="mono">1,000,000</td><td><span class="badge b-green">Tier 1</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
 
-        // Demo form functionality
-        document.getElementById('demoForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const currency = document.getElementById('currency').value;
-            const amount = parseFloat(document.getElementById('amount').value);
-            const purpose = document.getElementById('purpose').value;
-            
-            // Real-time exchange rates for institutional calculation
-            const exchangeRates = {
-                'USD': 1.0000,
-                'EUR': 1.0847,
-                'GBP': 1.2634,
-                'CAD': 0.7421,
-                'AUD': 0.6598,
-                'JPY': 0.006731
-            };
-            
-            if (amount && amount >= 100000 && purpose) {
-                const usdEquivalent = amount * exchangeRates[currency];
-                const institutionalFee = usdEquivalent * 0.0005; // 0.05% institutional rate
-                const networkFee = 50; // Fixed XRPL network fee
-                const totalFees = institutionalFee + networkFee;
-                const usdtIssued = usdEquivalent - totalFees;
-                const processingTime = ['USD', 'GBP'].includes(currency) ? 'Same day' : 'T+1';
-                const escrowAccount = `ESC${currency}${new Date().getFullYear()}${Math.floor(Math.random() * 10000).toString().padStart(4, '0')}`;
-                
-                const resultDisplay = document.getElementById('resultDisplay');
-                const resultDetails = document.getElementById('resultDetails');
-                
-                resultDetails.innerHTML = `
-                    <div style="display: grid; gap: 0.5rem; font-family: 'Courier New', monospace;">
-                        <div><strong>💰 Fiat Deposit:</strong> ${amount.toLocaleString()} ${currency}</div>
-                        <div><strong>💵 USD Equivalent:</strong> $${usdEquivalent.toLocaleString('en-US', {minimumFractionDigits: 2})}</div>
-                        <div><strong>💎 USDT Issued:</strong> ${usdtIssued.toLocaleString('en-US', {minimumFractionDigits: 2})} USDT</div>
-                        <div><strong>🏦 Escrow Account:</strong> ${escrowAccount}</div>
-                        <div><strong>⚡ Processing Time:</strong> ${processingTime}</div>
-                        <div><strong>🎯 Use Case:</strong> ${purpose}</div>
-                        <div><strong>🔐 Backing Ratio:</strong> 1:1 (100% reserved)</div>
-                        <div><strong>⏰ Settlement:</strong> XRPL Blockchain</div>
-                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--success-color);">
-                            <div><strong>📊 Institutional Fee:</strong> $${institutionalFee.toLocaleString('en-US', {minimumFractionDigits: 2})} (0.05%)</div>
-                            <div><strong>🌐 Network Fee:</strong> $${networkFee.toFixed(2)}</div>
-                            <div><strong>💼 Ready for institutional deployment</strong></div>
-                        </div>
-                    </div>
-                `;
-                
-                resultDisplay.style.display = 'block';
-                
-                // Hide result after 15 seconds
-                setTimeout(() => {
-                    resultDisplay.style.display = 'none';
-                }, 15000);
-                
-                // Scroll to result
-                resultDisplay.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                
-            } else {
-                alert('Please complete all fields with minimum $100,000 institutional amount');
-            }
-        });
+<!-- ═══════════ ARCHITECTURE ═══════════ -->
+<section id="arch" style="background:linear-gradient(180deg,rgba(16,185,129,0.02),transparent)">
+  <div class="container fi">
+    <div class="sec-head">
+      <span class="sec-num">03 — System Architecture</span>
+      <h2 class="sec-title">5-Layer Sovereign Stack</h2>
+      <p class="sec-sub">Legal is always primary. XRPL is the settlement layer. Blockchain is evidence, not custody.</p>
+    </div>
 
-        // Smooth scrolling for navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    const headerOffset = 80;
-                    const elementPosition = target.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    <div style="max-width:900px;margin:0 auto 3rem">
+      <div class="layer" style="background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.25)">
+        <span class="ln" style="color:var(--purple)">L5</span>
+        <div><div class="lt">XRPL + Stellar Settlement</div><div class="ld">6 IOUs · Trustlines · Escrows · 9 AMM Pools · DEX Orders · 7 NFTs — Mainnet Live</div></div>
+      </div>
+      <div class="layer" style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25)">
+        <span class="ln" style="color:var(--blue)">L4</span>
+        <div><div class="lt">Ledger Evidence</div><div class="ld">SHA-256 Hash Anchoring · Attestation NFTs · Settlement Receipts · Dual-Chain Timestamped Proofs</div></div>
+      </div>
+      <div class="layer" style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25)">
+        <span class="ln" style="color:var(--green)">L3</span>
+        <div><div class="lt">Automation &amp; Intelligence</div><div class="ld">28 Packages · 55+ Scripts · Risk Analytics · AI Agents · Borrowing Base · Waterfall · Trading</div></div>
+      </div>
+      <div class="layer" style="background:rgba(249,115,22,0.08);border:1px solid rgba(249,115,22,0.25)">
+        <span class="ln" style="color:#f97316">L2</span>
+        <div><div class="lt">Custody &amp; Banking</div><div class="ld">STC Custody · DTC/DWAC · Insurance ($25.75M) · FX Providers · Regulated Partners</div></div>
+      </div>
+      <div class="layer" style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.35)">
+        <span class="ln" style="color:var(--gold)">L1</span>
+        <div><div class="lt" style="color:var(--gold)">Legal &amp; Control — PRIMARY</div><div class="ld">SPV · $500M Bond Indenture · UCC Filings · Control Agreements · Transfer Agent · Jurisdictional Law</div></div>
+      </div>
+    </div>
 
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
+    <div class="g4">
+      <div class="kpi"><span class="kpi-v" style="color:var(--gold)">28</span><span class="kpi-l">Packages</span></div>
+      <div class="kpi"><span class="kpi-v" style="color:var(--green)">55+</span><span class="kpi-l">Scripts</span></div>
+      <div class="kpi"><span class="kpi-v" style="color:var(--blue)">7</span><span class="kpi-l">Dashboards</span></div>
+      <div class="kpi"><span class="kpi-v" style="color:var(--purple)">25</span><span class="kpi-l">Phases Built</span></div>
+      <div class="kpi"><span class="kpi-v" style="color:var(--cyan)">36</span><span class="kpi-l">Data Room Docs</span></div>
+      <div class="kpi"><span class="kpi-v" style="color:var(--gold)">3</span><span class="kpi-l">Apps</span></div>
+    </div>
+  </div>
+</section>
 
-        // Live status updates
-        function updateSystemStatus() {
-            const indicators = document.querySelectorAll('.status-indicator');
-            indicators.forEach(indicator => {
-                indicator.style.animation = 'none';
-                indicator.offsetHeight; // Trigger reflow
-                indicator.style.animation = 'pulse-glow 2s infinite';
-            });
-        }
+<!-- ═══════════ RESERVE VAULT ═══════════ -->
+<section id="vault">
+  <div class="container fi">
+    <div class="sec-head">
+      <span class="sec-num">04 — Reserve Vault</span>
+      <h2 class="sec-title">Circle of Life Engine</h2>
+      <p class="sec-sub">1,215 lines of institutional-grade reserve management. Assets in, yield out, proof attested to XRPL.</p>
+    </div>
 
-        // Update status every 5 seconds
-        setInterval(updateSystemStatus, 5000);
+    <div class="bigs">
+      <div class="big"><div class="v">$4.11M</div><div class="d">Total NAV</div></div>
+      <div class="big"><div class="v">$1.002</div><div class="d">PRR Share Price</div></div>
+      <div class="big"><div class="v">125%</div><div class="d">Reserve Ratio</div></div>
+      <div class="big"><div class="v">8</div><div class="d">Asset Types</div></div>
+    </div>
 
-        // Add dynamic number counting effect for hero stats
-        function animateNumbers() {
-            const stats = document.querySelectorAll('.hero-stat-value');
-            stats.forEach(stat => {
-                const target = stat.textContent;
-                if (target.includes('$')) {
-                    let current = 0;
-                    const increment = 0.1;
-                    const timer = setInterval(() => {
-                        current += increment;
-                        if (current >= 1.26) {
-                            current = 1.26;
-                            clearInterval(timer);
-                        }
-                        stat.textContent = `$${current.toFixed(2)}B+`;
-                    }, 30);
-                }
-            });
-        }
+    <div style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;margin:2rem 0;font-size:0.8rem">
+      <span class="badge b-gold" style="padding:8px 14px;font-size:0.8rem">Assets</span>
+      <span style="color:var(--gold)">→</span>
+      <span class="badge b-green" style="padding:8px 14px;font-size:0.8rem">Reserve Vault</span>
+      <span style="color:var(--gold)">→</span>
+      <span class="badge b-purple" style="padding:8px 14px;font-size:0.8rem">XRPL Attestation NFT</span>
+      <span style="color:var(--gold)">→</span>
+      <span class="badge b-blue" style="padding:8px 14px;font-size:0.8rem">Bond Coupon</span>
+      <span style="color:var(--gold)">→</span>
+      <span class="badge b-gold" style="padding:8px 14px;font-size:0.8rem">Yield</span>
+      <span style="color:var(--gold)">↻</span>
+    </div>
 
-        // Trigger number animation on scroll
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && entry.target.classList.contains('hero-stats')) {
-                    animateNumbers();
-                    observer.unobserve(entry.target);
-                }
-            });
-        });
+    <div class="g3" style="margin-top:2rem;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
+      <div class="card" style="text-align:center"><div style="font-size:1.8rem;margin-bottom:8px">🏦</div><div style="font-weight:700;margin-bottom:4px">Deposit &amp; Mint</div><div style="font-size:0.8rem;color:var(--dim)">Deposit assets → haircut → mint PRR shares at NAV/share</div></div>
+      <div class="card" style="text-align:center"><div style="font-size:1.8rem;margin-bottom:8px">✂️</div><div style="font-weight:700;margin-bottom:4px">Yield Stripping</div><div style="font-size:0.8rem;color:var(--dim)">Principal Strip (locked) + Yield Strip (tradeable on XRPL)</div></div>
+      <div class="card" style="text-align:center"><div style="font-size:1.8rem;margin-bottom:8px">🎫</div><div style="font-weight:700;margin-bottom:4px">NFT-Gated Access</div><div style="font-size:0.8rem;color:var(--dim)">XLS-20 NFTs: Founder (Taxon 1) · Institutional (2) · Genesis (3)</div></div>
+      <div class="card" style="text-align:center"><div style="font-size:1.8rem;margin-bottom:8px">📜</div><div style="font-weight:700;margin-bottom:4px">XRPL Attestation</div><div style="font-size:0.8rem;color:var(--dim)">Reserve snapshots → SHA-256 → XLS-20 NFT — permanent on XRPL</div></div>
+    </div>
+  </div>
+</section>
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const heroStats = document.querySelector('.hero-stats');
-            if (heroStats) {
-                observer.observe(heroStats);
-            }
-        });
-    </script>
+<!-- ═══════════ PROOF ═══════════ -->
+<section id="proof" style="background:linear-gradient(180deg,rgba(139,92,246,0.02),transparent)">
+  <div class="container fi">
+    <div class="sec-head">
+      <span class="sec-num">05 — Permanent Proof</span>
+      <h2 class="sec-title">Immutable. Verifiable. Forever.</h2>
+      <p class="sec-sub">Live on XRPL + Stellar mainnet right now. Anyone can verify.</p>
+    </div>
+
+    <div style="max-width:800px;margin:0 auto">
+      <div class="card" style="margin-bottom:1.5rem;border-left:3px solid var(--purple)">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+          <span class="badge b-purple">XRPL MAINNET</span>
+          <span style="font-size:0.8rem;color:var(--dim)">Reserve Vault Attestation</span>
+        </div>
+        <div class="mono" style="font-size:0.75rem;color:var(--gold);word-break:break-all;line-height:1.8">8C8922A650A8EA0ABA03024567535D9DA9B65AA547B57CC728B16B1338842BC2</div>
+        <div style="font-size:0.75rem;color:var(--muted);margin-top:6px">NAV, holdings, share price — anchored permanently via 877-570-XRPL attestation wallet</div>
+        <a href="https://livenet.xrpl.org/transactions/8C8922A650A8EA0ABA03024567535D9DA9B65AA547B57CC728B16B1338842BC2" target="_blank" rel="noopener" style="font-size:0.7rem;color:var(--blue);text-decoration:none;display:block;margin-top:6px">🔗 Verify on XRPL Explorer →</a>
+      </div>
+      <div class="card" style="border-left:3px solid var(--cyan)">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+          <span class="badge b-blue">STELLAR MAINNET</span>
+          <span style="font-size:0.8rem;color:var(--dim)">Dual-Chain Proof</span>
+        </div>
+        <div class="mono" style="font-size:0.75rem;color:var(--gold);word-break:break-all;line-height:1.8">a6c224cfe275baccf00775214d40b29a4abdffe193ac36e576023aad08629d18</div>
+        <div style="font-size:0.75rem;color:var(--muted);margin-top:6px">Same attestation mirrored to Stellar manage_data — dual-chain redundancy</div>
+        <a href="https://stellar.expert/explorer/public/tx/a6c224cfe275baccf00775214d40b29a4abdffe193ac36e576023aad08629d18" target="_blank" rel="noopener" style="font-size:0.7rem;color:var(--cyan);text-decoration:none;display:block;margin-top:6px">🔗 Verify on Stellar Expert →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CTA ═══════════ -->
+<section style="text-align:center;padding:5rem 2rem;background:linear-gradient(180deg,transparent,rgba(201,168,76,0.03),transparent)">
+  <div class="container fi">
+    <h2 style="font-size:clamp(2rem,4vw,3rem);font-weight:900;margin-bottom:1rem;letter-spacing:-1px">
+      $500M program. XRPL-native.<br>
+      <span style="color:var(--gold)">Every piece is real and verifiable.</span>
+    </h2>
+    <p style="color:var(--dim);font-size:1.1rem;max-width:600px;margin:0 auto 1.5rem">
+      The full command brief — all wallets, 28 packages, 7 dashboards, game plan, lender targets.
+    </p>
+
+    <div class="phone-banner" style="margin:0 auto 2rem">
+      <div class="phone-number" style="font-size:clamp(1.5rem,3vw,2.2rem)">📞 877-570-<span class="xrpl">XRPL</span></div>
+      <div style="font-size:0.75rem;color:var(--muted)">XRPL Ingress · Attestation · Settlement</div>
+    </div>
+
+    <div class="btns">
+      <a href="team-portal.html" class="btn btn-gold">⚡ Open Team Portal</a>
+      <a href="data-room-portal.html" class="btn btn-out">📁 Data Room</a>
+      <a href="command-center.html" class="btn btn-out">🎖️ Command Center</a>
+    </div>
+    <div class="div"></div>
+    <div style="font-size:0.85rem;color:var(--muted);margin-top:1.5rem">
+      <strong style="color:var(--gold)">OPTKAS1-MAIN SPV</strong> · Wyoming, USA · Sovereign Financial Platform<br>
+      Phase 25 · February 7, 2026
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div>OPTKAS Sovereign Financial Platform · February 7, 2026</div>
+  <div style="margin-top:6px;color:var(--muted)">Classification: INTERNAL — Team Eyes Only · Not for distribution</div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(e => e.forEach(x => { if(x.isIntersecting) x.target.classList.add('vis') }), {threshold:0.1});
+document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+document.querySelectorAll('nav a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => { e.preventDefault(); document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'}) });
+});
+</script>
 </body>
 </html>
