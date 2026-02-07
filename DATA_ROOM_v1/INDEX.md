@@ -12,7 +12,7 @@
 
 This data room contains the complete institutional-grade documentation package for the OPTKAS1 secured credit facility backed by TC Advantage 5% Secured Medium Term Notes (CUSIP 87225HAB4).
 
-**Total Documents:** 35  
+**Total Documents:** 36  
 **Categories:** 7
 
 ---
@@ -175,6 +175,7 @@ Templates, execution plans, and supplementary materials.
 
 | Version | Date | Changes |
 |:--------|:-----|:--------|
+| 1.1 | 2026-02-07 | Added CREDIT_COMMITTEE_POSITIONING, funding wave attestation infrastructure |
 | 1.0 | 2026-02-02 | Initial freeze — 33 documents classified |
 
 **Next Version:** DATA_ROOM_v2 (lender-specific tailoring)

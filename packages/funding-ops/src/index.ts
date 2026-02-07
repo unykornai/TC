@@ -105,3 +105,25 @@ export {
   type ExceptionSeverity,
   type CertificateStatus,
 } from './borrowing-base';
+
+export {
+  FundingWaveAttestation,
+  FUNDING_WAVE_DOCUMENTS,
+  LENDER_DATA_ROOM_STRUCTURE,
+  type FundingWaveConfig,
+  type FundingWaveSummary,
+  type FundingWaveEvent,
+  type FundingWaveMemoSchema,
+  type FundingWaveReceipt,
+  type WaveDocument,
+  type WaveAttestation,
+  type WaveStatus,
+  type WaveVerificationResult,
+  type DocumentVerification,
+  type VerificationResult,
+  type DocumentCategory,
+  type DataRoomManifest,
+  type DataRoomFolder,
+  type DataRoomFile,
+  type LenderEmail,
+} from './funding-wave-attestation';

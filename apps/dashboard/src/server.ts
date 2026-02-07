@@ -30,6 +30,7 @@ import { AuditBridge, type AuditBridgeSummary } from '../../../packages/funding-
 import { SettlementConnector, type SettlementConnectorSummary } from '../../../packages/funding-ops/src/settlement-connector';
 import { SponsorNote, type SponsorNoteSummary } from '../../../packages/funding-ops/src/sponsor-note';
 import { BorrowingBase, type BorrowingBaseSummary } from '../../../packages/funding-ops/src/borrowing-base';
+import { FundingWaveAttestation, type FundingWaveSummary } from '../../../packages/funding-ops/src/funding-wave-attestation';
 
 const PORT = parseInt(process.env.PORT || '3000', 10);
 const CONFIG_PATH = process.env.CONFIG_PATH || path.join(__dirname, '..', '..', '..', 'config', 'platform-config.yaml');
@@ -46,6 +47,7 @@ const auditBridge = new AuditBridge({ network: 'testnet' });
 const settlementConnector = new SettlementConnector({ autoSettle: true });
 const sponsorNote = new SponsorNote();
 const borrowingBase = new BorrowingBase({ facilityLimit: 4_000_000, minimumCoverageRatio: 2.0 });
+const fundingWave = new FundingWaveAttestation({ xrplNetwork: 'mainnet', stellarNetwork: 'mainnet' });
 
 // ── Live ledger clients ────────────────────────────────────────
 const xrplClient = new XRPLClient({ network: 'testnet' });
@@ -101,6 +103,7 @@ interface DashboardState {
   settlementPipeline: SettlementConnectorSummary;
   sponsorNote: SponsorNoteSummary;
   borrowingBase: BorrowingBaseSummary;
+  fundingWave: FundingWaveSummary;
 }
 
 function loadConfig(): any {
@@ -179,6 +182,7 @@ export async function buildState(): Promise<DashboardState> {
     settlementPipeline: settlementConnector.getSummary(),
     sponsorNote: sponsorNote.getSummary(),
     borrowingBase: borrowingBase.getSummary(),
+    fundingWave: fundingWave.getSummary(),
   };
 
   // ── XRPL live balance queries ──────────────────────────────────
@@ -544,6 +548,25 @@ export function generateDashboardHTML(state: DashboardState): string {
       <div class="stat"><span class="label">Open Exceptions</span><span class="value">\${state.borrowingBase.openExceptions}</span></div>
       <div class="stat"><span class="label">Critical Exceptions</span><span class="value">\${state.borrowingBase.criticalExceptions}</span></div>
       <div class="stat"><span class="label">Status</span><span class="value">\${state.borrowingBase.status}</span></div>
+    </div>
+
+    <!-- Funding Wave Attestation -->
+    <div class="card">
+      <h2>Funding Wave Attestation</h2>
+      <div class="stat"><span class="label">Wave ID</span><span class="value">\${state.fundingWave.waveId || 'none'}</span></div>
+      <div class="stat"><span class="label">Status</span><span class="value">\${state.fundingWave.status}</span></div>
+      <div class="stat"><span class="label">Documents</span><span class="value">\${state.fundingWave.documentCount}</span></div>
+      <div class="stat"><span class="label">Root Hash</span><span class="value">\${state.fundingWave.rootHash ? state.fundingWave.rootHash.substring(0, 24) + '...' : 'not computed'}</span></div>
+      <div class="stat"><span class="label">XRPL Attested</span><span class="value"><span class="status-dot \${state.fundingWave.xrplAttested ? 'status-green' : 'status-yellow'}"></span>\${state.fundingWave.xrplAttested ? 'Yes' : 'Pending'}</span></div>
+      <div class="stat"><span class="label">XRPL TX Hash</span><span class="value">\${state.fundingWave.xrplTxHash ? state.fundingWave.xrplTxHash.substring(0, 24) + '...' : 'none'}</span></div>
+      <div class="stat"><span class="label">Stellar Attested</span><span class="value"><span class="status-dot \${state.fundingWave.stellarAttested ? 'status-green' : 'status-yellow'}"></span>\${state.fundingWave.stellarAttested ? 'Yes' : 'Pending'}</span></div>
+      <div class="stat"><span class="label">Stellar TX Hash</span><span class="value">\${state.fundingWave.stellarTxHash ? state.fundingWave.stellarTxHash.substring(0, 24) + '...' : 'none'}</span></div>
+      <div class="stat"><span class="label">Total Size</span><span class="value">\${(state.fundingWave.totalSize / 1024).toFixed(1)} KB</span></div>
+      <div class="stat"><span class="label">Version</span><span class="value">\${state.fundingWave.version}</span></div>
+      <div class="stat"><span class="label">Receipts Generated</span><span class="value">\${state.fundingWave.receiptsGenerated}</span></div>
+      <div class="stat"><span class="label">Verifications Run</span><span class="value">\${state.fundingWave.verificationsRun}</span></div>
+      <div class="stat"><span class="label">Last Verification</span><span class="value"><span class="status-dot \${state.fundingWave.lastVerificationPassed === true ? 'status-green' : state.fundingWave.lastVerificationPassed === false ? 'status-red' : 'status-yellow'}"></span>\${state.fundingWave.lastVerificationPassed === true ? 'Passed' : state.fundingWave.lastVerificationPassed === false ? 'FAILED' : 'Not run'}</span></div>
+      <div class="stat"><span class="label">Last Activity</span><span class="value">\${state.fundingWave.lastActivity || 'none'}</span></div>
     </div>  </div>
 
   <div class="footer">
