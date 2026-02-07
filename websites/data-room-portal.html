@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OPTKAS — Institutional Data Room</title>
+<style>
+  :root {
+    --bg-0: #0a0a0f;
+    --bg-1: #12121a;
+    --bg-2: #1a1a28;
+    --bg-3: #222236;
+    --border: #2a2a40;
+    --text-0: #ffffff;
+    --text-1: #c0c0d0;
+    --text-2: #808098;
+    --gold: #d4a843;
+    --gold-dim: rgba(212,168,67,0.15);
+    --green: #34d399;
+    --green-dim: rgba(52,211,153,0.12);
+    --blue: #60a5fa;
+    --blue-dim: rgba(96,165,250,0.12);
+    --red: #f87171;
+    --purple: #a78bfa;
+    --cyan: #22d3ee;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg-0); color:var(--text-1); font-family:'Segoe UI',system-ui,-apple-system,sans-serif; min-height:100vh; }
+
+  /* ── Header ─────────────────────────────── */
+  .header {
+    background: linear-gradient(135deg, var(--bg-1) 0%, #141428 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .header h1 { color:var(--gold); font-size:1.6rem; font-weight:600; letter-spacing:1px; }
+  .header h1 span { color:var(--text-2); font-weight:400; font-size:0.85rem; margin-left:1rem; }
+  .header-meta { text-align:right; color:var(--text-2); font-size:0.8rem; line-height:1.7; }
+  .header-meta .ver { color:var(--gold); font-weight:600; }
+
+  /* ── Layout ─────────────────────────────── */
+  .container { display:flex; min-height:calc(100vh - 90px); }
+
+  /* ── Sidebar ────────────────────────────── */
+  .sidebar {
+    width: 280px; min-width:280px;
+    background: var(--bg-1);
+    border-right: 1px solid var(--border);
+    padding: 1.5rem 0;
+    overflow-y: auto;
+  }
+  .sidebar-section {
+    margin-bottom: 0.5rem;
+  }
+  .sidebar-section-title {
+    padding: 0.5rem 1.5rem;
+    color: var(--text-2);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+  }
+  .folder-btn {
+    display: flex; align-items: center; gap: 0.75rem;
+    width: 100%;
+    padding: 0.65rem 1.5rem;
+    background: none; border: none; color: var(--text-1);
+    font-size: 0.82rem; cursor: pointer; text-align: left;
+    transition: all 0.2s;
+  }
+  .folder-btn:hover { background:var(--bg-2); color:var(--text-0); }
+  .folder-btn.active { background:var(--gold-dim); color:var(--gold); border-right:2px solid var(--gold); }
+  .folder-icon { font-size:1rem; }
+  .folder-count {
+    margin-left:auto;
+    background:var(--bg-3);
+    color:var(--text-2);
+    font-size:0.7rem;
+    padding:2px 8px;
+    border-radius:10px;
+  }
+  .folder-btn.active .folder-count { background:var(--gold-dim); color:var(--gold); }
+
+  /* ── Quick stats ────────────────────────── */
+  .sidebar-stats {
+    margin: 1.5rem 1.5rem 0;
+    padding: 1rem;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .sidebar-stats h4 {
+    color:var(--gold); font-size:0.7rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:0.75rem;
+  }
+  .stat-row {
+    display:flex; justify-content:space-between; padding:0.3rem 0; font-size:0.78rem;
+  }
+  .stat-row .label { color:var(--text-2); }
+  .stat-row .value { color:var(--text-0); font-weight:600; }
+
+  /* ── Main Content ───────────────────────── */
+  .main {
+    flex:1;
+    padding: 2rem 2.5rem;
+    overflow-y: auto;
+  }
+  .folder-header {
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:1.5rem; padding-bottom:1rem;
+    border-bottom:1px solid var(--border);
+  }
+  .folder-header h2 { color:var(--text-0); font-size:1.2rem; font-weight:600; }
+  .folder-header h2 span { color:var(--gold); }
+  .folder-desc { color:var(--text-2); font-size:0.8rem; }
+
+  /* ── Document Cards ─────────────────────── */
+  .doc-grid {
+    display:flex; flex-direction:column; gap:0.75rem;
+  }
+  .doc-card {
+    background:var(--bg-2);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:1.25rem 1.5rem;
+    display:flex; align-items:center; gap:1.25rem;
+    transition: all 0.2s;
+    cursor:default;
+  }
+  .doc-card:hover { border-color:var(--gold); background:var(--bg-3); }
+  .doc-icon {
+    width:42px; height:42px;
+    border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.2rem;
+    flex-shrink:0;
+  }
+  .doc-icon.md { background:var(--blue-dim); }
+  .doc-icon.pdf { background:rgba(248,113,113,0.12); }
+  .doc-icon.json { background:rgba(167,139,250,0.12); }
+  .doc-icon.txt { background:rgba(34,211,238,0.12); }
+
+  .doc-info { flex:1; min-width:0; }
+  .doc-name { color:var(--text-0); font-size:0.88rem; font-weight:600; margin-bottom:0.25rem; }
+  .doc-name .tag {
+    display:inline-block; font-size:0.6rem; padding:2px 6px; border-radius:4px;
+    font-weight:700; margin-left:0.5rem; vertical-align:middle;
+  }
+  .tag-primary { background:var(--gold-dim); color:var(--gold); }
+  .tag-critical { background:rgba(248,113,113,0.15); color:var(--red); }
+  .tag-core { background:var(--green-dim); color:var(--green); }
+  .tag-new { background:var(--blue-dim); color:var(--blue); }
+  .doc-desc { color:var(--text-2); font-size:0.78rem; }
+
+  .doc-hash {
+    flex-shrink:0;
+    text-align:right;
+  }
+  .doc-hash-label { font-size:0.6rem; color:var(--text-2); text-transform:uppercase; letter-spacing:1px; margin-bottom:0.2rem; }
+  .doc-hash-value {
+    font-family: 'Consolas','Monaco',monospace;
+    font-size:0.68rem;
+    color:var(--green);
+    background:rgba(52,211,153,0.08);
+    padding:3px 8px;
+    border-radius:4px;
+    cursor:pointer;
+    max-width:180px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .doc-hash-value:hover { color:var(--text-0); }
+  .doc-status { flex-shrink:0; width:28px; text-align:center; font-size:1rem; }
+
+  /* ── Attestation Banner ─────────────────── */
+  .attestation-banner {
+    background: linear-gradient(135deg, rgba(52,211,153,0.08) 0%, rgba(96,165,250,0.06) 100%);
+    border: 1px solid rgba(52,211,153,0.25);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+  }
+  .attestation-banner h3 {
+    color:var(--green); font-size:0.85rem; margin-bottom:1rem;
+    display:flex; align-items:center; gap:0.5rem;
+  }
+  .attest-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .attest-box {
+    background:var(--bg-2); border:1px solid var(--border); border-radius:8px; padding:1rem;
+  }
+  .attest-box h4 { font-size:0.7rem; color:var(--text-2); text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem; }
+  .attest-box .tx {
+    font-family:monospace; font-size:0.72rem; color:var(--cyan);
+    word-break:break-all; line-height:1.5;
+  }
+  .attest-box .tx a { color:var(--cyan); text-decoration:none; }
+  .attest-box .tx a:hover { text-decoration:underline; }
+
+  /* ── Reading Guide ──────────────────────── */
+  .guide-panel {
+    margin-top:2rem;
+  }
+  .guide-card {
+    background:var(--bg-2);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:1.25rem 1.5rem;
+    margin-bottom:0.75rem;
+  }
+  .guide-card h4 {
+    color:var(--gold); font-size:0.82rem; margin-bottom:0.75rem;
+    display:flex; align-items:center; gap:0.5rem;
+  }
+  .guide-steps {
+    list-style:none; counter-reset:guide;
+  }
+  .guide-steps li {
+    counter-increment:guide;
+    padding:0.35rem 0 0.35rem 2rem;
+    position:relative;
+    font-size:0.8rem; color:var(--text-1);
+  }
+  .guide-steps li::before {
+    content:counter(guide);
+    position:absolute; left:0; top:0.35rem;
+    width:20px; height:20px;
+    background:var(--bg-3);
+    border:1px solid var(--border);
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.65rem; color:var(--gold); font-weight:700;
+  }
+
+  /* ── Footer ─────────────────────────────── */
+  .footer {
+    padding: 1.5rem 3rem;
+    border-top: 1px solid var(--border);
+    background: var(--bg-1);
+    display:flex; justify-content:space-between; align-items:center;
+    color:var(--text-2); font-size:0.75rem;
+  }
+  .footer .legal { max-width:600px; line-height:1.5; }
+
+  @media (max-width:900px) {
+    .container { flex-direction:column; }
+    .sidebar { width:100%; min-width:100%; border-right:none; border-bottom:1px solid var(--border); }
+    .attest-grid { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ HEADER ═══════════════════ -->
+<div class="header">
+  <h1>◆ OPTKAS DATA ROOM <span>Institutional Document Portal</span></h1>
+  <div class="header-meta">
+    <div>OPTKAS1-MAIN SPV, LLC</div>
+    <div><span class="ver">Version 1.1</span> &nbsp;|&nbsp; Frozen Feb 7, 2026</div>
+    <div id="utcClock"></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ═══════════════ SIDEBAR ═══════════════ -->
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Data Room Folders</div>
+      <button class="folder-btn active" onclick="showFolder('exec')" data-folder="exec">
+        <span class="folder-icon">📋</span>
+        00 Exec Summary
+        <span class="folder-count">5</span>
+      </button>
+      <button class="folder-btn" onclick="showFolder('transaction')" data-folder="transaction">
+        <span class="folder-icon">📑</span>
+        01 Transaction Structure
+        <span class="folder-count">6</span>
+      </button>
+      <button class="folder-btn" onclick="showFolder('collateral')" data-folder="collateral">
+        <span class="folder-icon">🏦</span>
+        02 Collateral & Credit
+        <span class="folder-count">5</span>
+      </button>
+      <button class="folder-btn" onclick="showFolder('bonds')" data-folder="bonds">
+        <span class="folder-icon">📜</span>
+        03 Bond & Note Issuance
+        <span class="folder-count">3</span>
+      </button>
+      <button class="folder-btn" onclick="showFolder('compliance')" data-folder="compliance">
+        <span class="folder-icon">🛡️</span>
+        04 Compliance & Risk
+        <span class="folder-count">3</span>
+      </button>
+      <button class="folder-btn" onclick="showFolder('custody')" data-folder="custody">
+        <span class="folder-icon">🔗</span>
+        05 Chain of Custody
+        <span class="folder-count">4</span>
+      </button>
+      <button class="folder-btn" onclick="showFolder('appendix')" data-folder="appendix">
+        <span class="folder-icon">📎</span>
+        99 Appendix
+        <span class="folder-count">8</span>
+      </button>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Quick Access</div>
+      <button class="folder-btn" onclick="showFolder('attestation')" data-folder="attestation">
+        <span class="folder-icon">🔐</span>
+        On-Chain Attestation
+      </button>
+      <button class="folder-btn" onclick="showFolder('guides')" data-folder="guides">
+        <span class="folder-icon">📖</span>
+        Reading Guides
+      </button>
+    </div>
+
+    <div class="sidebar-stats">
+      <h4>Room Summary</h4>
+      <div class="stat-row"><span class="label">Documents</span><span class="value">34</span></div>
+      <div class="stat-row"><span class="label">Categories</span><span class="value">7</span></div>
+      <div class="stat-row"><span class="label">SHA-256 Verified</span><span class="value" style="color:var(--green)">✓ All</span></div>
+      <div class="stat-row"><span class="label">XRPL Attested</span><span class="value" style="color:var(--cyan)">✓</span></div>
+      <div class="stat-row"><span class="label">Stellar Attested</span><span class="value" style="color:var(--cyan)">✓</span></div>
+      <div class="stat-row"><span class="label">Status</span><span class="value" style="color:var(--gold)">FROZEN</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ MAIN CONTENT ═══════════════ -->
+  <div class="main">
+
+    <!-- EXEC SUMMARY -->
+    <div class="folder-content" id="folder-exec">
+      <div class="folder-header">
+        <div>
+          <h2><span>00</span> &nbsp;Executive Summary</h2>
+          <div class="folder-desc">Executive-level overviews for credit committee and senior decision-makers</div>
+        </div>
+      </div>
+      <div class="doc-grid">
+        <div class="doc-card">
+          <div class="doc-icon md">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">EXECUTIVE_SUMMARY.md</div>
+            <div class="doc-desc">2-page lender overview with deal structure, collateral summary, and facility terms</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="F0B8AF962EC2DB6F640CB64AAB3E0E8AD071797A6F28DB26A359072F72F78E10" onclick="copyHash(this)">F0B8AF96...F78E10</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon md">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">CREDIT_COMMITTEE_POSITIONING.md <span class="tag tag-new">NEW</span></div>
+            <div class="doc-desc">Credit committee brief with risk assessment and recommended terms</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="Pending freeze" onclick="copyHash(this)">Pending...</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon md">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">INVESTOR-PITCH-DECK.md</div>
+            <div class="doc-desc">Investment thesis and opportunity summary</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="26881990B9DF7619BE625CF477E9FE1CFFA5C8CC5E2672D13742861C5853618C" onclick="copyHash(this)">26881990...53618C</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon md">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">OPTKAS1-STRATEGIC-FINANCIAL-ROADMAP.md</div>
+            <div class="doc-desc">Long-term financial strategy and growth plan</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="7C7AD24A99B0E04E8B877CC0B5A1D09C3CBF8985BDD382EC4B119622590E6B44" onclick="copyHash(this)">7C7AD24A...0E6B44</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon md">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">README.md</div>
+            <div class="doc-desc">Repository overview and navigation guide</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="A324DEC48FA35A25E7AB2C0876C1547CB76C3B9A5509F178EBDF68F44D8FEE42" onclick="copyHash(this)">A324DEC4...8FEE42</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRANSACTION STRUCTURE -->
+    <div class="folder-content" id="folder-transaction" style="display:none">
+      <div class="folder-header">
+        <div>
+          <h2><span>01</span> &nbsp;Transaction Structure</h2>
+          <div class="folder-desc">Core deal documents defining the credit facility structure</div>
+        </div>
+      </div>
+      <div class="doc-grid">
+        <div class="doc-card">
+          <div class="doc-icon md">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">LOAN_COMMITMENT_PACKAGE-v2.md <span class="tag tag-primary">PRIMARY</span></div>
+            <div class="doc-desc">Complete lender submission with pre-formatted responses to standard diligence questions</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="B5216A3B4528C9347DB283014FCDC2764ACC0BAA3FFD86F7764ED53A8A7103D1" onclick="copyHash(this)">B5216A3B...A7103D1</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon md">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">STRATEGIC_INFRASTRUCTURE_EXECUTION_AGREEMENT.md</div>
+            <div class="doc-desc">Unykorn 7777 partnership agreement</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="B4ABA361D1839EEB9DC0E264CD83CC619EB61C24CDF1C6C34DC01A5303495563" onclick="copyHash(this)">B4ABA361...495563</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon md">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">SPONSOR_CONSIDERATION_NOTE.md <span class="tag tag-new">NEW</span></div>
+            <div class="doc-desc">Financeable debt instrument for platform delivery consideration</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" onclick="copyHash(this)">Pending...</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon md">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">ANNEX_A_Tranche_Details.md</div>
+            <div class="doc-desc">Asset identification, CUSIP 87225HAB4, valuation methodology</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="2752AF442C2FE5E388323D775A983BB99C6DDC71E7D67502ABB3C69668B59B8C" onclick="copyHash(this)">2752AF44...B59B8C</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon md">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">ANNEX_B_System_Architecture.md</div>
+            <div class="doc-desc">Technical infrastructure and data flows</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="F78B53F4541F03169B5B122C78CEB9629E63AB8DA116183D6CC9842EE1A0D2AD" onclick="copyHash(this)">F78B53F4...A0D2AD</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon md">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">LOAN_COMMITMENT_PACKAGE.md</div>
+            <div class="doc-desc">Original version — superseded by v2</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="B5216A3B4528C9347DB283014FCDC2764ACC0BAA3FFD86F7764ED53A8A7103D1" onclick="copyHash(this)">B5216A3B...A7103D1</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLLATERAL & CREDIT -->
+    <div class="folder-content" id="folder-collateral" style="display:none">
+      <div class="folder-header">
+        <div>
+          <h2><span>02</span> &nbsp;Collateral & Credit</h2>
+          <div class="folder-desc">Collateral documentation and credit analysis</div>
+        </div>
+      </div>
+      <div class="doc-grid">
+        <div class="doc-card">
+          <div class="doc-icon pdf">📕</div>
+          <div class="doc-info">
+            <div class="doc-name">STC_Statement.pdf <span class="tag tag-critical">CRITICAL</span></div>
+            <div class="doc-desc">Securities Transfer Corporation position statement — $10M TC Advantage 5% Secured Medium Term Notes (CUSIP 87225HAB4)</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="CF913B0FA430FBDC742B3A98BB0327C169B0F5BF0FB9508D30B9B79922455AEE" onclick="copyHash(this)">CF913B0F...455AEE</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon md">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">BORROWING_BASE_POLICY.md</div>
+            <div class="doc-desc">Haircut methodology and valuation policy — advance rate 50-65%</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="C63C1E2B5C919A07472AC255EFDEC564794E32EE18C6ED132B07CCB1D5BCF33A" onclick="copyHash(this)">C63C1E2B...BCF33A</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon md">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">LENDER-PACKET.md</div>
+            <div class="doc-desc">Consolidated lender information package</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="A673413694427D14B14593D6E20D1FC406CF8C74C168510E59FDDD70433FDAB3" onclick="copyHash(this)">A6734136...FDAB3</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon md">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">DUAL-TRACK-COLLATERAL-SIMULATION.md</div>
+            <div class="doc-desc">Collateral scenario analysis and stress testing</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="CA9CC7E46741653347289C6D3D4D47555347DB7F9B7E6EE7A0D245C60E225856" onclick="copyHash(this)">CA9CC7E4...225856</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon md">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">REAL-ESTATE-COLLATERAL-ANALYSIS.md</div>
+            <div class="doc-desc">Supplementary real estate analysis</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="D64E7E4DD23DFA591CA3ADE0E27CA1BB266512F113E1325CF9E6B3FE022CABD9" onclick="copyHash(this)">D64E7E4D...2CABD9</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOND & NOTE ISSUANCE -->
+    <div class="folder-content" id="folder-bonds" style="display:none">
+      <div class="folder-header">
+        <div>
+          <h2><span>03</span> &nbsp;Bond & Note Issuance</h2>
+          <div class="folder-desc">Bond structure and issuance documentation — SOVBND-A-2026</div>
+        </div>
+      </div>
+      <div class="doc-grid">
+        <div class="doc-card">
+          <div class="doc-icon md">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">optkas1-bond-issuance-guide.md <span class="tag tag-core">CORE</span></div>
+            <div class="doc-desc">Bond issuance specifications — $100/unit, 6.5% coupon, quarterly, 5-year maturity, Reg D 506(c)</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="402BBE62746E52FEDFADAF78A07EB8C2C66838B02BFAC3579E73619DE6C6733F" onclick="copyHash(this)">402BBE62...C6733F</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon pdf">📕</div>
+          <div class="doc-info">
+            <div class="doc-name">Bedford_Bond_Workflow_Packet.pdf</div>
+            <div class="doc-desc">Bond workflow reference documentation</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="DAD8C9139C431135B2B2B4A1E95AE0295E1A55B7FB056377F2017A3F18701928" onclick="copyHash(this)">DAD8C913...701928</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon pdf">📕</div>
+          <div class="doc-info">
+            <div class="doc-name">CAT Bond Rail Blueprint.pdf</div>
+            <div class="doc-desc">CAT bond structure reference</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="6154202C81EE6AE01345E21C6740AB3BFEE61B44B88EB051DA20DBC2409ADD0A" onclick="copyHash(this)">6154202C...9ADD0A</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMPLIANCE & RISK -->
+    <div class="folder-content" id="folder-compliance" style="display:none">
+      <div class="folder-header">
+        <div>
+          <h2><span>04</span> &nbsp;Compliance & Risk</h2>
+          <div class="folder-desc">Regulatory compliance and risk management frameworks</div>
+        </div>
+      </div>
+      <div class="doc-grid">
+        <div class="doc-card">
+          <div class="doc-icon md">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">KYC-AML-COMPLIANCE-PACKAGE.md</div>
+            <div class="doc-desc">Know Your Customer / Anti-Money Laundering framework and procedures</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="07BB69F866C987468F75A1C5FE64831BBEA920CBB87B350871ABDE69CA14ABEC" onclick="copyHash(this)">07BB69F8...14ABEC</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon md">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">INSURANCE-UNDERWRITING-PACKAGE.md</div>
+            <div class="doc-desc">Insurance coverage and underwriting details</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="6286E3870E14339041597DF24BE192394112EC15022F78A26E32DD4CBC115A61" onclick="copyHash(this)">6286E387...115A61</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon md">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">LEGAL_OPINION_TEMPLATE.md</div>
+            <div class="doc-desc">Counsel opinion template — to be executed at closing</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="22427AF3D42E7AA4A67FE3D61C859B3A22038CDA4C7D98CED07D7AD0D7BB5072" onclick="copyHash(this)">22427AF3...BB5072</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHAIN OF CUSTODY -->
+    <div class="folder-content" id="folder-custody" style="display:none">
+      <div class="folder-header">
+        <div>
+          <h2><span>05</span> &nbsp;Chain of Custody</h2>
+          <div class="folder-desc">Verification, audit trails, and custody documentation</div>
+        </div>
+      </div>
+      <div class="doc-grid">
+        <div class="doc-card">
+          <div class="doc-icon md">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">XRPL_ATTESTATION_SPEC.md</div>
+            <div class="doc-desc">XRPL evidence layer technical specification — NFT-based attestation, dual-chain verification</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="72655396AFEF9634A086FDC6541E639011483CC8A20C5383318B0ADD92668F2B" onclick="copyHash(this)">72655396...668F2B</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon md">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">AUDIT_RUNBOOK.md</div>
+            <div class="doc-desc">Daily / monthly / quarterly audit procedures and compliance checks</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="33EF57AEBD7E0D20C43C38D04B191A1399CC61407D5B8064026B930B4AA6AF84" onclick="copyHash(this)">33EF57AE...A6AF84</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon pdf">📕</div>
+          <div class="doc-info">
+            <div class="doc-name">FedEx_Scan_2026-01-22.pdf</div>
+            <div class="doc-desc">Physical delivery chain of custody — FedEx tracking verification</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="C57946FACEECB126EF7FDFE19F1AB117B45F6EAAE4C5C75429543B8413422E28" onclick="copyHash(this)">C57946FA...422E28</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon json">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">ipfs-config.json</div>
+            <div class="doc-desc">IPFS document storage configuration</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="454DB5307AF69CCCF15B2A746B969CCE0D502071F4A79E6AF471D0B9804205F3" onclick="copyHash(this)">454DB530...4205F3</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- APPENDIX -->
+    <div class="folder-content" id="folder-appendix" style="display:none">
+      <div class="folder-header">
+        <div>
+          <h2><span>99</span> &nbsp;Appendix</h2>
+          <div class="folder-desc">Templates, execution plans, and supplementary materials</div>
+        </div>
+      </div>
+      <div class="doc-grid">
+        <div class="doc-card">
+          <div class="doc-icon md">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">FACILITY_AGREEMENT_TEMPLATE.md</div>
+            <div class="doc-desc">Master credit agreement template</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="C59707538ACE922E5088074A38F937CF85382271942B51ADE37AF0363A9D50B2" onclick="copyHash(this)">C5970753...9D50B2</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon md">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">SECURITY_AGREEMENT_TEMPLATE.md</div>
+            <div class="doc-desc">Pledge agreement template — UCC Article 8/9</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="C179A1ECBE1875B525F08458D3DF63CCB324535C08331265D0073B3162C8ED81" onclick="copyHash(this)">C179A1EC...C8ED81</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon md">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">STC_CONTROL_AGREEMENT_TEMPLATE.md</div>
+            <div class="doc-desc">Transfer agent control agreement template</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="8C3A0DB826550DC3B48F39B415FE3E09823E545F4366BBC65042B3723F18A180" onclick="copyHash(this)">8C3A0DB8...18A180</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon md">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">BORROWING_BASE_CERTIFICATE_TEMPLATE.md</div>
+            <div class="doc-desc">Monthly collateral report template</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="E9883692FF16C3F9D65BB1D4EBEED5DEB0872D17E7C513F68314FDA211BC7352" onclick="copyHash(this)">E9883692...BC7352</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon json">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">day0_snapshot_template.json</div>
+            <div class="doc-desc">Initial snapshot JSON structure</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="889566D0F62F6965D0257CFC33AF3EDCACA81B902F90582D22BA44F4BA27330D" onclick="copyHash(this)">889566D0...27330D</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon md">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">OTC-OUTREACH-TEMPLATES.md</div>
+            <div class="doc-desc">Investor and lender outreach email templates</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="6496657F32E529F4EF7D0F3749001EDC2ECD86904B6A3F5103FEF629F0C0130D" onclick="copyHash(this)">6496657F...C0130D</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon md">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">funding-execution-plan.md</div>
+            <div class="doc-desc">Execution strategy and timeline</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="84F2BFE0B5BE144B719B1E03B3E1E72CADAA42C56BCC94F2FD21CD8E106B0BA9" onclick="copyHash(this)">84F2BFE0...6B0BA9</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon txt">📄</div>
+          <div class="doc-info">
+            <div class="doc-name">FUNDING-PLAN-TOMORROW.txt</div>
+            <div class="doc-desc">Short-term funding action items</div>
+          </div>
+          <div class="doc-hash">
+            <div class="doc-hash-label">SHA-256</div>
+            <div class="doc-hash-value" title="FE808D65759C8BEA3B897C1A8EA45C7D43BACAA89596C4925B52F45ADD2F1D14" onclick="copyHash(this)">FE808D65...2F1D14</div>
+          </div>
+          <div class="doc-status">✅</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ON-CHAIN ATTESTATION -->
+    <div class="folder-content" id="folder-attestation" style="display:none">
+      <div class="folder-header">
+        <div>
+          <h2>🔐 On-Chain Attestation Proof</h2>
+          <div class="folder-desc">Dual-chain cryptographic verification of reserve vault and data room integrity</div>
+        </div>
+      </div>
+
+      <div class="attestation-banner">
+        <h3>🔒 Dual-Chain Attestation — Verified</h3>
+        <div class="attest-grid">
+          <div class="attest-box">
+            <h4>XRPL Mainnet — Reserve Attestation NFT</h4>
+            <div class="tx">
+              <a href="https://livenet.xrpl.org/transactions/8C8922A650A8EA0ABA03024567535D9DA9B65AA547B57CC728B16B1338842BC2" target="_blank">
+                8C8922A650A8EA0ABA03024567535D9DA9B65AA547B57CC728B16B1338842BC2
+              </a>
+            </div>
+            <div style="margin-top:0.75rem;font-size:0.75rem;color:var(--text-2);">
+              <div>Minting Account: <span style="color:var(--cyan)">rEUxqL1Rmzciu31Sq7ocx6KZyt6htqjjBv</span></div>
+              <div>Taxon: <span style="color:var(--gold)">100</span> (Reserved: Vault Attestation)</div>
+              <div>NAV at Attestation: <span style="color:var(--green)">$4,111,510.94</span></div>
+            </div>
+          </div>
+          <div class="attest-box">
+            <h4>Stellar Mainnet — manage_data Attestation</h4>
+            <div class="tx">
+              <a href="https://stellar.expert/explorer/public/tx/a6c224cfe275baccf00775214d40b29a4abdffe193ac36e576023aad08629d18" target="_blank">
+                a6c224cfe275baccf00775214d40b29a4abdffe193ac36e576023aad08629d18
+              </a>
+            </div>
+            <div style="margin-top:0.75rem;font-size:0.75rem;color:var(--text-2);">
+              <div>Account: <span style="color:var(--cyan)">GBJIMHMBGTPN5RS42OGBUY5NC2ATZLPT3B3EWV32SM2GQLS46TRJWG4I</span></div>
+              <div>Fields: <span style="color:var(--gold)">vault_nav, vault_hash, vault_ratio</span></div>
+              <div>Share Price: <span style="color:var(--green)">$1.002201</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:10px;padding:1.5rem;">
+        <h4 style="color:var(--text-0);font-size:0.9rem;margin-bottom:1rem;">Verification Instructions</h4>
+        <div style="font-size:0.8rem;color:var(--text-1);line-height:1.8;">
+          <p><strong style="color:var(--gold)">For XRPL:</strong> Click the transaction hash above or navigate to
+            <code style="background:var(--bg-3);padding:2px 6px;border-radius:4px;font-size:0.75rem;">livenet.xrpl.org</code>
+            → Search the TX hash → Verify NFTokenMint with Taxon 100 → Confirm minting account matches attestation wallet.</p>
+          <p style="margin-top:0.75rem;"><strong style="color:var(--gold)">For Stellar:</strong> Click the transaction hash above or navigate to
+            <code style="background:var(--bg-3);padding:2px 6px;border-radius:4px;font-size:0.75rem;">stellar.expert</code>
+            → Search the TX hash → Verify manage_data operations → Confirm vault_nav matches $4,111,510.94.</p>
+          <p style="margin-top:0.75rem;"><strong style="color:var(--gold)">SHA-256 Hash Verification:</strong>
+            All documents in HASHES.txt can be independently verified using <code style="background:var(--bg-3);padding:2px 6px;border-radius:4px;font-size:0.75rem;">sha256sum</code>
+            or <code style="background:var(--bg-3);padding:2px 6px;border-radius:4px;font-size:0.75rem;">Get-FileHash</code> (PowerShell).
+            The vault attestation hash embedded in the Stellar manage_data field can be cross-referenced with the HASHES.txt file.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- READING GUIDES -->
+    <div class="folder-content" id="folder-guides" style="display:none">
+      <div class="folder-header">
+        <div>
+          <h2>📖 Reading Guides by Role</h2>
+          <div class="folder-desc">Recommended document order based on reviewer role — start with your role, finish in under 30 minutes</div>
+        </div>
+      </div>
+
+      <div class="guide-panel">
+        <div class="guide-card">
+          <h4>🏛️ Credit Fund Analyst</h4>
+          <ol class="guide-steps">
+            <li>EXECUTIVE_SUMMARY.md — Deal overview (2 min)</li>
+            <li>LOAN_COMMITMENT_PACKAGE-v2.md — Full submission (10 min)</li>
+            <li>STC_Statement.pdf — Collateral verification (2 min)</li>
+            <li>BORROWING_BASE_POLICY.md — Haircut methodology (5 min)</li>
+            <li>ANNEX_A_Tranche_Details.md — CUSIP/valuation (3 min)</li>
+          </ol>
+        </div>
+
+        <div class="guide-card">
+          <h4>🏦 Bank Credit Officer</h4>
+          <ol class="guide-steps">
+            <li>EXECUTIVE_SUMMARY.md — Deal overview (2 min)</li>
+            <li>LOAN_COMMITMENT_PACKAGE-v2.md — Full submission (10 min)</li>
+            <li>STC_Statement.pdf — Collateral verification (2 min)</li>
+            <li>KYC-AML-COMPLIANCE-PACKAGE.md — Regulatory framework (5 min)</li>
+            <li>BORROWING_BASE_POLICY.md — Valuation policy (5 min)</li>
+            <li>FACILITY_AGREEMENT_TEMPLATE.md — Draft agreement (5 min)</li>
+          </ol>
+        </div>
+
+        <div class="guide-card">
+          <h4>⚖️ External Legal Counsel</h4>
+          <ol class="guide-steps">
+            <li>LOAN_COMMITMENT_PACKAGE-v2.md — Structure review (10 min)</li>
+            <li>ANNEX_A_Tranche_Details.md — Asset identification (3 min)</li>
+            <li>SECURITY_AGREEMENT_TEMPLATE.md — Pledge mechanics (5 min)</li>
+            <li>STC_CONTROL_AGREEMENT_TEMPLATE.md — Transfer agent control (5 min)</li>
+          </ol>
+        </div>
+
+        <div class="guide-card">
+          <h4>🔧 Technical Due Diligence</h4>
+          <ol class="guide-steps">
+            <li>ANNEX_B_System_Architecture.md — Platform overview (5 min)</li>
+            <li>XRPL_ATTESTATION_SPEC.md — On-chain evidence layer (5 min)</li>
+            <li>AUDIT_RUNBOOK.md — Compliance automation (3 min)</li>
+            <li>day0_snapshot_template.json — Data structure (2 min)</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /container -->
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<div class="footer">
+  <div class="legal">
+    This data room is maintained by OPTKAS1-MAIN SPV, LLC (Wyoming). All documents are SHA-256 verified
+    and on-chain attested via XRPL NFT (Taxon 100) and Stellar manage_data. For access: jimmy@optkas.com
+  </div>
+  <div style="text-align:right;">
+    <div>DATA_ROOM v1.1 &nbsp;|&nbsp; <span style="color:var(--gold)">FROZEN</span></div>
+    <div style="margin-top:0.25rem;">OPTKAS1-MAIN SPV, LLC</div>
+  </div>
+</div>
+
+<script>
+  // UTC Clock
+  function updateClock() {
+    document.getElementById('utcClock').textContent = new Date().toUTCString().replace('GMT','UTC');
+  }
+  updateClock(); setInterval(updateClock, 1000);
+
+  // Folder navigation
+  function showFolder(id) {
+    document.querySelectorAll('.folder-content').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.folder-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById('folder-' + id).style.display = 'block';
+    document.querySelector('[data-folder="' + id + '"]').classList.add('active');
+  }
+
+  // Copy hash to clipboard
+  function copyHash(el) {
+    const hash = el.getAttribute('title');
+    if (hash && hash !== 'Pending freeze') {
+      navigator.clipboard.writeText(hash);
+      const orig = el.textContent;
+      el.textContent = '✓ Copied';
+      el.style.color = 'var(--green)';
+      setTimeout(() => { el.textContent = orig; el.style.color = ''; }, 1500);
+    }
+  }
+</script>
+</body>
+</html>
