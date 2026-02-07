@@ -65,7 +65,9 @@ Real World                    Platform                      Ledger
     │                            │  ◀───────────────────────   │
 ```
 
-### 2. Tokenization (Representation)
+### 2. Representation Issuance
+
+> **Note for regulators:** This step is referred to internally as "representation issuance," not "tokenization." No ownership is created, transferred, or implied. The on-chain representation is a claim receipt — a digital evidence marker.
 
 ```
 Platform                      XRPL                        Stellar

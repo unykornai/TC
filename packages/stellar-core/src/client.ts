@@ -324,12 +324,6 @@ export class StellarClient extends EventEmitter {
     asset: StellarSdk.Asset,
     flags: { authorized?: boolean; authorizedToMaintainLiabilities?: boolean; clawbackEnabled?: boolean }
   ): StellarSdk.xdr.Operation {
-    const setFlags: number[] = [];
-    const clearFlags: number[] = [];
-
-    if (flags.authorized === true) setFlags.push(StellarSdk.AuthRequiredFlag);
-    if (flags.authorized === false) clearFlags.push(StellarSdk.AuthRequiredFlag);
-
     return StellarSdk.Operation.setTrustLineFlags({
       trustor,
       asset,

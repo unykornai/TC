@@ -148,7 +148,9 @@ stellar_accounts:
     settings:
       authorization_required: true
       authorization_revocable: true
-      clawback_enabled: false  # Set per-asset policy
+      # Clawback ENABLED on Stellar — required for regulated asset compliance.
+      # Unlike XRPL, Stellar clawback is per-account and intentional for regulated assets.
+      clawback_enabled: true
 
   distribution:
     purpose: "Asset distribution and settlement"
@@ -171,6 +173,9 @@ tokens:
     issuer_account: "issuer"
     trustline_limit: 100000000  # $100M notional
     freeze_enabled: true
+    # NOTE: XRPL clawback is ACCOUNT-LEVEL (asfAllowTrustLineClawback).
+    # All IOUs from the same issuer share the same clawback policy.
+    # Clawback is DISABLED for claim receipts — recovery handled off-chain.
     clawback_enabled: false
     transferable: false  # Non-transferable by default
     redemption: "Off-chain via custodian, subject to bond terms"
@@ -183,7 +188,9 @@ tokens:
     issuer_account: "issuer"
     trustline_limit: 500000000
     freeze_enabled: true
-    clawback_enabled: true
+    # NOTE: XRPL clawback is ACCOUNT-LEVEL. Cannot differ per-IOU from same issuer.
+    # Recovery of settlement tokens handled via freeze + burn-back, not clawback.
+    clawback_enabled: false
     transferable: false
     redemption: "Burn on settlement; fiat released by custodian"
 

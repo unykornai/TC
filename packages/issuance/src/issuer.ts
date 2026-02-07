@@ -9,6 +9,7 @@
  */
 
 import { XRPLClient, PreparedTransaction, NetworkType } from '@optkas/xrpl-core';
+import { EventEmitter } from 'events';
 
 // ─── Types ───────────────────────────────────────────────────────────
 
@@ -41,11 +42,25 @@ export interface IssuanceRequest {
 
 // ─── Issuer ──────────────────────────────────────────────────────────
 
-export class Issuer {
+export class Issuer extends EventEmitter {
   private client: XRPLClient;
 
   constructor(client: XRPLClient) {
+    super();
     this.client = client;
+  }
+
+  /**
+   * Emit a structured audit event for downstream capture.
+   */
+  private emitAuditEvent(type: string, details: Record<string, unknown>): void {
+    this.emit('audit', {
+      type,
+      timestamp: new Date().toISOString(),
+      component: '@optkas/issuance',
+      layer: 5,
+      details,
+    });
   }
 
   /**
@@ -113,7 +128,16 @@ export class Issuer {
       tx,
       `Issue ${request.amount} ${request.currency} to ${request.recipientAddress}`,
       dryRun
-    );
+    ).then((prepared) => {
+      this.emitAuditEvent('iou_issued', {
+        currency: request.currency,
+        amount: request.amount,
+        recipient: request.recipientAddress,
+        issuer: request.issuerAddress,
+        dryRun,
+      });
+      return prepared;
+    });
   }
 
   /**
@@ -159,6 +183,108 @@ export class Issuer {
       }
     }
     return total.toFixed(6);
+  }
+
+  // ─── Freeze / Compliance Controls ─────────────────────────────────
+
+  /**
+   * Prepare a TrustSet with freeze flag to freeze a specific holder's trustline.
+   * Used for compliance holds — blocks the holder from transacting the IOU.
+   * Requires multisig approval.
+   */
+  async prepareFreezeTrustline(
+    issuerAddress: string,
+    targetAddress: string,
+    currency: string,
+    dryRun = true
+  ): Promise<PreparedTransaction> {
+    const tx = {
+      TransactionType: 'TrustSet' as const,
+      Account: issuerAddress,
+      LimitAmount: {
+        currency,
+        issuer: targetAddress,
+        value: '0',
+      },
+      Flags: 0x00100000, // tfSetFreeze
+    };
+
+    return this.client.prepareTransaction(
+      tx,
+      `COMPLIANCE FREEZE: ${currency} trustline for ${targetAddress}`,
+      dryRun
+    );
+  }
+
+  /**
+   * Prepare a TrustSet to unfreeze a specific holder's trustline.
+   * Requires multisig approval.
+   */
+  async prepareUnfreezeTrustline(
+    issuerAddress: string,
+    targetAddress: string,
+    currency: string,
+    dryRun = true
+  ): Promise<PreparedTransaction> {
+    const tx = {
+      TransactionType: 'TrustSet' as const,
+      Account: issuerAddress,
+      LimitAmount: {
+        currency,
+        issuer: targetAddress,
+        value: '0',
+      },
+      Flags: 0x00200000, // tfClearFreeze
+    };
+
+    return this.client.prepareTransaction(
+      tx,
+      `COMPLIANCE UNFREEZE: ${currency} trustline for ${targetAddress}`,
+      dryRun
+    );
+  }
+
+  /**
+   * Prepare a global freeze on the issuer account.
+   * EMERGENCY USE ONLY — freezes ALL IOUs from this issuer.
+   * Requires multisig approval.
+   */
+  async prepareGlobalFreeze(
+    issuerAddress: string,
+    dryRun = true
+  ): Promise<PreparedTransaction> {
+    const tx = {
+      TransactionType: 'AccountSet' as const,
+      Account: issuerAddress,
+      SetFlag: 7, // asfGlobalFreeze
+    };
+
+    return this.client.prepareTransaction(
+      tx,
+      `EMERGENCY: Global freeze on issuer ${issuerAddress}`,
+      dryRun
+    );
+  }
+
+  /**
+   * Prepare to lift global freeze on the issuer account.
+   * Requires 3-of-3 multisig approval (all signers).
+   */
+  async prepareLiftGlobalFreeze(
+    issuerAddress: string,
+    dryRun = true
+  ): Promise<PreparedTransaction> {
+    const tx = {
+      TransactionType: 'AccountSet' as const,
+      Account: issuerAddress,
+      ClearFlag: 7, // asfGlobalFreeze
+    };
+
+    return this.client.prepareTransaction(
+      tx,
+      `LIFT GLOBAL FREEZE on issuer ${issuerAddress}`,
+      dryRun
+    );
   }
 }
 

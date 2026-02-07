@@ -168,25 +168,45 @@ After settlement:
 |---|---|---|
 | 1 | Default declared per bond indenture | 1 — Legal |
 | 2 | Emergency pause triggered on platform | 3 — Automation |
-| 3 | IOU transfers frozen | 5 — XRPL |
-| 4 | Escrow releases blocked | 5 — XRPL |
+| 3 | IOU transfers frozen (global freeze on issuer) | 5 — XRPL |
+| 4 | Escrow releases blocked (pause state enforced) | 5 — XRPL |
 | 5 | Trustee assumes control per agreement | 1 — Legal |
-| 6 | Collateral liquidation per waterfall | 2 — Custody |
-| 7 | Recovery distribution to lenders | 2 — Custody |
-| 8 | All actions attested on-chain | 4 — Evidence |
+| 6 | Independent collateral valuation obtained | 1 — Legal |
+| 7 | Collateral liquidation per waterfall priority | 2 — Custody |
+| 8 | Recovery distribution to lenders per seniority | 2 — Custody |
+| 9 | IOUs burned, trustlines removed | 5 — XRPL |
+| 10 | Final attestation: default lifecycle complete | 4 — Evidence |
+
+**Platform behavior during default:**
+- `PauseManager.enforceNotPaused()` blocks all new transaction preparation.
+- `Issuer.prepareGlobalFreeze()` is available for emergency IOU freeze.
+- Audit logging continues throughout — all default events are recorded.
+- Trustee has sole authority to direct collateral liquidation (Layer 1).
+- Platform provides read-only dashboard and reporting during wind-down.
 
 ### 6.2 Dispute
 
-- Disputes are resolved **off-chain** per the bond indenture's arbitration clause.
-- Platform operations are paused (any signer can trigger pause).
-- Resumption requires multisig threshold.
-- All pause/resume events are logged and attested.
+Disputes are resolved **off-chain** per the bond indenture's arbitration clause.
+
+| Step | Action | Authority |
+|---|---|---|
+| 1 | Dispute formally raised by lender or counterparty | Off-chain — legal |
+| 2 | Any signer triggers platform pause | Any signer (1-of-3) |
+| 3 | Disputed operations frozen; non-disputed may continue if 3-of-3 approve | Governance |
+| 4 | Legal counsel and trustee review dispute | Off-chain — legal |
+| 5 | If resolved: resume approvals collected, platform unpaused | 2-of-3 signers |
+| 6 | If arbitration required: platform remains paused, trustee manages assets | Trustee |
+| 7 | Arbitration outcome enforced off-chain; platform updated accordingly | Legal → Platform |
+| 8 | All dispute events attested on both ledgers | Attestation engine |
+
+**Critical rule:** No platform operation can resolve a legal dispute. The platform provides evidence and enforces operational holds — resolution is always off-chain.
 
 ### 6.3 Regulatory Inquiry
 
 - All audit events are retained for 7 years per config.
 - `generate-audit-report.ts` produces regulator-readable reports.
 - Attestation records on XRPL/Stellar provide independent verification.
+- Platform dashboard provides real-time read-only view for authorized auditors.
 
 ---
 

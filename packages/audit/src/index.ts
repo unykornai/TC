@@ -5,3 +5,6 @@ export type {
   AuditEvent,
   AuditReport,
 } from './report';
+
+export { PauseManager } from './pause';
+export type { PauseState, PauseEvent } from './pause';

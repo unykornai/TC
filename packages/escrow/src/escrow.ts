@@ -9,6 +9,7 @@
  */
 
 import { XRPLClient, PreparedTransaction } from '@optkas/xrpl-core';
+import { EventEmitter } from 'events';
 import * as crypto from 'crypto';
 
 // ─── Types ───────────────────────────────────────────────────────────
@@ -50,12 +51,26 @@ export interface EscrowStatus {
 
 // ─── Escrow Manager ──────────────────────────────────────────────────
 
-export class EscrowManager {
+export class EscrowManager extends EventEmitter {
   private client: XRPLClient;
   private templates: Map<string, EscrowTemplate> = new Map();
 
   constructor(client: XRPLClient) {
+    super();
     this.client = client;
+  }
+
+  /**
+   * Emit a structured audit event for downstream capture.
+   */
+  private emitAuditEvent(type: string, details: Record<string, unknown>): void {
+    this.emit('audit', {
+      type,
+      timestamp: new Date().toISOString(),
+      component: '@optkas/escrow',
+      layer: 5,
+      details,
+    });
   }
 
   /**
@@ -159,6 +174,17 @@ export class EscrowManager {
       `Create escrow: ${request.amount} XRP from ${request.sourceAddress} to ${request.destinationAddress} (template: ${request.templateName})`,
       dryRun
     );
+
+    this.emitAuditEvent('escrow_created', {
+      source: request.sourceAddress,
+      destination: request.destinationAddress,
+      amount: request.amount,
+      template: request.templateName,
+      bondId: request.bondId,
+      lenderId: request.lenderId,
+      hasCondition: !!condition,
+      dryRun,
+    });
 
     return { prepared, condition };
   }

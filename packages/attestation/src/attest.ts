@@ -130,7 +130,7 @@ export class AttestationEngine {
     request: AttestationRequest,
     dryRun = true
   ): Promise<PreparedTransaction | null> {
-    if (!this.xrplClient || !this.attestationXrplAddress || !this.issuerXrplAddress) {
+    if (!this.xrplClient || !this.attestationXrplAddress) {
       return null;
     }
 
@@ -143,15 +143,15 @@ export class AttestationEngine {
       ...(request.metadata && { metadata: request.metadata }),
     };
 
+    // Use minimal XRP self-payment (1 drop) with attestation memo.
+    // This is simpler and more reliable than IOU self-payment because it
+    // requires no trustlines, no IOU issuance, and no issuer dependency.
+    // The entire value is in the memo — the payment is just the vehicle.
     const tx: any = {
       TransactionType: 'Payment',
       Account: this.attestationXrplAddress,
       Destination: this.attestationXrplAddress, // Self-payment
-      Amount: {
-        currency: 'ATTEST',
-        issuer: this.issuerXrplAddress,
-        value: '0.000001',
-      },
+      Amount: '1', // 1 drop of XRP — minimal cost
       Memos: [{
         Memo: {
           MemoType: XRPLClient.hexEncode(`attestation/${request.type}`),
