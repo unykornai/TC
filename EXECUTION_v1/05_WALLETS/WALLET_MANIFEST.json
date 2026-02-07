@@ -1,0 +1,142 @@
+{
+  "version": "1.0.0",
+  "network": "mainnet",
+  "generatedAt": "2026-02-07T12:58:29.830Z",
+  "generatedBy": "scripts/provision-mainnet.ts",
+  "phase": "Phase 18 — Live Wallet Provisioning",
+  "wallets": [
+    {
+      "role": "issuer",
+      "ledger": "xrpl",
+      "purpose": "IOU issuance (claims, receipts, participation tokens)",
+      "address": "rpraqLjKmDB9a43F9fURWA2bVaywkyJua3",
+      "publicKey": "02c5971a74d39f8765aee3f44ddc603f670fa4f043800944f11840d89b13913ebc",
+      "reserveRequired": "20 XRP",
+      "status": "GENERATED"
+    },
+    {
+      "role": "treasury",
+      "ledger": "xrpl",
+      "purpose": "Operational treasury, escrow funding",
+      "address": "r3JfTyqU9jwnXh2aWCwr738fb9HygNmBys",
+      "publicKey": "02d004a91444c14d646f2c28148b6a779b5d2618d24dc1115a20a44dcdc7c6e5bf",
+      "reserveRequired": "20 XRP",
+      "status": "GENERATED"
+    },
+    {
+      "role": "escrow",
+      "ledger": "xrpl",
+      "purpose": "Conditional settlement escrow",
+      "address": "rBC9g8YVU6HZouStFcdE5a8kmsob8napKD",
+      "publicKey": "023a9ab5de9a5c99868be6360cc3866ce66624aa14f9cf75f2ff8a9777050b1da8",
+      "reserveRequired": "15 XRP",
+      "status": "GENERATED"
+    },
+    {
+      "role": "attestation",
+      "ledger": "xrpl",
+      "purpose": "Document hash anchoring (evidence only)",
+      "address": "rEUxqL1Rmzciu31Sq7ocx6KZyt6htqjjBv",
+      "publicKey": "033a8b83cfa5a68b5d4fdb4026071c870feaeec54fbcdb2af9c1c3e0ddf7284515",
+      "reserveRequired": "15 XRP",
+      "status": "GENERATED"
+    },
+    {
+      "role": "amm_liquidity",
+      "ledger": "xrpl",
+      "purpose": "AMM liquidity provision",
+      "address": "raCevnYFkqAvkDAoeQ7uttf9okSaWxXFuP",
+      "publicKey": "03af42b354b827fe19911e433d9d21fe3dec68a42b900263afe75cad1a7595542b",
+      "reserveRequired": "15 XRP",
+      "status": "GENERATED"
+    },
+    {
+      "role": "trading",
+      "ledger": "xrpl",
+      "purpose": "Algorithmic trading and DEX operations",
+      "address": "rBAAd5z7e4Yvy4QzZ37WjmbZj1dnzJaTfY",
+      "publicKey": "03b2d8c5cd0c218d59db49347f2472ab23e8776a3146f528bd49b0d46874bb1280",
+      "reserveRequired": "15 XRP",
+      "status": "GENERATED"
+    },
+    {
+      "role": "issuer",
+      "ledger": "stellar",
+      "purpose": "Regulated asset issuance",
+      "address": "GBJIMHMBGTPN5RS42OGBUY5NC2ATZLPT3B3EWV32SM2GQLS46TRJWG4I",
+      "reserveRequired": "5 XLM",
+      "status": "GENERATED"
+    },
+    {
+      "role": "distribution",
+      "ledger": "stellar",
+      "purpose": "Asset distribution and settlement",
+      "address": "GAKCD7OKDM4HLZDBEE7KXTRFAYIE755UHL3JFQEOOHDPIMM5GEFY3RPF",
+      "reserveRequired": "5 XLM",
+      "status": "GENERATED"
+    },
+    {
+      "role": "anchor",
+      "ledger": "stellar",
+      "purpose": "Fiat on/off-ramp anchor operations",
+      "address": "GC6O6Q7FG5FZGHE5D5BHGA6ZTLRAU7UWFJKKWNOJ36G3PKVVKVYLQGA6",
+      "reserveRequired": "5 XLM",
+      "status": "GENERATED"
+    }
+  ],
+  "funding": {
+    "xrpl": {
+      "accountReserves": "100 XRP",
+      "trustlineReserves": "40 XRP",
+      "operationsBuffer": "20 XRP",
+      "total": "160 XRP"
+    },
+    "stellar": {
+      "accountReserves": "15 XLM",
+      "trustlineReserves": "1 XLM",
+      "operationsBuffer": "5 XLM",
+      "total": "21 XLM"
+    }
+  },
+  "stablecoinTrustlines": {
+    "issuers": [
+      {
+        "currency": "USDT",
+        "issuer": "rE85pdvr4icCPh9cpPr1HrSCVJCUhZ1Dqm",
+        "name": "Tether",
+        "tier": 1
+      },
+      {
+        "currency": "USDC",
+        "issuer": "rcvxE9PS9YBwxtGg1qNeewV6ZB3wGubZq",
+        "name": "Circle",
+        "tier": 1
+      },
+      {
+        "currency": "USD",
+        "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "name": "Bitstamp",
+        "tier": 1
+      },
+      {
+        "currency": "USD",
+        "issuer": "rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq",
+        "name": "GateHub",
+        "tier": 2
+      }
+    ],
+    "trustLimits": {
+      "USDT": "1000000",
+      "USDC": "1000000",
+      "USD_Bitstamp": "500000",
+      "USD_GateHub": "250000"
+    }
+  },
+  "nextSteps": [
+    "1. Back up .mainnet-secrets.json to OFFLINE cold storage",
+    "2. Fund each XRPL address with its reserve amount + buffer",
+    "3. Fund each Stellar address with its reserve amount + buffer",
+    "4. Run: npx ts-node scripts/deploy-mainnet-trustlines.ts --network mainnet",
+    "5. Verify trustlines on livenet.xrpl.org / stellar.expert"
+  ]
+}

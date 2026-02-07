@@ -6,11 +6,14 @@
 
 ## ⚡ Quick Reference
 
-| What | Amount | Where |
+| What | Amount | ~USD (at $1.42/XRP, $0.16/XLM) |
 |------|--------|-------|
-| XRPL total | ~154 XRP | 6 accounts |
-| Stellar total | ~21 XLM | 3 accounts |
-| Approx USD value | ~$80-120 total | At current XRP/XLM prices |
+| XRPL total | 150 XRP | ~$213 |
+| Stellar total | 21 XLM | ~$3.36 |
+| **TOTAL** | | **≈ $216** |
+
+> 💡 **QR CODES**: Open [FUNDING_QR_CODES.html](FUNDING_QR_CODES.html) in your browser for scannable QR codes for every address.
+> Prices update live when you open the page.
 
 ---
 
@@ -170,18 +173,29 @@ npx ts-node scripts/deploy-mainnet-trustlines.ts --network mainnet
 
 ---
 
-## 📊 Cost Breakdown (Current Prices)
+## 📊 Cost Breakdown (Live Prices — Feb 7, 2026)
 
-*At XRP ≈ $0.55 and XLM ≈ $0.12:*
+*At XRP ≈ $1.42 and XLM ≈ $0.16:*
 
 | Item | Amount | ~USD |
 |------|--------|------|
-| 160 XRP | Account reserves + trustlines + buffer | ~$88 |
-| 25 XLM | Account reserves + buffer | ~$3 |
-| **TOTAL** | | **~$91** |
+| XRPL Issuer | 25 XRP | ~$35.50 |
+| XRPL Treasury | 30 XRP | ~$42.60 |
+| XRPL Escrow | 25 XRP | ~$35.50 |
+| XRPL Attestation | 20 XRP | ~$28.40 |
+| XRPL AMM Liquidity | 25 XRP | ~$35.50 |
+| XRPL Trading | 25 XRP | ~$35.50 |
+| **XRPL Subtotal** | **150 XRP** | **~$213.00** |
+| Stellar Issuer | 7 XLM | ~$1.12 |
+| Stellar Distribution | 7 XLM | ~$1.12 |
+| Stellar Anchor | 7 XLM | ~$1.12 |
+| **Stellar Subtotal** | **21 XLM** | **~$3.36** |
+| **GRAND TOTAL** | | **≈ $216.36** |
 
 > These are one-time costs. The XRP/XLM used for reserves remains in your accounts
 > and can be recovered if you ever delete trustlines or close accounts.
+> 
+> 📱 **For easy funding: Open [FUNDING_QR_CODES.html](FUNDING_QR_CODES.html) and scan with your exchange/wallet app.**
 
 ---
 

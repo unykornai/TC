@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OPTKAS Wallet Funding — QR Codes</title>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #0a0e17;
+    color: #e0e6ed;
+    padding: 20px;
+  }
+  .header {
+    text-align: center;
+    padding: 30px 0 20px;
+    border-bottom: 2px solid #1e2a3a;
+    margin-bottom: 30px;
+  }
+  .header h1 { color: #00d4ff; font-size: 28px; margin-bottom: 8px; }
+  .header .subtitle { color: #8899aa; font-size: 14px; }
+  .header .price-bar {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  .price-chip {
+    background: #131b2a;
+    border: 1px solid #1e2a3a;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+  .price-chip .label { color: #8899aa; }
+  .price-chip .value { color: #00ff88; font-weight: 700; margin-left: 6px; }
+  .cost-summary {
+    background: linear-gradient(135deg, #0d1520, #131b2a);
+    border: 1px solid #1e3a2a;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  .cost-summary h2 { color: #00ff88; font-size: 18px; margin-bottom: 12px; }
+  .cost-table {
+    display: inline-grid;
+    grid-template-columns: auto auto auto;
+    gap: 6px 20px;
+    text-align: left;
+    font-size: 14px;
+  }
+  .cost-table .lbl { color: #8899aa; }
+  .cost-table .amt { color: #e0e6ed; font-weight: 600; }
+  .cost-table .usd { color: #00ff88; }
+  .cost-table .total { border-top: 1px solid #1e3a2a; padding-top: 6px; }
+  .section-title {
+    font-size: 20px;
+    color: #00d4ff;
+    margin: 30px 0 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #1e2a3a;
+  }
+  .wallet-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 16px;
+  }
+  .wallet-card {
+    background: #0d1520;
+    border: 1px solid #1e2a3a;
+    border-radius: 12px;
+    padding: 20px;
+    transition: border-color 0.2s;
+  }
+  .wallet-card:hover { border-color: #00d4ff; }
+  .wallet-card .role {
+    font-size: 16px;
+    font-weight: 700;
+    color: #00d4ff;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .wallet-card .purpose {
+    font-size: 12px;
+    color: #667788;
+    margin-bottom: 12px;
+  }
+  .qr-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .qr-box {
+    background: #fff;
+    padding: 8px;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+  .qr-box img, .qr-box canvas { display: block; }
+  .address-box { flex: 1; min-width: 0; }
+  .address {
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 12px;
+    color: #e0e6ed;
+    word-break: break-all;
+    background: #0a0e17;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #1e2a3a;
+    cursor: pointer;
+    position: relative;
+  }
+  .address:hover { border-color: #00d4ff; }
+  .address .copy-hint {
+    position: absolute;
+    top: -22px;
+    right: 4px;
+    font-size: 10px;
+    color: #00d4ff;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .address:hover .copy-hint { opacity: 1; }
+  .copied-toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #00ff88;
+    color: #0a0e17;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    z-index: 100;
+  }
+  .copied-toast.show { opacity: 1; }
+  .fund-info {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+  }
+  .fund-info .min { color: #ffaa00; font-weight: 600; }
+  .fund-info .usd { color: #00ff88; }
+  .ledger-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .ledger-xrpl { background: #1a2a4a; color: #4488ff; }
+  .ledger-stellar { background: #1a3a2a; color: #44ff88; }
+  .footer {
+    text-align: center;
+    color: #445566;
+    font-size: 12px;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #1e2a3a;
+  }
+  .warn-box {
+    background: #2a1a0a;
+    border: 1px solid #664400;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: #ffaa44;
+  }
+  .warn-box strong { color: #ffcc00; }
+  @media print {
+    body { background: #fff; color: #000; }
+    .wallet-card { border: 2px solid #ccc; break-inside: avoid; }
+    .address { background: #f5f5f5; color: #000; border-color: #ccc; }
+    .role { color: #0066cc !important; }
+    .fund-info .min { color: #cc6600; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🏛️ OPTKAS Wallet Funding</h1>
+  <div class="subtitle">Phase 18 — Live Infrastructure • Generated 2026-02-07</div>
+  <div class="price-bar">
+    <div class="price-chip"><span class="label">XRP</span><span class="value" id="xrp-price">$—</span></div>
+    <div class="price-chip"><span class="label">XLM</span><span class="value" id="xlm-price">$—</span></div>
+    <div class="price-chip"><span class="label">Total Cost</span><span class="value" id="total-cost">$—</span></div>
+  </div>
+</div>
+
+<div class="warn-box">
+  <strong>⚠ IMPORTANT:</strong> Scan QR codes with your exchange app or wallet (XUMM/Xaman, Coinbase, LOBSTR, etc.).
+  Click any address to copy it. Fund accounts in order — <strong>Issuer first</strong>.
+  No destination tags needed (new self-owned accounts).
+</div>
+
+<div class="cost-summary">
+  <h2>💰 Funding Cost Breakdown</h2>
+  <div class="cost-table" id="cost-table"></div>
+</div>
+
+<h2 class="section-title">⚡ XRPL Wallets (6 accounts)</h2>
+<div class="wallet-grid" id="xrpl-wallets"></div>
+
+<h2 class="section-title">⭐ Stellar Wallets (3 accounts)</h2>
+<div class="wallet-grid" id="stellar-wallets"></div>
+
+<div class="footer">
+  OPTKAS Sovereign Financial Platform • Phase 18 • Wallet Manifest v1.0.0<br>
+  After funding all accounts, run: <code>npx ts-node scripts/deploy-mainnet-trustlines.ts --network mainnet</code>
+</div>
+
+<div class="copied-toast" id="toast">✓ Address copied!</div>
+
+<script>
+// ── Wallet data (from WALLET_MANIFEST.json) ──────────────────
+const WALLETS = [
+  { role: "issuer", ledger: "xrpl", purpose: "IOU issuance (claims, receipts, participation tokens)", address: "rpraqLjKmDB9a43F9fURWA2bVaywkyJua3", reserve: 20, unit: "XRP", sendAmount: 25 },
+  { role: "treasury", ledger: "xrpl", purpose: "Operational treasury, escrow funding", address: "r3JfTyqU9jwnXh2aWCwr738fb9HygNmBys", reserve: 20, unit: "XRP", sendAmount: 30 },
+  { role: "escrow", ledger: "xrpl", purpose: "Conditional settlement escrow", address: "rBC9g8YVU6HZouStFcdE5a8kmsob8napKD", reserve: 15, unit: "XRP", sendAmount: 25 },
+  { role: "attestation", ledger: "xrpl", purpose: "Document hash anchoring (evidence only)", address: "rEUxqL1Rmzciu31Sq7ocx6KZyt6htqjjBv", reserve: 15, unit: "XRP", sendAmount: 20 },
+  { role: "amm_liquidity", ledger: "xrpl", purpose: "AMM liquidity provision", address: "raCevnYFkqAvkDAoeQ7uttf9okSaWxXFuP", reserve: 15, unit: "XRP", sendAmount: 25 },
+  { role: "trading", ledger: "xrpl", purpose: "Algorithmic trading and DEX operations", address: "rBAAd5z7e4Yvy4QzZ37WjmbZj1dnzJaTfY", reserve: 15, unit: "XRP", sendAmount: 25 },
+  { role: "issuer", ledger: "stellar", purpose: "Regulated asset issuance", address: "GBJIMHMBGTPN5RS42OGBUY5NC2ATZLPT3B3EWV32SM2GQLS46TRJWG4I", reserve: 5, unit: "XLM", sendAmount: 7 },
+  { role: "distribution", ledger: "stellar", purpose: "Asset distribution and settlement", address: "GAKCD7OKDM4HLZDBEE7KXTRFAYIE755UHL3JFQEOOHDPIMM5GEFY3RPF", reserve: 5, unit: "XLM", sendAmount: 7 },
+  { role: "anchor", ledger: "stellar", purpose: "Fiat on/off-ramp anchor operations", address: "GC6O6Q7FG5FZGHE5D5BHGA6ZTLRAU7UWFJKKWNOJ36G3PKVVKVYLQGA6", reserve: 5, unit: "XLM", sendAmount: 7 },
+];
+
+// ── Live prices ──────────────────────────────────────────────
+let XRP_PRICE = 1.42;
+let XLM_PRICE = 0.16;
+
+async function fetchPrices() {
+  try {
+    const res = await fetch('https://min-api.cryptocompare.com/data/pricemulti?fsyms=XRP,XLM&tsyms=USD');
+    const data = await res.json();
+    if (data.XRP?.USD) XRP_PRICE = data.XRP.USD;
+    if (data.XLM?.USD) XLM_PRICE = data.XLM.USD;
+  } catch(e) {
+    console.log('Using cached prices');
+  }
+  document.getElementById('xrp-price').textContent = '$' + XRP_PRICE.toFixed(3);
+  document.getElementById('xlm-price').textContent = '$' + XLM_PRICE.toFixed(4);
+  renderCosts();
+  renderWallets();
+}
+
+function getPrice(unit) {
+  return unit === 'XRP' ? XRP_PRICE : XLM_PRICE;
+}
+
+// ── Cost table ───────────────────────────────────────────────
+function renderCosts() {
+  const totalXrp = WALLETS.filter(w => w.unit === 'XRP').reduce((s, w) => s + w.sendAmount, 0);
+  const totalXlm = WALLETS.filter(w => w.unit === 'XLM').reduce((s, w) => s + w.sendAmount, 0);
+  const xrpUsd = totalXrp * XRP_PRICE;
+  const xlmUsd = totalXlm * XLM_PRICE;
+  const totalUsd = xrpUsd + xlmUsd;
+
+  document.getElementById('total-cost').textContent = '$' + totalUsd.toFixed(2);
+
+  document.getElementById('cost-table').innerHTML = `
+    <span class="lbl">XRPL (6 accounts)</span>
+    <span class="amt">${totalXrp} XRP</span>
+    <span class="usd">$${xrpUsd.toFixed(2)}</span>
+
+    <span class="lbl">Stellar (3 accounts)</span>
+    <span class="amt">${totalXlm} XLM</span>
+    <span class="usd">$${xlmUsd.toFixed(2)}</span>
+
+    <span class="lbl total"><strong>TOTAL</strong></span>
+    <span class="amt total"><strong>${totalXrp} XRP + ${totalXlm} XLM</strong></span>
+    <span class="usd total"><strong>≈ $${totalUsd.toFixed(2)}</strong></span>
+  `;
+}
+
+// ── QR code generation ───────────────────────────────────────
+function makeQR(text, size) {
+  const qr = qrcode(0, 'M');
+  qr.addData(text);
+  qr.make();
+  return qr.createDataURL(4, 0);
+}
+
+// ── Render wallet cards ──────────────────────────────────────
+function renderWallets() {
+  const xrplGrid = document.getElementById('xrpl-wallets');
+  const stellarGrid = document.getElementById('stellar-wallets');
+  xrplGrid.innerHTML = '';
+  stellarGrid.innerHTML = '';
+
+  WALLETS.forEach((w, i) => {
+    const usdCost = (w.sendAmount * getPrice(w.unit)).toFixed(2);
+    const qrImg = makeQR(w.address, 4);
+
+    const card = document.createElement('div');
+    card.className = 'wallet-card';
+    card.innerHTML = `
+      <div class="role">${w.role.replace('_', ' ')}
+        <span class="ledger-badge ledger-${w.ledger}">${w.ledger.toUpperCase()}</span>
+      </div>
+      <div class="purpose">${w.purpose}</div>
+      <div class="qr-container">
+        <div class="qr-box"><img src="${qrImg}" width="120" height="120" alt="QR ${w.address}"></div>
+        <div class="address-box">
+          <div class="address" onclick="copyAddr(this, '${w.address}')" title="Click to copy">
+            <span class="copy-hint">📋 click to copy</span>
+            ${w.address}
+          </div>
+          <div class="fund-info">
+            <span class="min">Send: ${w.sendAmount} ${w.unit}</span>
+            <span class="usd">≈ $${usdCost}</span>
+          </div>
+        </div>
+      </div>
+    `;
+
+    if (w.ledger === 'xrpl') xrplGrid.appendChild(card);
+    else stellarGrid.appendChild(card);
+  });
+}
+
+// ── Copy to clipboard ────────────────────────────────────────
+function copyAddr(el, addr) {
+  navigator.clipboard.writeText(addr).then(() => {
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 1500);
+  });
+}
+
+// ── Init ─────────────────────────────────────────────────────
+fetchPrices();
+</script>
+</body>
+</html>
