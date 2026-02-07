@@ -1,0 +1,71 @@
+# ─────────────────────────────────────────────────
+# OPTKAS Platform Report Templates
+# ─────────────────────────────────────────────────
+
+templates:
+
+  # ── Bond Lifecycle Report ──────────────────────
+  bond_lifecycle:
+    title: "Bond Lifecycle Report"
+    description: "End-to-end lifecycle tracking for bond issuance through redemption"
+    sections:
+      - issuance_summary
+      - trustline_status
+      - escrow_status
+      - payment_history
+      - attestation_anchors
+      - reconciliation_status
+    format: json
+    attestation: optional
+
+  # ── Compliance Audit Report ────────────────────
+  compliance_audit:
+    title: "Compliance Audit Report"
+    description: "KYC/AML compliance checks and regulatory event log"
+    sections:
+      - kyc_status
+      - aml_screening
+      - transaction_monitoring
+      - suspicious_activity
+      - regulatory_filings
+    format: json
+    attestation: required
+
+  # ── Reconciliation Report ──────────────────────
+  reconciliation:
+    title: "Cross-Ledger Reconciliation Report"
+    description: "Balance and transaction matching across XRPL and Stellar"
+    sections:
+      - xrpl_balances
+      - stellar_balances
+      - cross_ledger_delta
+      - unmatched_transactions
+      - reconciliation_verdict
+    format: json
+    attestation: required
+
+  # ── Token Supply Report ────────────────────────
+  token_supply:
+    title: "Token Supply & Distribution Report"
+    description: "Current supply, holders, and distribution breakdown"
+    sections:
+      - xrpl_iou_supply
+      - stellar_asset_supply
+      - holder_distribution
+      - trustline_count
+      - authorization_status
+    format: json
+    attestation: optional
+
+  # ── Access Control Report ──────────────────────
+  access_log:
+    title: "Access Control & Authorization Report"
+    description: "Multisig activity, signer actions, and authorization events"
+    sections:
+      - multisig_operations
+      - signer_activity
+      - authorization_grants
+      - authorization_revocations
+      - key_rotation_events
+    format: json
+    attestation: required

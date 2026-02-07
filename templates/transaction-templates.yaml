@@ -1,0 +1,134 @@
+# ─────────────────────────────────────────────────
+# OPTKAS Platform Transaction Templates
+# ─────────────────────────────────────────────────
+# These templates define standard transaction
+# structures used by the automation scripts.
+# All templates produce UNSIGNED transactions
+# routed through multisig governance.
+# ─────────────────────────────────────────────────
+
+platform: OPTKAS
+version: "1.0.0"
+
+templates:
+
+  # ── XRPL TrustLine Setup ──────────────────────
+  xrpl_trustline:
+    type: TrustSet
+    description: "Establish IOU trustline on XRPL"
+    fields:
+      account: "{{ signer }}"
+      limit_amount:
+        currency: "{{ currency_code }}"
+        issuer: "{{ issuer_address }}"
+        value: "{{ limit }}"
+      flags: 131072  # tfSetNoRipple
+    requires_multisig: true
+    dry_run_default: true
+
+  # ── XRPL IOU Payment ──────────────────────────
+  xrpl_iou_payment:
+    type: Payment
+    description: "Transfer IOU between XRPL accounts"
+    fields:
+      account: "{{ source }}"
+      destination: "{{ destination }}"
+      amount:
+        currency: "{{ currency_code }}"
+        issuer: "{{ issuer_address }}"
+        value: "{{ amount }}"
+      memos:
+        - memo_type: "optkas/transfer"
+          memo_data: "{{ reference_id }}"
+    requires_multisig: true
+    dry_run_default: true
+
+  # ── XRPL Escrow Create ────────────────────────
+  xrpl_escrow_create:
+    type: EscrowCreate
+    description: "Create time-locked escrow on XRPL"
+    fields:
+      account: "{{ source }}"
+      destination: "{{ destination }}"
+      amount: "{{ amount_drops }}"
+      finish_after: "{{ finish_after_ripple_time }}"
+      cancel_after: "{{ cancel_after_ripple_time }}"
+      condition: "{{ crypto_condition }}"
+      memos:
+        - memo_type: "optkas/escrow"
+          memo_data: "{{ escrow_reference }}"
+    requires_multisig: true
+    dry_run_default: true
+
+  # ── XRPL Memo Attestation ─────────────────────
+  xrpl_attestation:
+    type: Payment
+    description: "Self-payment with hash attestation memo"
+    fields:
+      account: "{{ attestor }}"
+      destination: "{{ attestor }}"
+      amount: "1"
+      memos:
+        - memo_type: "optkas/attest"
+          memo_data: "{{ sha256_hash }}"
+        - memo_type: "optkas/label"
+          memo_data: "{{ label }}"
+        - memo_type: "optkas/timestamp"
+          memo_data: "{{ iso_timestamp }}"
+    requires_multisig: false
+    dry_run_default: true
+
+  # ── Stellar Asset Issuance ─────────────────────
+  stellar_issue_asset:
+    type: Payment
+    description: "Issue regulated asset on Stellar"
+    fields:
+      source: "{{ issuer_keypair }}"
+      destination: "{{ distributor_public }}"
+      asset:
+        code: "{{ asset_code }}"
+        issuer: "{{ issuer_public }}"
+      amount: "{{ amount }}"
+    requires_multisig: true
+    stellar_flags:
+      authorization_required: true
+      authorization_revocable: true
+      clawback_enabled: true
+    dry_run_default: true
+
+  # ── Stellar ManageData Attestation ─────────────
+  stellar_attestation:
+    type: ManageData
+    description: "Store hash attestation in Stellar account data"
+    fields:
+      source: "{{ attestor_keypair }}"
+      name: "optkas:attest:{{ label }}"
+      value: "{{ sha256_hash }}"
+    requires_multisig: false
+    dry_run_default: true
+
+  # ── Cross-Ledger Reconciliation Record ─────────
+  reconciliation_record:
+    type: Internal
+    description: "Cross-ledger reconciliation checkpoint"
+    fields:
+      xrpl_ledger_index: "{{ xrpl_ledger }}"
+      stellar_sequence: "{{ stellar_sequence }}"
+      xrpl_balance: "{{ xrpl_balance }}"
+      stellar_balance: "{{ stellar_balance }}"
+      delta: "{{ delta }}"
+      timestamp: "{{ iso_timestamp }}"
+      status: "{{ reconciliation_status }}"
+    output: "reports/reconciliation_{{ timestamp }}.json"
+
+  # ── Audit Report ───────────────────────────────
+  audit_report:
+    type: Internal
+    description: "Generate institutional audit report"
+    fields:
+      report_type: "{{ report_type }}"
+      date_from: "{{ date_from }}"
+      date_to: "{{ date_to }}"
+      include_hashes: true
+      attest_to_ledger: "{{ attest_target }}"
+    output: "reports/audit_{{ report_type }}_{{ date_to }}.json"
