@@ -1,0 +1,12 @@
+{
+  "name": "@optkas/agents",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OPTKAS algorithmic trading agents and strategy engine",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  }
+}

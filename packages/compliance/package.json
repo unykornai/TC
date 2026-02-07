@@ -1,0 +1,12 @@
+{
+  "name": "@optkas/compliance",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OPTKAS KYC/KYB/AML and covenant monitoring engine",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  }
+}

@@ -59,3 +59,7 @@ TRACKING_DATABASE/
 SIGNED_DOCUMENTS_*/
 logs/
 
+
+# Testnet secret keys
+.testnet-secrets.json
+config/.testnet-secrets.json

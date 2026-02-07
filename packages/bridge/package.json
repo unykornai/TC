@@ -1,0 +1,12 @@
+{
+  "name": "@optkas/bridge",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OPTKAS XChainBridge configuration and management",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  }
+}

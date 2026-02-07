@@ -161,7 +161,7 @@ export class OrderBookEngine {
     const spread = bestAsk > 0 && bestBid > 0 ? (bestAsk - bestBid).toFixed(8) : '0';
     const midPrice = bestAsk > 0 && bestBid > 0 ? ((bestAsk + bestBid) / 2).toFixed(8) : '0';
     const spreadBps = bestAsk > 0 && bestBid > 0
-      ? Math.round(((bestAsk - bestBid) / midPrice as any) * 10000)
+      ? Math.round(((bestAsk - bestBid) / parseFloat(midPrice)) * 10000)
       : 0;
 
     return {
