@@ -1,0 +1,72 @@
+{
+  "voice_agent": {
+    "name": "OPTKAS Capital Markets AI Concierge",
+    "description": "ElevenLabs Conversational AI agent for the OPTKAS 877-570-XRPL investor relations line",
+    "created": "2026-02-07T19:14:00Z",
+    "status": "ACTIVE"
+  },
+  "elevenlabs": {
+    "agent_id": "agent_0501kgwrcceqeyhab6fq60bzdm4h",
+    "phone_number_id": "phnum_8201kgwrhck6ekksj8c1g0w836ch",
+    "voice_id": "cjVigY5qzO86Huf0OWal",
+    "voice_name": "Smooth Tenor — Male 40s, Classy, Conversational",
+    "model": "eleven_turbo_v2",
+    "llm": "gemini-2.5-flash",
+    "language": "en",
+    "first_message": "Thank you for calling OPTKAS Capital Markets. This is the investor relations desk. How may I assist you today?",
+    "dashboard": "https://elevenlabs.io/app/agents",
+    "call_history": "https://elevenlabs.io/app/agents/history"
+  },
+  "telnyx": {
+    "phone_number": "+18775709775",
+    "phone_number_vanity": "877-570-XRPL",
+    "phone_number_id": "2868305994083993108",
+    "fqdn_connection_id": "2890262212058809441",
+    "fqdn_connection_name": "ElevenLabs-OPTKAS",
+    "fqdn_id": "2890262278236537968",
+    "fqdn_target": "sip.rtc.elevenlabs.io:5060",
+    "transport": "TCP",
+    "codecs": ["G722", "G711U", "G711A"],
+    "old_connection_id": "2884356795604665959",
+    "old_connection_name": "XRPL"
+  },
+  "call_flow": {
+    "inbound": [
+      "1. Caller dials 877-570-XRPL (877-570-9775)",
+      "2. Telnyx receives call on +18775709775",
+      "3. FQDN connection routes SIP INVITE to sip.rtc.elevenlabs.io:5060",
+      "4. ElevenLabs matches +18775709775 → OPTKAS Capital Markets agent",
+      "5. AI agent answers with investor relations greeting",
+      "6. Full conversational AI handles the call"
+    ],
+    "outbound": [
+      "1. ElevenLabs initiates call via agent dashboard",
+      "2. SIP INVITE sent to sip.telnyx.com with digest auth",
+      "3. Telnyx places the outbound call from +18775709775",
+      "4. AI agent starts conversation when recipient answers"
+    ]
+  },
+  "agent_capabilities": {
+    "investment_inquiries": "Collects name, firm, email; explains $10M tranche of $500M program",
+    "due_diligence": "Directs to data room portal, offers NDA-gated access",
+    "technical_questions": "Explains XRPL settlement, 5-layer architecture, token structure",
+    "media_press": "Takes contact info, routes to communications team",
+    "existing_investors": "Confirms identity, offers relationship manager connection",
+    "compliance": "Rule 144A / Reg S disclaimer included, not investment advice"
+  },
+  "bond_knowledge": {
+    "program_size": "$500,000,000",
+    "current_tranche": "$10,000,000 (Tranche 1)",
+    "instrument": "Senior Secured Notes",
+    "coupon": "5.00% Fixed",
+    "maturity": "May 2030",
+    "cusip_144a": "87225HAB4",
+    "cusip_reg_s": "P9000TAA8",
+    "isin_144a": "US87225HAB42",
+    "isin_reg_s": "BSP9000TAA83",
+    "issuer": "TC Advantage Traders, Ltd. (Bahamas)",
+    "settlement": "DTC/DWAC + XRPL",
+    "surety_bond": "Western Surety Company #71003488",
+    "vault_nav": "$4,110,000"
+  }
+}
