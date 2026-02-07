@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OPTKAS — Sovereign Infrastructure Command Brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════
+   OPTKAS TEAM PORTAL — Sovereign Infrastructure Command Brief
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  --bg-primary: #06090f;
+  --bg-secondary: #0c1220;
+  --bg-card: #111827;
+  --bg-card-hover: #1a2332;
+  --gold: #c9a84c;
+  --gold-bright: #e4c76b;
+  --gold-dim: #8a7235;
+  --green: #10b981;
+  --green-dim: #065f46;
+  --red: #ef4444;
+  --blue: #3b82f6;
+  --blue-dim: #1e3a5f;
+  --purple: #8b5cf6;
+  --cyan: #06b6d4;
+  --text: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-dim: #64748b;
+  --border: rgba(201,168,76,0.15);
+  --border-bright: rgba(201,168,76,0.4);
+  --glass: rgba(255,255,255,0.03);
+  --glow-gold: 0 0 40px rgba(201,168,76,0.15);
+  --glow-green: 0 0 30px rgba(16,185,129,0.15);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--bg-primary);
+  color:var(--text);
+  line-height:1.6;
+  overflow-x:hidden;
+}
+/* Scrollbar */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg-primary)}
+::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:3px}
+
+/* ── Background Effects ── */
+.bg-grid{
+  position:fixed;inset:0;z-index:0;
+  background-image:
+    linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
+  background-size:60px 60px;
+  pointer-events:none;
+}
+.bg-glow{
+  position:fixed;z-index:0;pointer-events:none;
+  width:600px;height:600px;border-radius:50%;
+  filter:blur(120px);opacity:0.07;
+}
+.bg-glow-1{top:-200px;left:-200px;background:var(--gold)}
+.bg-glow-2{bottom:-200px;right:-200px;background:var(--blue)}
+.bg-glow-3{top:50%;left:50%;transform:translate(-50%,-50%);background:var(--purple);opacity:0.04}
+
+/* ── Navigation ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(6,9,15,0.92);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:0 2rem;
+}
+nav .nav-inner{
+  max-width:1400px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  height:64px;
+}
+nav .logo{
+  font-weight:800;font-size:1.1rem;letter-spacing:2px;
+  color:var(--gold);
+}
+nav .logo span{color:var(--text);font-weight:400;opacity:0.6;font-size:0.8rem;margin-left:8px}
+nav .nav-links{display:flex;gap:6px}
+nav .nav-links a{
+  color:var(--text-secondary);text-decoration:none;
+  font-size:0.75rem;font-weight:500;letter-spacing:0.5px;text-transform:uppercase;
+  padding:8px 14px;border-radius:6px;transition:all 0.2s;
+}
+nav .nav-links a:hover{color:var(--gold);background:rgba(201,168,76,0.08)}
+.live-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);
+  padding:4px 12px;border-radius:20px;font-size:0.7rem;color:var(--green);
+  font-weight:600;letter-spacing:0.5px;
+}
+.live-badge::before{
+  content:'';width:6px;height:6px;border-radius:50%;background:var(--green);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* ── Main Container ── */
+main{position:relative;z-index:1;padding-top:64px}
+section{padding:5rem 2rem}
+.container{max-width:1400px;margin:0 auto}
+
+/* ── Hero ── */
+.hero{
+  min-height:calc(100vh - 64px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:4rem 2rem;position:relative;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(201,168,76,0.08);border:1px solid var(--border-bright);
+  padding:8px 20px;border-radius:30px;font-size:0.8rem;color:var(--gold);
+  font-weight:600;letter-spacing:1px;text-transform:uppercase;
+  margin-bottom:2rem;
+  animation:fadeInDown 0.8s ease;
+}
+.hero h1{
+  font-size:clamp(2.5rem,6vw,5rem);font-weight:900;
+  line-height:1.05;letter-spacing:-2px;
+  margin-bottom:1.5rem;
+  animation:fadeInUp 0.8s ease 0.2s both;
+}
+.hero h1 .gold{
+  background:linear-gradient(135deg,var(--gold),var(--gold-bright));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero .subtitle{
+  font-size:clamp(1rem,2vw,1.35rem);color:var(--text-secondary);
+  max-width:700px;line-height:1.7;margin-bottom:3rem;
+  animation:fadeInUp 0.8s ease 0.4s both;
+}
+.hero-stats{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:1.5rem;max-width:1000px;width:100%;
+  animation:fadeInUp 0.8s ease 0.6s both;
+}
+.hero-stat{
+  background:var(--glass);border:1px solid var(--border);
+  border-radius:16px;padding:1.5rem 1rem;
+  transition:all 0.3s;
+}
+.hero-stat:hover{border-color:var(--border-bright);box-shadow:var(--glow-gold);transform:translateY(-2px)}
+.hero-stat .number{
+  font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:700;
+  color:var(--gold);display:block;
+}
+.hero-stat .label{font-size:0.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+
+/* ── Section Headers ── */
+.section-header{text-align:center;margin-bottom:4rem}
+.section-number{
+  font-family:'JetBrains Mono',monospace;font-size:0.8rem;font-weight:600;
+  color:var(--gold);letter-spacing:3px;text-transform:uppercase;
+  display:block;margin-bottom:0.5rem;
+}
+.section-title{font-size:clamp(1.8rem,4vw,3rem);font-weight:800;letter-spacing:-1px;margin-bottom:1rem}
+.section-subtitle{font-size:1.05rem;color:var(--text-secondary);max-width:600px;margin:0 auto}
+
+/* ── Cards ── */
+.card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:16px;padding:2rem;
+  transition:all 0.3s ease;position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:0;transition:opacity 0.3s;
+}
+.card:hover{
+  border-color:var(--border-bright);
+  box-shadow:var(--glow-gold);
+  transform:translateY(-4px);
+}
+.card:hover::before{opacity:1}
+
+/* ── Status Badges ── */
+.badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 10px;border-radius:6px;
+  font-size:0.7rem;font-weight:600;letter-spacing:0.5px;
+}
+.badge-green{background:rgba(16,185,129,0.12);color:var(--green);border:1px solid rgba(16,185,129,0.2)}
+.badge-gold{background:rgba(201,168,76,0.12);color:var(--gold);border:1px solid rgba(201,168,76,0.2)}
+.badge-blue{background:rgba(59,130,246,0.12);color:var(--blue);border:1px solid rgba(59,130,246,0.2)}
+.badge-purple{background:rgba(139,92,246,0.12);color:var(--purple);border:1px solid rgba(139,92,246,0.2)}
+.badge-red{background:rgba(239,68,68,0.12);color:var(--red);border:1px solid rgba(239,68,68,0.2)}
+
+/* ── KPI Grid ── */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:3rem}
+.kpi{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:12px;
+  padding:1.5rem;text-align:center;transition:all 0.3s;
+}
+.kpi:hover{border-color:var(--border-bright);box-shadow:var(--glow-gold)}
+.kpi-value{
+  font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:700;
+  display:block;margin-bottom:4px;
+}
+.kpi-label{font-size:0.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px}
+
+/* ── Big Number ── */
+.big-number-row{
+  display:flex;flex-wrap:wrap;gap:2rem;justify-content:center;margin:3rem 0;
+}
+.big-number{text-align:center;flex:1;min-width:150px}
+.big-number .val{
+  font-family:'JetBrains Mono',monospace;
+  font-size:clamp(2rem,5vw,3.5rem);font-weight:800;
+  background:linear-gradient(135deg,var(--gold),var(--gold-bright));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.big-number .desc{font-size:0.8rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+
+/* ── Tables ── */
+.table-wrap{overflow-x:auto;margin:1.5rem 0;border-radius:12px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:0.85rem}
+thead{background:rgba(201,168,76,0.06)}
+th{
+  text-align:left;padding:12px 16px;font-size:0.7rem;
+  text-transform:uppercase;letter-spacing:1px;color:var(--gold);
+  font-weight:600;border-bottom:1px solid var(--border);
+}
+td{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--text-secondary)}
+tr:hover td{background:rgba(201,168,76,0.03);color:var(--text)}
+td:first-child{color:var(--text);font-weight:500}
+.mono{font-family:'JetBrains Mono',monospace;font-size:0.8rem}
+
+/* ── Progress Bars ── */
+.progress-bar{
+  height:8px;background:rgba(255,255,255,0.05);border-radius:4px;
+  overflow:hidden;position:relative;
+}
+.progress-fill{
+  height:100%;border-radius:4px;transition:width 1.5s ease;
+  background:linear-gradient(90deg,var(--gold-dim),var(--gold));
+}
+.progress-fill.green{background:linear-gradient(90deg,var(--green-dim),var(--green))}
+
+/* ── Timeline ── */
+.timeline{position:relative;padding-left:3rem}
+.timeline::before{
+  content:'';position:absolute;left:12px;top:0;bottom:0;width:2px;
+  background:linear-gradient(180deg,var(--gold),var(--blue),var(--purple));
+}
+.timeline-item{position:relative;margin-bottom:2rem;padding:1.5rem;
+  background:var(--bg-card);border:1px solid var(--border);border-radius:12px;
+  transition:all 0.3s;}
+.timeline-item:hover{border-color:var(--border-bright);box-shadow:var(--glow-gold)}
+.timeline-item::before{
+  content:'';position:absolute;left:-2.35rem;top:1.8rem;
+  width:12px;height:12px;border-radius:50%;
+  background:var(--gold);border:3px solid var(--bg-primary);
+}
+.timeline-item.active::before{background:var(--green);box-shadow:0 0 12px var(--green)}
+.timeline-item.future::before{background:var(--blue);box-shadow:0 0 12px var(--blue)}
+.timeline-date{font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--gold);font-weight:600;margin-bottom:4px}
+.timeline-title{font-size:1.1rem;font-weight:700;margin-bottom:6px}
+.timeline-desc{font-size:0.85rem;color:var(--text-secondary);line-height:1.7}
+
+/* ── Wallet Cards ── */
+.wallet-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:1.5rem}
+.wallet-card{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:12px;
+  padding:1.5rem;transition:all 0.3s;position:relative;overflow:hidden;
+}
+.wallet-card:hover{border-color:var(--border-bright);box-shadow:var(--glow-gold);transform:translateY(-2px)}
+.wallet-card .chain-tag{
+  position:absolute;top:12px;right:12px;
+  font-size:0.65rem;font-weight:700;letter-spacing:1px;
+  padding:3px 10px;border-radius:4px;text-transform:uppercase;
+}
+.chain-tag.xrpl{background:rgba(139,92,246,0.15);color:var(--purple);border:1px solid rgba(139,92,246,0.3)}
+.chain-tag.stellar{background:rgba(6,182,212,0.15);color:var(--cyan);border:1px solid rgba(6,182,212,0.3)}
+.wallet-role{font-size:1rem;font-weight:700;margin-bottom:4px}
+.wallet-addr{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--text-dim);word-break:break-all;margin-bottom:8px}
+.wallet-purpose{font-size:0.8rem;color:var(--text-secondary);line-height:1.6}
+
+/* ── Package Grid ── */
+.pkg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
+.pkg{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:10px;
+  padding:1.2rem;transition:all 0.3s;cursor:default;
+}
+.pkg:hover{border-color:var(--border-bright);transform:translateY(-2px);box-shadow:var(--glow-gold)}
+.pkg-name{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.9rem;margin-bottom:4px}
+.pkg-class{font-size:0.7rem;color:var(--gold);font-family:'JetBrains Mono',monospace;margin-bottom:6px}
+.pkg-desc{font-size:0.8rem;color:var(--text-secondary);line-height:1.5}
+.pkg-layer{
+  display:inline-block;font-size:0.6rem;font-weight:700;
+  padding:2px 8px;border-radius:4px;margin-top:8px;
+  text-transform:uppercase;letter-spacing:1px;
+}
+.layer-1{background:rgba(249,115,22,0.12);color:#f97316;border:1px solid rgba(249,115,22,0.2)}
+.layer-2{background:rgba(239,68,68,0.12);color:#ef4444;border:1px solid rgba(239,68,68,0.2)}
+.layer-3{background:rgba(16,185,129,0.12);color:#10b981;border:1px solid rgba(16,185,129,0.2)}
+.layer-4{background:rgba(59,130,246,0.12);color:#3b82f6;border:1px solid rgba(59,130,246,0.2)}
+.layer-5{background:rgba(139,92,246,0.12);color:#8b5cf6;border:1px solid rgba(139,92,246,0.2)}
+.layer-6{background:rgba(201,168,76,0.12);color:#c9a84c;border:1px solid rgba(201,168,76,0.2)}
+
+/* ── Comparison Grid ── */
+.compare-grid{
+  display:grid;grid-template-columns:2fr repeat(4,1fr);
+  gap:0;border:1px solid var(--border);border-radius:12px;overflow:hidden;
+  font-size:0.82rem;
+}
+.compare-grid .ch{
+  background:rgba(201,168,76,0.06);padding:12px 16px;
+  font-weight:700;font-size:0.7rem;text-transform:uppercase;
+  letter-spacing:1px;color:var(--gold);border-bottom:1px solid var(--border);
+}
+.compare-grid .cc{
+  padding:10px 16px;border-bottom:1px solid rgba(255,255,255,0.04);
+  color:var(--text-secondary);text-align:center;
+}
+.compare-grid .cc:first-child{text-align:left;color:var(--text);font-weight:500}
+.compare-grid .cc.optkas{background:rgba(201,168,76,0.04);color:var(--gold);font-weight:600}
+.compare-grid .cc .check{color:var(--green);font-weight:700}
+.compare-grid .cc .cross{color:var(--red);opacity:0.5}
+
+/* ── Lender Row ── */
+.lender-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.lender{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:10px;
+  padding:1.2rem;display:flex;align-items:center;gap:1rem;transition:all 0.3s;
+}
+.lender:hover{border-color:var(--border-bright);box-shadow:var(--glow-gold);transform:translateY(-2px)}
+.lender-num{
+  font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:800;
+  color:var(--gold);opacity:0.5;min-width:40px;text-align:center;
+}
+.lender-info .lender-name{font-weight:700;font-size:0.95rem;margin-bottom:2px}
+.lender-info .lender-focus{font-size:0.75rem;color:var(--text-dim)}
+
+/* ── CTA Section ── */
+.cta-section{
+  text-align:center;padding:5rem 2rem;
+  background:linear-gradient(180deg,transparent,rgba(201,168,76,0.03),transparent);
+}
+.cta-section h2{font-size:clamp(2rem,4vw,3rem);font-weight:900;margin-bottom:1rem;letter-spacing:-1px}
+.cta-section p{color:var(--text-secondary);font-size:1.1rem;max-width:600px;margin:0 auto 2rem}
+.cta-buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 28px;border-radius:10px;font-weight:600;font-size:0.9rem;
+  text-decoration:none;transition:all 0.3s;cursor:pointer;border:none;
+}
+.btn-gold{
+  background:linear-gradient(135deg,var(--gold),var(--gold-bright));color:#000;
+}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(201,168,76,0.3)}
+.btn-outline{
+  background:transparent;color:var(--gold);border:1px solid var(--border-bright);
+}
+.btn-outline:hover{background:rgba(201,168,76,0.08);transform:translateY(-2px)}
+
+/* ── Animations ── */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes countUp{from{opacity:0}to{opacity:1}}
+.fade-in{opacity:0;transform:translateY(30px);transition:all 0.8s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* ── Scroll Indicator ── */
+.scroll-down{
+  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  color:var(--text-dim);font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;
+  animation:float 3s ease infinite;
+}
+@keyframes float{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,-10px)}}
+.scroll-arrow{
+  width:20px;height:20px;border-right:2px solid var(--gold-dim);
+  border-bottom:2px solid var(--gold-dim);transform:rotate(45deg);
+}
+
+/* ── Footer ── */
+footer{
+  border-top:1px solid var(--border);padding:2rem;text-align:center;
+  font-size:0.75rem;color:var(--text-dim);
+}
+
+/* ── Responsive ── */
+@media(max-width:768px){
+  nav .nav-links{display:none}
+  .hero h1{font-size:2.2rem;letter-spacing:-1px}
+  .wallet-grid{grid-template-columns:1fr}
+  .compare-grid{font-size:0.7rem}
+  .compare-grid .cc,.compare-grid .ch{padding:8px}
+  section{padding:3rem 1rem}
+}
+
+/* ── Phase counter ── */
+.phase-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:0.75rem}
+.phase-chip{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:8px;
+  padding:10px 14px;font-size:0.8rem;transition:all 0.3s;
+  display:flex;align-items:center;gap:8px;
+}
+.phase-chip:hover{border-color:var(--green);background:rgba(16,185,129,0.05)}
+.phase-chip .pnum{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--gold);font-size:0.75rem;min-width:24px}
+.phase-chip .ptxt{color:var(--text-secondary);font-size:0.72rem;line-height:1.3}
+
+/* Token pill */
+.token-pills{display:flex;flex-wrap:wrap;gap:0.75rem;justify-content:center;margin:2rem 0}
+.token-pill{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:30px;
+  padding:10px 24px;display:flex;align-items:center;gap:10px;transition:all 0.3s;
+}
+.token-pill:hover{border-color:var(--gold);box-shadow:var(--glow-gold);transform:scale(1.05)}
+.token-pill .tname{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.9rem}
+.token-pill .ttype{font-size:0.7rem;color:var(--text-dim)}
+
+/* Divider */
+.divider{
+  width:80px;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  margin:2rem auto;
+}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow bg-glow-1"></div>
+<div class="bg-glow bg-glow-2"></div>
+<div class="bg-glow bg-glow-3"></div>
+
+<!-- ═══════════ NAVIGATION ═══════════ -->
+<nav>
+  <div class="nav-inner">
+    <div class="logo">OPTKAS<span>Sovereign Platform</span></div>
+    <div class="nav-links">
+      <a href="#overview">Overview</a>
+      <a href="#infrastructure">Infrastructure</a>
+      <a href="#wallets">Wallets</a>
+      <a href="#packages">Packages</a>
+      <a href="#dashboards">Dashboards</a>
+      <a href="#gameplan">Game Plan</a>
+      <a href="#comparison">Compare</a>
+      <a href="#lenders">Wave 1</a>
+    </div>
+    <div class="live-badge">ALL SYSTEMS LIVE</div>
+  </div>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<main>
+<section class="hero" id="overview">
+  <div class="hero-badge">⚡ INTERNAL COMMAND BRIEF — FEBRUARY 7, 2026</div>
+  <h1>
+    This Is What<br>
+    <span class="gold">You Built.</span>
+  </h1>
+  <p class="subtitle">
+    28 packages. 9 mainnet wallets. 78 on-chain operations. 7 dashboards. 14 lender packages ready.
+    A sovereign capital markets platform that rivals what $50M+ hedge funds build with teams of 20.
+    <strong>Monday is go.</strong>
+  </p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="number" data-count="28">28</span>
+      <div class="label">Software Packages</div>
+    </div>
+    <div class="hero-stat">
+      <span class="number">$4.11M</span>
+      <div class="label">Vault NAV</div>
+    </div>
+    <div class="hero-stat">
+      <span class="number">9</span>
+      <div class="label">Mainnet Wallets</div>
+    </div>
+    <div class="hero-stat">
+      <span class="number">97.4%</span>
+      <div class="label">On-Chain Success</div>
+    </div>
+    <div class="hero-stat">
+      <span class="number">250%</span>
+      <div class="label">Collateral Coverage</div>
+    </div>
+    <div class="hero-stat">
+      <span class="number">0</span>
+      <div class="label">Gating Items</div>
+    </div>
+  </div>
+  <div class="scroll-down">
+    <span>Scroll to explore</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ═══════════ THE COLLATERAL ═══════════ -->
+<section id="collateral" style="background:linear-gradient(180deg,rgba(201,168,76,0.02),transparent)">
+  <div class="container fade-in">
+    <div class="section-header">
+      <span class="section-number">01 — The Foundation</span>
+      <h2 class="section-title">The $10M Bond</h2>
+      <p class="section-subtitle">TC Advantage 5% Secured Medium Term Notes — the institutional-grade collateral behind everything</p>
+    </div>
+
+    <div class="big-number-row">
+      <div class="big-number"><div class="val">$10M</div><div class="desc">Face Value</div></div>
+      <div class="big-number"><div class="val">$4M</div><div class="desc">Facility Target</div></div>
+      <div class="big-number"><div class="val">250%</div><div class="desc">Coverage</div></div>
+      <div class="big-number"><div class="val">40%</div><div class="desc">LTV</div></div>
+      <div class="big-number"><div class="val">5%</div><div class="desc">Coupon</div></div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Issuer</td><td>TC Advantage Traders, Ltd.</td></tr>
+          <tr><td>CUSIP</td><td class="mono">87225HAB4</td></tr>
+          <tr><td>ISIN</td><td class="mono">US87225HAB42</td></tr>
+          <tr><td>Face Value</td><td class="mono">$10,000,000</td></tr>
+          <tr><td>Coupon Rate</td><td>5.00% per annum (semi-annual)</td></tr>
+          <tr><td>Maturity</td><td>May 31, 2030</td></tr>
+          <tr><td>Transfer Agent</td><td>Securities Transfer Corporation (Plano, TX) <span class="badge badge-green">✓ CONFIRMED</span></td></tr>
+          <tr><td>STC Position Statement</td><td>On file — Dated Jan 23, 2026, Confirmed Feb 1, 2026 <span class="badge badge-green">✓ ON FILE</span></td></tr>
+          <tr><td>Holder</td><td>OPTKAS1-MAIN SPV (single beneficial owner)</td></tr>
+          <tr><td>Form</td><td>Physical certificate (TCAT-10M-2030-001)</td></tr>
+          <tr><td>Program Size</td><td>$500,000,000 (50 bonds issued)</td></tr>
+          <tr><td>Insurance</td><td>$25.75M blanket — C.J. Coleman, FCA-regulated</td></tr>
+          <tr><td>Additional Collateral</td><td>$6.6M real estate portfolio (East Durham, NY)</td></tr>
+          <tr><td>Gating Items</td><td><span class="badge badge-green" style="font-size:0.8rem">ZERO REMAINING</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ INFRASTRUCTURE OVERVIEW ═══════════ -->
+<section id="infrastructure">
+  <div class="container fade-in">
+    <div class="section-header">
+      <span class="section-number">02 — System Architecture</span>
+      <h2 class="section-title">5-Layer Sovereign Architecture</h2>
+      <p class="section-subtitle">Every layer has a purpose. Legal is always primary. Blockchain is evidence, not custody.</p>
+    </div>
+
+    <div style="max-width:900px;margin:0 auto 3rem">
+      <!-- Architecture Layers -->
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <div style="background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.25);border-radius:10px;padding:16px 20px;display:flex;align-items:center;gap:16px">
+          <span style="font-family:'JetBrains Mono';font-weight:700;color:var(--purple);min-width:20px">L5</span>
+          <div><div style="font-weight:700;font-size:0.9rem">Representation & Liquidity</div><div style="font-size:0.75rem;color:var(--text-secondary)">IOUs · Trustlines · Escrows · AMMs · DEX Orders · NFTs — XRPL + Stellar Mainnet</div></div>
+        </div>
+        <div style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25);border-radius:10px;padding:16px 20px;display:flex;align-items:center;gap:16px">
+          <span style="font-family:'JetBrains Mono';font-weight:700;color:var(--blue);min-width:20px">L4</span>
+          <div><div style="font-weight:700;font-size:0.9rem">Ledger Evidence</div><div style="font-size:0.75rem;color:var(--text-secondary)">SHA-256 Hash Anchoring · Attestation NFTs · Settlement Receipts · Timestamped Proofs</div></div>
+        </div>
+        <div style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);border-radius:10px;padding:16px 20px;display:flex;align-items:center;gap:16px">
+          <span style="font-family:'JetBrains Mono';font-weight:700;color:var(--green);min-width:20px">L3</span>
+          <div><div style="font-weight:700;font-size:0.9rem">Automation & Intelligence</div><div style="font-size:0.75rem;color:var(--text-secondary)">28 Packages · 55+ Scripts · Risk Analytics · AI Agents · Borrowing Base · Waterfall · Trading</div></div>
+        </div>
+        <div style="background:rgba(249,115,22,0.08);border:1px solid rgba(249,115,22,0.25);border-radius:10px;padding:16px 20px;display:flex;align-items:center;gap:16px">
+          <span style="font-family:'JetBrains Mono';font-weight:700;color:#f97316;min-width:20px">L2</span>
+          <div><div style="font-weight:700;font-size:0.9rem">Custody & Banking</div><div style="font-size:0.75rem;color:var(--text-secondary)">STC Custody · Bank Escrow · Insurance ($25.75M) · FX Providers · Regulated Partners</div></div>
+        </div>
+        <div style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.35);border-radius:10px;padding:16px 20px;display:flex;align-items:center;gap:16px">
+          <span style="font-family:'JetBrains Mono';font-weight:700;color:var(--gold);min-width:20px">L1</span>
+          <div><div style="font-weight:700;font-size:0.9rem;color:var(--gold)">Legal & Control — PRIMARY</div><div style="font-size:0.75rem;color:var(--text-secondary)">SPV · Bond Indenture · UCC Filings · Control Agreements · Transfer Agent · Jurisdictional Law</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi"><span class="kpi-value" style="color:var(--gold)">28</span><span class="kpi-label">Packages</span></div>
+      <div class="kpi"><span class="kpi-value" style="color:var(--green)">55+</span><span class="kpi-label">Scripts</span></div>
+      <div class="kpi"><span class="kpi-value" style="color:var(--blue)">7</span><span class="kpi-label">Dashboards</span></div>
+      <div class="kpi"><span class="kpi-value" style="color:var(--purple)">3</span><span class="kpi-label">Apps</span></div>
+      <div class="kpi"><span class="kpi-value" style="color:var(--cyan)">36</span><span class="kpi-label">Data Room Docs</span></div>
+      <div class="kpi"><span class="kpi-value" style="color:var(--gold)">25</span><span class="kpi-label">Phases Built</span></div>
+    </div>
+
+    <!-- On-Chain Stats -->
+    <h3 style="text-align:center;margin:3rem 0 1.5rem;font-size:1.2rem;font-weight:700">On-Chain Operations</h3>
+    <div class="kpi-grid" style="max-width:800px;margin:0 auto">
+      <div class="kpi"><span class="kpi-value" style="color:var(--green)">78</span><span class="kpi-label">Mainnet Ops</span></div>
+      <div class="kpi"><span class="kpi-value" style="color:var(--green)">76</span><span class="kpi-label">Successful</span></div>
+      <div class="kpi"><span class="kpi-value" style="color:var(--gold)">2</span><span class="kpi-label">Deferred</span></div>
+      <div class="kpi"><span class="kpi-value" style="color:var(--green)">97.4%</span><span class="kpi-label">Success Rate</span></div>
+    </div>
+
+    <h3 style="text-align:center;margin:3rem 0 1.5rem;font-size:1.2rem;font-weight:700">Tokens Issued on XRPL Mainnet</h3>
+    <div class="token-pills">
+      <div class="token-pill"><span class="tname" style="color:var(--gold)">OPTKAS</span><span class="ttype">Bond Claim</span></div>
+      <div class="token-pill"><span class="tname" style="color:var(--green)">SOVBND</span><span class="ttype">Sovereign Bond</span></div>
+      <div class="token-pill"><span class="tname" style="color:var(--purple)">IMPERIA</span><span class="ttype">Participation</span></div>
+      <div class="token-pill"><span class="tname" style="color:var(--blue)">GEMVLT</span><span class="ttype">Gem Vault</span></div>
+      <div class="token-pill"><span class="tname" style="color:var(--cyan)">TERRAVL</span><span class="ttype">Real Estate</span></div>
+      <div class="token-pill"><span class="tname" style="color:#f97316">PETRO</span><span class="ttype">Energy</span></div>
+    </div>
+
+    <div style="text-align:center;margin-top:1.5rem">
+      <span class="badge badge-purple" style="font-size:0.75rem;padding:6px 14px">9 AMM Pools (6 XRPL + 3 Stellar)</span>
+      <span class="badge badge-blue" style="font-size:0.75rem;padding:6px 14px;margin-left:8px">7 NFT Credentials (Founder · Institutional · Genesis)</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ WALLETS ═══════════ -->
+<section id="wallets" style="background:linear-gradient(180deg,rgba(139,92,246,0.02),transparent)">
+  <div class="container fade-in">
+    <div class="section-header">
+      <span class="section-number">03 — Wallet Infrastructure</span>
+      <h2 class="section-title">9 Funded Mainnet Wallets</h2>
+      <p class="section-subtitle">6 on XRPL + 3 on Stellar — all live, all funded, all sovereign</p>
+    </div>
+
+    <div class="wallet-grid">
+      <div class="wallet-card"><span class="chain-tag xrpl">XRPL</span><div class="wallet-role">🏛️ Issuer</div><div class="wallet-addr">rpraqLjKmDB9a43F9fURWA2bVaywkyJua3</div><div class="wallet-purpose">Issues ALL tokens (OPTKAS, SOVBND, IMPERIA, GEMVLT, TERRAVL, PETRO). DefaultRipple enabled. The minting authority for the entire platform.</div></div>
+      <div class="wallet-card"><span class="chain-tag xrpl">XRPL</span><div class="wallet-role">💰 Treasury</div><div class="wallet-addr">r3JfTyqU9jwnXh2aWCwr738fb9HygNmBys</div><div class="wallet-purpose">Primary asset custody. Holds main token balances. Requires destination tags for all inbound payments.</div></div>
+      <div class="wallet-card"><span class="chain-tag xrpl">XRPL</span><div class="wallet-role">🔒 Escrow</div><div class="wallet-addr">rBC9g8YVU6HZouStFcdE5a8kmsob8napKD</div><div class="wallet-purpose">Bond escrow reserve. Conditional escrows with crypto-conditions or time-based release triggers.</div></div>
+      <div class="wallet-card"><span class="chain-tag xrpl">XRPL</span><div class="wallet-role">📜 Attestation</div><div class="wallet-addr">rEUxqL1Rmzciu31Sq7ocx6KZyt6htqjjBv</div><div class="wallet-purpose">Document hash anchoring + NFT minting. Issues NO economic value — evidence only. Minted Taxon 100 attestation NFT.</div></div>
+      <div class="wallet-card"><span class="chain-tag xrpl">XRPL</span><div class="wallet-role">🌊 AMM Liquidity</div><div class="wallet-addr">raCevnYFkqAvkDAoeQ7uttf9okSaWxXFuP</div><div class="wallet-purpose">AMM liquidity provision across all 6 XRPL trading pools. Automated market making for deep liquidity.</div></div>
+      <div class="wallet-card"><span class="chain-tag xrpl">XRPL</span><div class="wallet-role">🤖 Trading</div><div class="wallet-addr">rBAAd5z7e4Yvy4QzZ37WjmbZj1dnzJaTfY</div><div class="wallet-purpose">Algorithmic trading execution. TWAP, VWAP, limit orders with circuit breakers and kill switches.</div></div>
+      <div class="wallet-card"><span class="chain-tag stellar">STELLAR</span><div class="wallet-role">🏛️ Issuer</div><div class="wallet-addr">GBJIMHMBGTPN5RS42OGBUY5NC2ATZLPT3B3EWV32SM2GQLS46TRJWG4I</div><div class="wallet-purpose">Regulated asset issuance. Auth required + revocable + clawback enabled. Full compliance controls.</div></div>
+      <div class="wallet-card"><span class="chain-tag stellar">STELLAR</span><div class="wallet-role">📤 Distribution</div><div class="wallet-addr">GAKCD7OKDM4HLZDBEE7KXTRFAYIE755UHL3JFQEOOHDPIMM5GEFY3RPF</div><div class="wallet-purpose">Token distribution + LP provision for the 3 Stellar liquidity pools.</div></div>
+      <div class="wallet-card"><span class="chain-tag stellar">STELLAR</span><div class="wallet-role">⚓ Anchor</div><div class="wallet-addr">GC6O6Q7FG5FZGHE5D5BHGA6ZTLRAU7UWFJKKWNOJ36G3PKVVKVYLQGA6</div><div class="wallet-purpose">SEP-24 anchor operations — fiat on/off-ramp interface for institutional settlement.</div></div>
+    </div>
+
+    <div style="text-align:center;margin-top:2rem">
+      <div style="display:inline-block;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:1.2rem 2rem;font-size:0.85rem">
+        <strong style="color:var(--gold)">Security Model:</strong>
+        <span style="color:var(--text-secondary)"> 2-of-3 multisig for all writes · Emergency pause (1 signer) · Config changes (3-of-3) · Private keys NEVER in repo</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ RESERVE VAULT ═══════════ -->
+<section id="vault">
+  <div class="container fade-in">
+    <div class="section-header">
+      <span class="section-number">04 — The Crown Jewel</span>
+      <h2 class="section-title">Reserve Vault — Circle of Life</h2>
+      <p class="section-subtitle">1,215 lines of institutional-grade reserve management. Assets flow in, yield flows out, proof flows to the ledger.</p>
+    </div>
+
+    <div class="big-number-row">
+      <div class="big-number"><div class="val">$4.11M</div><div class="desc">Total NAV</div></div>
+      <div class="big-number"><div class="val">1.002</div><div class="desc">PRR Share Price</div></div>
+      <div class="big-number"><div class="val">125%</div><div class="desc">Reserve Ratio</div></div>
+      <div class="big-number"><div class="val">8</div><div class="desc">Asset Types</div></div>
+    </div>
+
+    <div style="max-width:800px;margin:0 auto">
+      <!-- Circle of Life Flow -->
+      <div style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;margin:2rem 0;font-size:0.8rem">
+        <span class="badge badge-gold" style="padding:8px 14px;font-size:0.8rem">Assets</span>
+        <span style="color:var(--gold)">→</span>
+        <span class="badge badge-green" style="padding:8px 14px;font-size:0.8rem">Reserve Vault</span>
+        <span style="color:var(--gold)">→</span>
+        <span class="badge badge-purple" style="padding:8px 14px;font-size:0.8rem">Attestation NFTs</span>
+        <span style="color:var(--gold)">→</span>
+        <span class="badge badge-blue" style="padding:8px 14px;font-size:0.8rem">Bond Coupon</span>
+        <span style="color:var(--gold)">→</span>
+        <span class="badge badge-gold" style="padding:8px 14px;font-size:0.8rem">Reserve Backing</span>
+        <span style="color:var(--gold)">→</span>
+        <span class="badge badge-green" style="padding:8px 14px;font-size:0.8rem">Yield</span>
+        <span style="color:var(--gold)">→</span>
+        <span class="badge badge-purple" style="padding:8px 14px;font-size:0.8rem">Reinvest</span>
+        <span style="color:var(--gold)">↻</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-top:2rem">
+        <div class="card" style="text-align:center"><div style="font-size:1.8rem;margin-bottom:8px">🏦</div><div style="font-weight:700;margin-bottom:4px">Deposit & Mint</div><div style="font-size:0.8rem;color:var(--text-secondary)">Deposit assets → apply haircut → mint PRR shares at current NAV/share</div></div>
+        <div class="card" style="text-align:center"><div style="font-size:1.8rem;margin-bottom:8px">✂️</div><div style="font-weight:700;margin-bottom:4px">Yield Stripping</div><div style="font-size:0.8rem;color:var(--text-secondary)">Decompose bonds into Principal Strip (locked) + Yield Strip (tradeable)</div></div>
+        <div class="card" style="text-align:center"><div style="font-size:1.8rem;margin-bottom:8px">🎫</div><div style="font-weight:700;margin-bottom:4px">NFT-Gated Access</div><div style="font-size:0.8rem;color:var(--text-secondary)">Founder (Taxon 1) · Institutional (Taxon 2) · Genesis (Taxon 3) allocation tiers</div></div>
+        <div class="card" style="text-align:center"><div style="font-size:1.8rem;margin-bottom:8px">📜</div><div style="font-weight:700;margin-bottom:4px">Attestation NFTs</div><div style="font-size:0.8rem;color:var(--text-secondary)">Reserve snapshots minted as XLS-20 NFTs — permanent proof on-chain</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 28 PACKAGES ═══════════ -->
+<section id="packages" style="background:linear-gradient(180deg,rgba(16,185,129,0.02),transparent)">
+  <div class="container fade-in">
+    <div class="section-header">
+      <span class="section-number">05 — The Engine Room</span>
+      <h2 class="section-title">28 Software Packages</h2>
+      <p class="section-subtitle">Each one a standalone, tested, institutional-quality TypeScript module. They compose together like LEGO.</p>
+    </div>
+
+    <div class="pkg-grid">
+      <div class="pkg"><div class="pkg-name">xrpl-core</div><div class="pkg-class">XRPLClient</div><div class="pkg-desc">XRPL connection, account queries, transaction building, trustline management</div><span class="pkg-layer layer-1">Layer 1</span></div>
+      <div class="pkg"><div class="pkg-name">stellar-core</div><div class="pkg-class">StellarClient</div><div class="pkg-desc">Stellar connection, Horizon API, account info, XDR building</div><span class="pkg-layer layer-1">Layer 1</span></div>
+      <div class="pkg"><div class="pkg-name">ledger</div><div class="pkg-class">LedgerAbstraction</div><div class="pkg-desc">Unified interface across both chains — write once, deploy anywhere</div><span class="pkg-layer layer-1">Layer 1</span></div>
+      <div class="pkg"><div class="pkg-name">gateway</div><div class="pkg-class">GatewayService</div><div class="pkg-desc">SEP-10 auth + SEP-24 fiat on/off-ramp operations</div><span class="pkg-layer layer-1">Layer 1</span></div>
+      <div class="pkg"><div class="pkg-name">governance</div><div class="pkg-class">MultisigGovernor</div><div class="pkg-desc">2-of-3 multisig, emergency pause, signer rotation, config governance</div><span class="pkg-layer layer-2">Layer 2</span></div>
+      <div class="pkg"><div class="pkg-name">compliance</div><div class="pkg-class">ComplianceEngine</div><div class="pkg-desc">KYC/AML/sanctions screening, freeze, unfreeze, clawback capabilities</div><span class="pkg-layer layer-2">Layer 2</span></div>
+      <div class="pkg"><div class="pkg-name">audit</div><div class="pkg-class">AuditEventStore</div><div class="pkg-desc">35 event types, 7-year retention, SHA-256 chains, dual-chain anchoring</div><span class="pkg-layer layer-2">Layer 2</span></div>
+      <div class="pkg"><div class="pkg-name">bond</div><div class="pkg-class">BondFactory</div><div class="pkg-desc">Bond lifecycle FSM: create → active → matured/defaulted. Series, tranches, waterfall</div><span class="pkg-layer layer-3">Layer 3</span></div>
+      <div class="pkg"><div class="pkg-name">escrow</div><div class="pkg-class">EscrowManager</div><div class="pkg-desc">XRPL conditional escrows — crypto-conditions + time-based release</div><span class="pkg-layer layer-3">Layer 3</span></div>
+      <div class="pkg"><div class="pkg-name">issuance</div><div class="pkg-class">IssuanceEngine</div><div class="pkg-desc">IOU creation (XRPL) + regulated asset issuance (Stellar)</div><span class="pkg-layer layer-3">Layer 3</span></div>
+      <div class="pkg"><div class="pkg-name">attestation</div><div class="pkg-class">AttestationEngine</div><div class="pkg-desc">SHA-256 hash anchoring on both ledgers — permanent, verifiable proof</div><span class="pkg-layer layer-3">Layer 3</span></div>
+      <div class="pkg"><div class="pkg-name">settlement</div><div class="pkg-class">SettlementEngine</div><div class="pkg-desc">Atomic cross-ledger DvP — both sides settle or neither does</div><span class="pkg-layer layer-3">Layer 3</span></div>
+      <div class="pkg"><div class="pkg-name">portfolio</div><div class="pkg-class">PortfolioManager</div><div class="pkg-desc">NAV calculation, P&L tracking, exposure analysis, IOU sync</div><span class="pkg-layer layer-3">Layer 3</span></div>
+      <div class="pkg"><div class="pkg-name">rwa</div><div class="pkg-class">RWAManager</div><div class="pkg-desc">Register physical assets, tokenize, revalue — bridge to on-chain</div><span class="pkg-layer layer-3">Layer 3</span></div>
+      <div class="pkg"><div class="pkg-name">bridge</div><div class="pkg-class">BridgeManager</div><div class="pkg-desc">Cross-chain bridge operations, witness config, XChain commit/claim</div><span class="pkg-layer layer-3">Layer 3</span></div>
+      <div class="pkg"><div class="pkg-name">dex</div><div class="pkg-class">OrderManager</div><div class="pkg-desc">XRPL DEX order placement, offer management, pathfinding</div><span class="pkg-layer layer-3">Layer 3</span></div>
+      <div class="pkg"><div class="pkg-name">dex-amm</div><div class="pkg-class">AMMManager</div><div class="pkg-desc">AMM pool creation, liquidity management — powers all 6 XRPL pools</div><span class="pkg-layer layer-3">Layer 3</span></div>
+      <div class="pkg"><div class="pkg-name">funding-ops</div><div class="pkg-class">FundingOpsEngine</div><div class="pkg-desc">End-to-end funding pipeline — ceremony, receipts, document staging</div><span class="pkg-layer layer-4">Layer 4</span></div>
+      <div class="pkg"><div class="pkg-name">borrowing-base</div><div class="pkg-class">BorrowingBaseEngine</div><div class="pkg-desc">Monthly BBC certificates — 9 asset classes, 5 covenants, 8 stress levels</div><span class="pkg-layer layer-4">Layer 4</span></div>
+      <div class="pkg"><div class="pkg-name">reserve-vault</div><div class="pkg-class">ReserveVaultEngine</div><div class="pkg-desc">1,215-line crown jewel — Circle of Life, NAV, yield stripping, NFT allocation</div><span class="pkg-layer layer-4">Layer 4</span></div>
+      <div class="pkg"><div class="pkg-name">trading</div><div class="pkg-class">TradingEngine</div><div class="pkg-desc">Algo execution: TWAP, VWAP, limit — circuit breakers + kill switches</div><span class="pkg-layer layer-5">Layer 5</span></div>
+      <div class="pkg"><div class="pkg-name">agents</div><div class="pkg-class">AgentManager</div><div class="pkg-desc">AI strategy agents — register, simulate, execute (dry-run default)</div><span class="pkg-layer layer-5">Layer 5</span></div>
+      <div class="pkg"><div class="pkg-name">reporting</div><div class="pkg-class">ReportingEngine</div><div class="pkg-desc">8 report types: compliance, financial, NAV, covenant, waterfall + more</div><span class="pkg-layer layer-5">Layer 5</span></div>
+      <div class="pkg"><div class="pkg-name">risk-analytics</div><div class="pkg-class">RiskAnalyticsEngine</div><div class="pkg-desc">Monte Carlo VaR (10K sims), 5 stress scenarios, HHI, duration, LCR</div><span class="pkg-layer layer-5">Layer 5</span></div>
+      <div class="pkg"><div class="pkg-name">cross-chain-dex</div><div class="pkg-class">CrossChainDEX</div><div class="pkg-desc">Cross-chain trade routing — best execution across XRPL + Stellar</div><span class="pkg-layer layer-5">Layer 5</span></div>
+      <div class="pkg"><div class="pkg-name">deal-pipeline</div><div class="pkg-class">DealPipelineEngine</div><div class="pkg-desc">CRM-grade lender tracking — 14 stages, health scoring, action items</div><span class="pkg-layer layer-6">Phase 25</span></div>
+      <div class="pkg"><div class="pkg-name">term-sheet</div><div class="pkg-class">TermSheetAnalyzer</div><div class="pkg-desc">Side-by-side comparison — weighted scoring, negotiation strategy</div><span class="pkg-layer layer-6">Phase 25</span></div>
+      <div class="pkg"><div class="pkg-name">draw-management</div><div class="pkg-class">DrawManagementEngine</div><div class="pkg-desc">Post-funding draws, interest accrual (3 conventions), repayment waterfall</div><span class="pkg-layer layer-6">Phase 25</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 7 DASHBOARDS ═══════════ -->
+<section id="dashboards">
+  <div class="container fade-in">
+    <div class="section-header">
+      <span class="section-number">06 — Visual Command Layer</span>
+      <h2 class="section-title">7 Live Dashboards</h2>
+      <p class="section-subtitle">Every audience — operators, investors, lenders, risk officers — has their own view</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem">
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+          <span style="font-size:1.5rem">🎖️</span>
+          <div><div style="font-weight:700">Sovereign Command Center</div><div style="font-size:0.7rem;color:var(--gold)">command-center.html</div></div>
+        </div>
+        <div style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:10px">The war room — 8-panel live dashboard with system status, wallet health, pool TVL, attestation status, funding pipeline, compliance, audit trail.</div>
+        <span class="badge badge-gold">Gold Accent · Dark Theme</span>
+      </div>
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+          <span style="font-size:1.5rem">💎</span>
+          <div><div style="font-weight:700">Investor Portal</div><div style="font-size:0.7rem;color:var(--gold)">investor-portal.html</div></div>
+        </div>
+        <div style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:10px">External-facing investor presentation. Platform overview, asset showcase, technology infrastructure, compliance framework.</div>
+        <span class="badge badge-gold">Premium Dark · Gold Accents</span>
+      </div>
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+          <span style="font-size:1.5rem">📁</span>
+          <div><div style="font-weight:700">Data Room Portal</div><div style="font-size:0.7rem;color:var(--gold)">data-room-portal.html</div></div>
+        </div>
+        <div style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:10px">SHA-256 verified document access with role-based reading guides. What lenders, lawyers, and analysts actually use during diligence.</div>
+        <span class="badge badge-green">SHA-256 Verified</span>
+      </div>
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+          <span style="font-size:1.5rem">📊</span>
+          <div><div style="font-weight:700">Risk Analytics Dashboard</div><div style="font-size:0.7rem;color:var(--blue)">risk-dashboard.html</div></div>
+        </div>
+        <div style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:10px">Real-time VaR, stress test results, borrowing base sensitivity, concentration risk (HHI), liquidity coverage ratio.</div>
+        <span class="badge badge-blue">Blue Accent · Data Focus</span>
+      </div>
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+          <span style="font-size:1.5rem">🎯</span>
+          <div><div style="font-weight:700">Execution Operations</div><div style="font-size:0.7rem;color:var(--purple)">execution-ops.html</div></div>
+        </div>
+        <div style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:10px">5-tab ops center: Deal Pipeline (14 lenders), Pre-Flight, Term Sheets, Draw Management, Execution Calendar.</div>
+        <span class="badge badge-purple">Purple Accent · 5 Tabs</span>
+      </div>
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+          <span style="font-size:1.5rem">🌐</span>
+          <div><div style="font-weight:700">Company Website</div><div style="font-size:0.7rem;color:var(--gold)">company_website.html</div></div>
+        </div>
+        <div style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:10px">Public-facing company presentation for anyone looking up OPTKAS.</div>
+        <span class="badge badge-gold">Public Facing</span>
+      </div>
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+          <span style="font-size:1.5rem">⚙️</span>
+          <div><div style="font-weight:700">Engineering Website</div><div style="font-size:0.7rem;color:var(--cyan)">engineering_website.html</div></div>
+        </div>
+        <div style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:10px">Technical documentation, architecture reference, system internals for the technical team and auditors.</div>
+        <span class="badge badge-blue">Technical Reference</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ RISK ANALYTICS ═══════════ -->
+<section id="risk" style="background:linear-gradient(180deg,rgba(59,130,246,0.02),transparent)">
+  <div class="container fade-in">
+    <div class="section-header">
+      <span class="section-number">07 — Institutional Risk</span>
+      <h2 class="section-title">What Blackstone's Risk Team Has</h2>
+      <p class="section-subtitle">Monte Carlo VaR, stress scenarios, borrowing base sensitivity, concentration risk, liquidity coverage</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Scenario</th><th>Severity</th><th>Market Shock</th><th>Credit Spread</th><th>Probability</th><th>What It Simulates</th></tr></thead>
+        <tbody>
+          <tr><td>Base Case</td><td><span class="badge badge-green">Base</span></td><td class="mono">0%</td><td class="mono">+0bp</td><td>70%</td><td>Normal conditions</td></tr>
+          <tr><td>Moderate Rate Rise</td><td><span class="badge badge-gold">Moderate</span></td><td class="mono">-5%</td><td class="mono">+75bp</td><td>15%</td><td>Fed tightening cycle</td></tr>
+          <tr><td>Severe Credit Event</td><td><span class="badge badge-purple">Severe</span></td><td class="mono">-15%</td><td class="mono">+300bp</td><td>10%</td><td>Major credit dislocation</td></tr>
+          <tr><td>2008-Style Meltdown</td><td><span class="badge badge-red">Extreme</span></td><td class="mono">-30%</td><td class="mono">+500bp</td><td>4%</td><td>Global financial crisis</td></tr>
+          <tr><td>Issuer Default</td><td><span class="badge badge-red">Extreme</span></td><td class="mono">-60%</td><td class="mono">+1000bp</td><td>1%</td><td>TC Advantage defaults</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:2rem">
+      <div class="card" style="text-align:center"><div style="font-family:'JetBrains Mono';font-size:1.8rem;font-weight:700;color:var(--blue)">10,000</div><div style="font-size:0.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px">Monte Carlo Simulations</div></div>
+      <div class="card" style="text-align:center"><div style="font-family:'JetBrains Mono';font-size:1.8rem;font-weight:700;color:var(--purple)">95% / 99%</div><div style="font-size:0.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px">VaR Confidence</div></div>
+      <div class="card" style="text-align:center"><div style="font-family:'JetBrains Mono';font-size:1.8rem;font-weight:700;color:var(--green)">CVaR</div><div style="font-size:0.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px">Expected Shortfall</div></div>
+      <div class="card" style="text-align:center"><div style="font-family:'JetBrains Mono';font-size:1.8rem;font-weight:700;color:var(--gold)">HHI</div><div style="font-size:0.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px">Concentration Index</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ GAME PLAN ═══════════ -->
+<section id="gameplan">
+  <div class="container fade-in">
+    <div class="section-header">
+      <span class="section-number">08 — The Game Plan</span>
+      <h2 class="section-title">Tomorrow → Monday → Funded</h2>
+      <p class="section-subtitle">Every day mapped. Every action scripted. Every tool ready.</p>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item active">
+        <div class="timeline-date">SATURDAY, FEBRUARY 8 — DRESS REHEARSAL</div>
+        <div class="timeline-title">Replace stand-ins with final signed PDFs</div>
+        <div class="timeline-desc">
+          <strong>Morning:</strong> Swap stand-in documents in Final_Funding_Package/ with signed versions<br>
+          <strong>Mid-day:</strong> Run <code style="color:var(--gold);background:rgba(201,168,76,0.1);padding:2px 6px;border-radius:4px;font-size:0.8rem">pre-flight-check.ts</code> — 70+ automated checks, GO/NO-GO banner<br>
+          <strong>Afternoon:</strong> Full dry-run ceremony — hash docs, generate receipt, verify hashes, test email generation<br>
+          <strong>Evening:</strong> Review Execution Ops dashboard. Fix anything. Sleep well.
+        </div>
+      </div>
+      <div class="timeline-item future">
+        <div class="timeline-date">SUNDAY, FEBRUARY 9 — MAINNET ATTESTATION (2:00–4:00 PM)</div>
+        <div class="timeline-title">Lock the data room forever. The confidence move.</div>
+        <div class="timeline-desc">
+          <strong>2:00 PM:</strong> Final pre-flight → must show GO<br>
+          <strong>2:15 PM:</strong> MAINNET attestation → permanent XRPL TX hash<br>
+          <strong>2:30 PM:</strong> Verify on explorer → save TX hash<br>
+          <strong>3:00 PM:</strong> Lock data room snapshot → no more changes<br>
+          <strong>3:30 PM:</strong> Generate execution proof bundle<br>
+          <strong>Key insight:</strong> The attestation is <em>stronger</em> when it already exists before lenders open the email. Package frozen Sunday. Emails Monday. That's the confidence move.
+        </div>
+      </div>
+      <div class="timeline-item future">
+        <div class="timeline-date">MONDAY, FEBRUARY 10 — WAVE 1 OUTREACH</div>
+        <div class="timeline-title">14 lenders. 14 personalized packages. Go.</div>
+        <div class="timeline-desc">
+          <strong>8:00 AM:</strong> Send 10 Tier 1A emails (Ares, Apollo, KKR, HPS, Fortress, Stonebriar, Benefit Street, Oaktree, Cerberus, BlueMountain)<br>
+          <strong>9:00 AM:</strong> Send 4 Tier 1B emails (CS Legacy, DB SBLC, StanChart, Barclays-Adjacent)<br>
+          <strong>All day:</strong> Monitor data room access. Log every interaction in Deal Pipeline.<br>
+          <strong>Posture:</strong> <em>"This package is already frozen and verifiable. Review when ready."</em>
+        </div>
+      </div>
+      <div class="timeline-item future">
+        <div class="timeline-date">MONDAY–WEDNESDAY — DILIGENCE BEGINS</div>
+        <div class="timeline-title">They come to us. We respond with precision.</div>
+        <div class="timeline-desc">
+          <strong>Mon PM:</strong> Data room opens start appearing → log in Deal Pipeline<br>
+          <strong>Tue AM:</strong> First questions arrive → respond within 24h using Credit Committee Q&A<br>
+          <strong>Tue PM:</strong> Call requests → schedule within 48h<br>
+          <strong>Wed:</strong> Follow-up questions, document requests → track, fulfill same day
+        </div>
+      </div>
+      <div class="timeline-item future">
+        <div class="timeline-date">WEEK 2+ — TERM SHEETS ARRIVE</div>
+        <div class="timeline-title">Compare. Score. Negotiate from strength.</div>
+        <div class="timeline-desc">
+          <strong>First term sheet:</strong> Ingest into Term Sheet Analyzer → weighted scoring<br>
+          <strong>Multiple offers:</strong> Side-by-side comparison → negotiation strategy auto-generated<br>
+          <strong>Phase G trigger:</strong> Signed term sheet / LOI → open Track 2 conversations<br>
+          <strong>Wave 2:</strong> Expand to White Oak, Gordon Brothers, family offices with credit arms
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ WAVE 1 TARGETS ═══════════ -->
+<section id="lenders" style="background:linear-gradient(180deg,rgba(201,168,76,0.02),transparent)">
+  <div class="container fade-in">
+    <div class="section-header">
+      <span class="section-number">09 — Wave 1 Targets</span>
+      <h2 class="section-title">14 Personalized Packages Ready</h2>
+      <p class="section-subtitle">These lenders see deals like ours weekly. They lend against bonds, not stories.</p>
+    </div>
+
+    <h3 style="margin-bottom:1rem;font-size:1rem"><span class="badge badge-purple" style="font-size:0.75rem;padding:6px 14px;margin-right:8px">TIER 1A</span> Bond-Backed Credit Funds — First Calls</h3>
+    <div class="lender-list" style="margin-bottom:2rem">
+      <div class="lender"><div class="lender-num">01</div><div class="lender-info"><div class="lender-name">Ares Management</div><div class="lender-focus">Alternative Credit / ABF</div></div></div>
+      <div class="lender"><div class="lender-num">02</div><div class="lender-info"><div class="lender-name">Apollo</div><div class="lender-focus">Asset-Backed Finance</div></div></div>
+      <div class="lender"><div class="lender-num">03</div><div class="lender-info"><div class="lender-name">KKR</div><div class="lender-focus">Asset-Based Finance</div></div></div>
+      <div class="lender"><div class="lender-num">04</div><div class="lender-info"><div class="lender-name">HPS Partners</div><div class="lender-focus">Asset-Based Financing</div></div></div>
+      <div class="lender"><div class="lender-num">05</div><div class="lender-info"><div class="lender-name">Fortress Investment Group</div><div class="lender-focus">Asset-Based Credit</div></div></div>
+      <div class="lender"><div class="lender-num">06</div><div class="lender-info"><div class="lender-name">Stonebriar Commercial Finance</div><div class="lender-focus">Structured Lending</div></div></div>
+      <div class="lender"><div class="lender-num">07</div><div class="lender-info"><div class="lender-name">Benefit Street Partners</div><div class="lender-focus">Structured Credit / ABL</div></div></div>
+      <div class="lender"><div class="lender-num">08</div><div class="lender-info"><div class="lender-name">Oaktree Capital</div><div class="lender-focus">Structured Credit</div></div></div>
+      <div class="lender"><div class="lender-num">09</div><div class="lender-info"><div class="lender-name">Cerberus Capital</div><div class="lender-focus">Asset-Based Credit</div></div></div>
+      <div class="lender"><div class="lender-num">10</div><div class="lender-info"><div class="lender-name">BlueMountain / Assured IM</div><div class="lender-focus">Structured Credit</div></div></div>
+    </div>
+
+    <h3 style="margin-bottom:1rem;font-size:1rem"><span class="badge badge-blue" style="font-size:0.75rem;padding:6px 14px;margin-right:8px">TIER 1B</span> SBLC / MT760-Friendly Platforms — Fast Diligence</h3>
+    <div class="lender-list">
+      <div class="lender"><div class="lender-num">11</div><div class="lender-info"><div class="lender-name">Credit Suisse Legacy Desks</div><div class="lender-focus">MT760 / Structured Credit</div></div></div>
+      <div class="lender"><div class="lender-num">12</div><div class="lender-info"><div class="lender-name">Deutsche Bank–Linked SBLC</div><div class="lender-focus">SBLC Warehousing</div></div></div>
+      <div class="lender"><div class="lender-num">13</div><div class="lender-info"><div class="lender-name">Standard Chartered</div><div class="lender-focus">Trade Finance</div></div></div>
+      <div class="lender"><div class="lender-num">14</div><div class="lender-info"><div class="lender-name">Barclays-Adjacent Private Credit</div><div class="lender-focus">Structured Credit / MT760</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ COMPARISON ═══════════ -->
+<section id="comparison">
+  <div class="container fade-in">
+    <div class="section-header">
+      <span class="section-number">10 — How We Compare</span>
+      <h2 class="section-title">OPTKAS vs. The Institutions</h2>
+      <p class="section-subtitle">Feature-by-feature against Citadel, Blackstone, and Two Sigma</p>
+    </div>
+
+    <div class="compare-grid">
+      <div class="ch">Feature</div><div class="ch">Citadel</div><div class="ch">Blackstone</div><div class="ch">Two Sigma</div><div class="ch" style="color:var(--gold);background:rgba(201,168,76,0.1)">OPTKAS</div>
+
+      <div class="cc">Multi-chain settlement</div><div class="cc"><span class="cross">✗</span></div><div class="cc"><span class="cross">✗</span></div><div class="cc"><span class="cross">✗</span></div><div class="cc optkas"><span class="check">✓</span> XRPL + Stellar</div>
+      <div class="cc">Cryptographic attestation</div><div class="cc"><span class="cross">✗</span></div><div class="cc"><span class="cross">✗</span></div><div class="cc"><span class="cross">✗</span></div><div class="cc optkas"><span class="check">✓</span> Dual-chain</div>
+      <div class="cc">Automated borrowing base</div><div class="cc"><span class="check">✓</span></div><div class="cc"><span class="check">✓</span></div><div class="cc">N/A</div><div class="cc optkas"><span class="check">✓</span> + 8 stress levels</div>
+      <div class="cc">Monte Carlo VaR</div><div class="cc"><span class="check">✓</span></div><div class="cc"><span class="check">✓</span></div><div class="cc"><span class="check">✓</span></div><div class="cc optkas"><span class="check">✓</span> 10K sims, 5 scenarios</div>
+      <div class="cc">NFT-gated allocation</div><div class="cc"><span class="cross">✗</span></div><div class="cc"><span class="cross">✗</span></div><div class="cc"><span class="cross">✗</span></div><div class="cc optkas"><span class="check">✓</span> 3 tiers</div>
+      <div class="cc">AMM liquidity pools</div><div class="cc"><span class="cross">✗</span></div><div class="cc"><span class="cross">✗</span></div><div class="cc"><span class="cross">✗</span></div><div class="cc optkas"><span class="check">✓</span> 9 pools</div>
+      <div class="cc">Yield stripping engine</div><div class="cc"><span class="check">✓</span></div><div class="cc"><span class="check">✓</span></div><div class="cc">N/A</div><div class="cc optkas"><span class="check">✓</span> P + Y strips</div>
+      <div class="cc">Automated lender packages</div><div class="cc"><span class="cross">✗</span> manual</div><div class="cc"><span class="cross">✗</span> manual</div><div class="cc">N/A</div><div class="cc optkas"><span class="check">✓</span> 14 in seconds</div>
+      <div class="cc">Real-time chain monitoring</div><div class="cc">N/A</div><div class="cc">N/A</div><div class="cc">N/A</div><div class="cc optkas"><span class="check">✓</span> 9 wallets</div>
+      <div class="cc">Deal pipeline CRM</div><div class="cc"><span class="check">✓</span> Salesforce</div><div class="cc"><span class="check">✓</span> custom</div><div class="cc">N/A</div><div class="cc optkas"><span class="check">✓</span> 14 stages</div>
+      <div class="cc">Term sheet comparison</div><div class="cc">Manual</div><div class="cc">Custom</div><div class="cc">N/A</div><div class="cc optkas"><span class="check">✓</span> Weighted + auto</div>
+      <div class="cc">Draw management</div><div class="cc"><span class="check">✓</span></div><div class="cc"><span class="check">✓</span></div><div class="cc">N/A</div><div class="cc optkas"><span class="check">✓</span> ACT/360, waterfall</div>
+      <div class="cc">Sovereign ownership</div><div class="cc"><span class="cross">✗</span> vendor</div><div class="cc"><span class="cross">✗</span> vendor</div><div class="cc"><span class="cross">✗</span> vendor</div><div class="cc optkas"><span class="check">✓</span> Own everything</div>
+    </div>
+
+    <div style="text-align:center;margin-top:2.5rem">
+      <div style="display:inline-block;background:rgba(201,168,76,0.06);border:1px solid var(--border-bright);border-radius:12px;padding:1.5rem 2.5rem">
+        <div style="font-size:0.75rem;color:var(--gold);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">Estimated Build Equivalent</div>
+        <div style="font-family:'JetBrains Mono';font-size:2.5rem;font-weight:800;background:linear-gradient(135deg,var(--gold),var(--gold-bright));-webkit-background-clip:text;-webkit-text-fill-color:transparent">$4M–$8M</div>
+        <div style="font-size:0.8rem;color:var(--text-dim);margin-top:4px">+ 2–3 years with a 20-person team</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 25 PHASES ═══════════ -->
+<section id="phases" style="background:linear-gradient(180deg,rgba(16,185,129,0.02),transparent)">
+  <div class="container fade-in">
+    <div class="section-header">
+      <span class="section-number">11 — Build History</span>
+      <h2 class="section-title">25 Phases. Every One Shipped.</h2>
+      <p class="section-subtitle">From first package to execution operations — the complete build journey</p>
+    </div>
+
+    <div class="phase-grid">
+      <div class="phase-chip"><span class="pnum">04</span><span class="ptxt">Capital Markets</span></div>
+      <div class="phase-chip"><span class="pnum">05</span><span class="ptxt">Package Infra</span></div>
+      <div class="phase-chip"><span class="pnum">06</span><span class="ptxt">Live Integration</span></div>
+      <div class="phase-chip"><span class="pnum">07</span><span class="ptxt">Ledger Wiring</span></div>
+      <div class="phase-chip"><span class="pnum">08</span><span class="ptxt">Operational CLI</span></div>
+      <div class="phase-chip"><span class="pnum">09</span><span class="ptxt">Funding Pipeline</span></div>
+      <div class="phase-chip"><span class="pnum">10</span><span class="ptxt">Report & Execution</span></div>
+      <div class="phase-chip"><span class="pnum">11</span><span class="ptxt">Launch Readiness</span></div>
+      <div class="phase-chip"><span class="pnum">12</span><span class="ptxt">Audit & Settlement</span></div>
+      <div class="phase-chip"><span class="pnum">13</span><span class="ptxt">Sponsor Instrument</span></div>
+      <div class="phase-chip"><span class="pnum">14</span><span class="ptxt">Valuation & Lending</span></div>
+      <div class="phase-chip"><span class="pnum">15</span><span class="ptxt">Funding Attestation</span></div>
+      <div class="phase-chip"><span class="pnum">16</span><span class="ptxt">Two-Lane Funding</span></div>
+      <div class="phase-chip"><span class="pnum">17</span><span class="ptxt">Funder Architecture</span></div>
+      <div class="phase-chip"><span class="pnum">18</span><span class="ptxt">Wallet Provisioning</span></div>
+      <div class="phase-chip"><span class="pnum">19</span><span class="ptxt">Cross-Chain DEX</span></div>
+      <div class="phase-chip"><span class="pnum">20</span><span class="ptxt">Multi-Asset Offering</span></div>
+      <div class="phase-chip"><span class="pnum">21</span><span class="ptxt">Elite Platform</span></div>
+      <div class="phase-chip"><span class="pnum">22</span><span class="ptxt">Reserve Vault</span></div>
+      <div class="phase-chip"><span class="pnum">23</span><span class="ptxt">Command Center</span></div>
+      <div class="phase-chip"><span class="pnum">24</span><span class="ptxt">Risk Analytics</span></div>
+      <div class="phase-chip"><span class="pnum">25</span><span class="ptxt">Execution Ops</span></div>
+    </div>
+
+    <div style="text-align:center;margin-top:2rem">
+      <div style="font-size:0.8rem;color:var(--text-dim)">
+        <span style="font-family:'JetBrains Mono';color:var(--green)">1,213+</span> tests passed · 
+        <span style="font-family:'JetBrains Mono';color:var(--green)">34+</span> test suites · 
+        <span style="font-family:'JetBrains Mono';color:var(--green)">97.4%</span> on-chain success
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ ATTESTATION HASHES ═══════════ -->
+<section id="proof">
+  <div class="container fade-in">
+    <div class="section-header">
+      <span class="section-number">12 — Permanent Proof</span>
+      <h2 class="section-title">Immutable. Verifiable. Forever.</h2>
+      <p class="section-subtitle">These TX hashes exist on public ledgers right now. Anyone can verify them.</p>
+    </div>
+
+    <div style="max-width:800px;margin:0 auto">
+      <div class="card" style="margin-bottom:1.5rem;border-left:3px solid var(--purple)">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+          <span class="badge badge-purple">XRPL MAINNET</span>
+          <span style="font-size:0.8rem;color:var(--text-secondary)">Reserve Vault Attestation</span>
+        </div>
+        <div class="mono" style="font-size:0.75rem;color:var(--gold);word-break:break-all;line-height:1.8">8C8922A650A8EA0ABA03024567535D9DA9B65AA547B57CC728B16B1338842BC2</div>
+        <div style="font-size:0.75rem;color:var(--text-dim);margin-top:6px">NAV, holdings, share price — anchored permanently to XRPL mainnet</div>
+      </div>
+      <div class="card" style="border-left:3px solid var(--cyan)">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+          <span class="badge badge-blue">STELLAR MAINNET</span>
+          <span style="font-size:0.8rem;color:var(--text-secondary)">Dual-Chain Proof</span>
+        </div>
+        <div class="mono" style="font-size:0.75rem;color:var(--gold);word-break:break-all;line-height:1.8">a6c224cfe275baccf00775214d40b29a4abdffe193ac36e576023aad08629d18</div>
+        <div style="font-size:0.75rem;color:var(--text-dim);margin-top:6px">Same attestation mirrored to Stellar manage_data — dual-chain redundancy</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CTA / CLOSING ═══════════ -->
+<section class="cta-section">
+  <div class="container fade-in">
+    <h2>Monday morning, 14 lenders get a package<br>that looks like it came from a <span style="color:var(--gold)">$500M credit fund.</span></h2>
+    <p>Because the infrastructure behind it is built like one.</p>
+    <div class="divider"></div>
+    <div style="font-size:0.85rem;color:var(--text-dim);margin-top:1.5rem">
+      <strong style="color:var(--gold)">OPTKAS1-MAIN SPV</strong> · Wyoming, USA · Sovereign Financial Platform<br>
+      Git HEAD: <span class="mono">75c09b5</span> · Phase 25 · February 7, 2026
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div>OPTKAS Sovereign Financial Platform · Internal Command Brief · February 7, 2026</div>
+  <div style="margin-top:6px;color:var(--text-dim)">Classification: INTERNAL — Team Eyes Only · Not for distribution</div>
+</footer>
+
+<script>
+// ── Scroll-based fade-in ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// ── Smooth scroll for nav ──
+document.querySelectorAll('nav a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});
+  });
+});
+
+// ── Nav background on scroll ──
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  nav.style.borderBottomColor = window.scrollY > 50 ? 'rgba(201,168,76,0.25)' : 'rgba(201,168,76,0.15)';
+});
+</script>
+</body>
+</html>
