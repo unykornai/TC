@@ -194,7 +194,7 @@ function checkPackageIntegrity(): CheckResult[] {
 
   // Check funding-ops has all required source files
   const fundingOpsSrc = path.join(root, 'packages', 'funding-ops', 'src');
-  const requiredSources = ['pipeline.ts', 'xrpl-activator.ts', 'stellar-activator.ts', 'report-generator.ts', 'tx-queue.ts', 'audit-bridge.ts', 'settlement-connector.ts', 'sponsor-note.ts', 'index.ts'];
+  const requiredSources = ['pipeline.ts', 'xrpl-activator.ts', 'stellar-activator.ts', 'report-generator.ts', 'tx-queue.ts', 'audit-bridge.ts', 'settlement-connector.ts', 'sponsor-note.ts', 'borrowing-base.ts', 'index.ts'];
   for (const src of requiredSources) {
     const srcPath = path.join(fundingOpsSrc, src);
     results.push({

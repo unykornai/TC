@@ -29,6 +29,7 @@ import { TransactionQueue, type TxQueueSummary } from '../../../packages/funding
 import { AuditBridge, type AuditBridgeSummary } from '../../../packages/funding-ops/src/audit-bridge';
 import { SettlementConnector, type SettlementConnectorSummary } from '../../../packages/funding-ops/src/settlement-connector';
 import { SponsorNote, type SponsorNoteSummary } from '../../../packages/funding-ops/src/sponsor-note';
+import { BorrowingBase, type BorrowingBaseSummary } from '../../../packages/funding-ops/src/borrowing-base';
 
 const PORT = parseInt(process.env.PORT || '3000', 10);
 const CONFIG_PATH = process.env.CONFIG_PATH || path.join(__dirname, '..', '..', '..', 'config', 'platform-config.yaml');
@@ -44,6 +45,7 @@ const txQueue = new TransactionQueue({ autoExpire: true });
 const auditBridge = new AuditBridge({ network: 'testnet' });
 const settlementConnector = new SettlementConnector({ autoSettle: true });
 const sponsorNote = new SponsorNote();
+const borrowingBase = new BorrowingBase({ facilityLimit: 4_000_000, minimumCoverageRatio: 2.0 });
 
 // ── Live ledger clients ────────────────────────────────────────
 const xrplClient = new XRPLClient({ network: 'testnet' });
@@ -98,6 +100,7 @@ interface DashboardState {
   auditBridge: AuditBridgeSummary;
   settlementPipeline: SettlementConnectorSummary;
   sponsorNote: SponsorNoteSummary;
+  borrowingBase: BorrowingBaseSummary;
 }
 
 function loadConfig(): any {
@@ -175,6 +178,7 @@ export async function buildState(): Promise<DashboardState> {
     auditBridge: auditBridge.getSummary(),
     settlementPipeline: settlementConnector.getSummary(),
     sponsorNote: sponsorNote.getSummary(),
+    borrowingBase: borrowingBase.getSummary(),
   };
 
   // ── XRPL live balance queries ──────────────────────────────────
@@ -519,6 +523,27 @@ export function generateDashboardHTML(state: DashboardState): string {
       <div class="stat"><span class="label">Accelerated</span><span class="value">\${state.sponsorNote.accelerated ? 'YES' : 'No'}</span></div>
       <div class="stat"><span class="label">Assignable w/o Consent</span><span class="value">\${state.sponsorNote.assignableWithoutConsent ? 'Yes' : 'No'}</span></div>
       <div class="stat"><span class="label">No Setoff</span><span class="value">\${state.sponsorNote.noSetoff ? 'Yes' : 'No'}</span></div>
+    </div>
+
+    <!-- Borrowing Base Certificate -->
+    <div class="card">
+      <h2>Borrowing Base Certificate</h2>
+      <div class="stat"><span class="label">Last Certificate</span><span class="value">\${state.borrowingBase.lastCertificateDate || 'none generated'}</span></div>
+      <div class="stat"><span class="label">Certificates Generated</span><span class="value">\${state.borrowingBase.certificateCount}</span></div>
+      <div class="stat"><span class="label">Total Face Value</span><span class="value">$\${state.borrowingBase.totalFaceValue.toLocaleString()}</span></div>
+      <div class="stat"><span class="label">Eligible Value</span><span class="value">$\${state.borrowingBase.totalEligibleValue.toLocaleString()}</span></div>
+      <div class="stat"><span class="label">Facility Limit</span><span class="value">$\${state.borrowingBase.facilityLimit.toLocaleString()}</span></div>
+      <div class="stat"><span class="label">Outstanding</span><span class="value">$\${state.borrowingBase.currentOutstanding.toLocaleString()}</span></div>
+      <div class="stat"><span class="label">Available Capacity</span><span class="value">$\${state.borrowingBase.availableCapacity.toLocaleString()}</span></div>
+      <div class="stat"><span class="label">Advance Rate</span><span class="value">\${state.borrowingBase.weightedAdvanceRate}%</span></div>
+      <div class="stat"><span class="label">Collateral Coverage</span><span class="value">\${state.borrowingBase.collateralCoverageRatio}x</span></div>
+      <div class="stat"><span class="label">Interest Coverage</span><span class="value">\${state.borrowingBase.interestCoverageRatio}x</span></div>
+      <div class="stat"><span class="label">Utilization</span><span class="value">\${state.borrowingBase.utilizationRate}%</span></div>
+      <div class="stat"><span class="label">Covenant Compliance</span><span class="value"><span class="status-dot \${state.borrowingBase.covenantCompliance ? 'status-green' : 'status-red'}"></span>\${state.borrowingBase.covenantCompliance ? 'Compliant' : 'BREACHED'}</span></div>
+      <div class="stat"><span class="label">Breached Covenants</span><span class="value">\${state.borrowingBase.breachedCovenants}</span></div>
+      <div class="stat"><span class="label">Open Exceptions</span><span class="value">\${state.borrowingBase.openExceptions}</span></div>
+      <div class="stat"><span class="label">Critical Exceptions</span><span class="value">\${state.borrowingBase.criticalExceptions}</span></div>
+      <div class="stat"><span class="label">Status</span><span class="value">\${state.borrowingBase.status}</span></div>
     </div>  </div>
 
   <div class="footer">

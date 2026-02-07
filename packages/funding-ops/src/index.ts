@@ -90,3 +90,18 @@ export {
   type AssignmentRecord,
   type DefaultEvent,
 } from './sponsor-note';
+
+export {
+  BorrowingBase,
+  type BorrowingBaseConfig,
+  type BorrowingBaseSummary,
+  type BorrowingBaseEvent,
+  type BorrowingBaseCertificate,
+  type CollateralPosition,
+  type CollateralType,
+  type CovenantCheck,
+  type CovenantStatus,
+  type BorrowingBaseException,
+  type ExceptionSeverity,
+  type CertificateStatus,
+} from './borrowing-base';

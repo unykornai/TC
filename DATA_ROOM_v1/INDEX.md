@@ -12,14 +12,14 @@
 
 This data room contains the complete institutional-grade documentation package for the OPTKAS1 secured credit facility backed by TC Advantage 5% Secured Medium Term Notes (CUSIP 87225HAB4).
 
-**Total Documents:** 34  
+**Total Documents:** 35  
 **Categories:** 7
 
 ---
 
 ## Folder Structure
 
-### 00_EXEC_SUMMARY (4 files)
+### 00_EXEC_SUMMARY (5 files)
 Executive-level overviews for credit committee and senior decision-makers.
 
 | File | Description |
@@ -28,6 +28,7 @@ Executive-level overviews for credit committee and senior decision-makers.
 | EXECUTIVE_SUMMARY.md | 2-page lender overview with deal structure |
 | INVESTOR-PITCH-DECK.md | Investment thesis and opportunity summary |
 | OPTKAS1-STRATEGIC-FINANCIAL-ROADMAP.md | Long-term financial strategy |
+| CREDIT_COMMITTEE_POSITIONING.md | **NEW** — Credit committee brief with risk assessment and recommended terms |
 
 ---
 
