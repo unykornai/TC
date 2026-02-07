@@ -72,3 +72,21 @@ export {
   type SettlementPhase,
   type SettlementConnectorModel,
 } from './settlement-connector';
+
+export {
+  SponsorNote,
+  type SponsorNoteConfig,
+  type SponsorNoteState,
+  type SponsorNoteSummary,
+  type SponsorNoteEvent,
+  type NoteStatus,
+  type InterestMode,
+  type SubordinationTier,
+  type DefaultEventType,
+  type AssignmentType,
+  type NoteTerms,
+  type AccrualRecord,
+  type PaymentRecord,
+  type AssignmentRecord,
+  type DefaultEvent,
+} from './sponsor-note';

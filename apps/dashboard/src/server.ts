@@ -28,6 +28,7 @@ import { StellarClient } from '../../../packages/stellar-core/src';
 import { TransactionQueue, type TxQueueSummary } from '../../../packages/funding-ops/src/tx-queue';
 import { AuditBridge, type AuditBridgeSummary } from '../../../packages/funding-ops/src/audit-bridge';
 import { SettlementConnector, type SettlementConnectorSummary } from '../../../packages/funding-ops/src/settlement-connector';
+import { SponsorNote, type SponsorNoteSummary } from '../../../packages/funding-ops/src/sponsor-note';
 
 const PORT = parseInt(process.env.PORT || '3000', 10);
 const CONFIG_PATH = process.env.CONFIG_PATH || path.join(__dirname, '..', '..', '..', 'config', 'platform-config.yaml');
@@ -42,6 +43,7 @@ const auditReporter = new ReportGenerator(auditStore);
 const txQueue = new TransactionQueue({ autoExpire: true });
 const auditBridge = new AuditBridge({ network: 'testnet' });
 const settlementConnector = new SettlementConnector({ autoSettle: true });
+const sponsorNote = new SponsorNote();
 
 // ── Live ledger clients ────────────────────────────────────────
 const xrplClient = new XRPLClient({ network: 'testnet' });
@@ -95,6 +97,7 @@ interface DashboardState {
   txQueue: TxQueueSummary;
   auditBridge: AuditBridgeSummary;
   settlementPipeline: SettlementConnectorSummary;
+  sponsorNote: SponsorNoteSummary;
 }
 
 function loadConfig(): any {
@@ -171,6 +174,7 @@ export async function buildState(): Promise<DashboardState> {
     txQueue: txQueue.getSummary(),
     auditBridge: auditBridge.getSummary(),
     settlementPipeline: settlementConnector.getSummary(),
+    sponsorNote: sponsorNote.getSummary(),
   };
 
   // ── XRPL live balance queries ──────────────────────────────────
@@ -493,6 +497,28 @@ export function generateDashboardHTML(state: DashboardState): string {
       <div class="stat"><span class="label">Compliance Pass Rate</span><span class="value">\${(state.auditBridge.compliancePassRate * 100).toFixed(1)}%</span></div>
       <div class="stat"><span class="label">Unanchored Events</span><span class="value">\${state.auditBridge.unanchoredCount}</span></div>
       <div class="stat"><span class="label">Last Event</span><span class="value">\${state.auditBridge.lastEventAt || 'none'}</span></div>
+    </div>
+
+    <!-- Sponsor Note -->
+    <div class="card">
+      <h2>Sponsor Consideration Note</h2>
+      <div class="stat"><span class="label">Status</span><span class="value">\${state.sponsorNote.status}</span></div>
+      <div class="stat"><span class="label">Issuer</span><span class="value">\${state.sponsorNote.issuer || 'not issued'}</span></div>
+      <div class="stat"><span class="label">Payee</span><span class="value">\${state.sponsorNote.payee || 'not issued'}</span></div>
+      <div class="stat"><span class="label">Original Principal</span><span class="value">$\${state.sponsorNote.originalPrincipal.toLocaleString()}</span></div>
+      <div class="stat"><span class="label">Current Principal</span><span class="value">$\${state.sponsorNote.currentPrincipal.toLocaleString()}</span></div>
+      <div class="stat"><span class="label">Accrued Interest</span><span class="value">$\${state.sponsorNote.accruedInterest.toLocaleString()}</span></div>
+      <div class="stat"><span class="label">Total Outstanding</span><span class="value">$\${state.sponsorNote.totalOutstanding.toLocaleString()}</span></div>
+      <div class="stat"><span class="label">Interest Rate</span><span class="value">\${state.sponsorNote.interestRate} (\${state.sponsorNote.interestMode})</span></div>
+      <div class="stat"><span class="label">Subordination</span><span class="value">\${state.sponsorNote.subordination}</span></div>
+      <div class="stat"><span class="label">Maturity</span><span class="value">\${state.sponsorNote.maturityDate ? state.sponsorNote.maturityDate.split('T')[0] : 'not set'}</span></div>
+      <div class="stat"><span class="label">Days to Maturity</span><span class="value">\${state.sponsorNote.daysToMaturity ?? 'N/A'}</span></div>
+      <div class="stat"><span class="label">Payments</span><span class="value">\${state.sponsorNote.paymentsCount} ($\${state.sponsorNote.totalPaid.toLocaleString()})</span></div>
+      <div class="stat"><span class="label">Assignments</span><span class="value">\${state.sponsorNote.assignmentsCount} ($\${state.sponsorNote.totalAssigned.toLocaleString()})</span></div>
+      <div class="stat"><span class="label">Defaults</span><span class="value">\${state.sponsorNote.defaultsCount} (uncured: \${state.sponsorNote.uncuredDefaults})</span></div>
+      <div class="stat"><span class="label">Accelerated</span><span class="value">\${state.sponsorNote.accelerated ? 'YES' : 'No'}</span></div>
+      <div class="stat"><span class="label">Assignable w/o Consent</span><span class="value">\${state.sponsorNote.assignableWithoutConsent ? 'Yes' : 'No'}</span></div>
+      <div class="stat"><span class="label">No Setoff</span><span class="value">\${state.sponsorNote.noSetoff ? 'Yes' : 'No'}</span></div>
     </div>  </div>
 
   <div class="footer">

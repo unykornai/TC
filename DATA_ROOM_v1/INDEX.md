@@ -12,7 +12,7 @@
 
 This data room contains the complete institutional-grade documentation package for the OPTKAS1 secured credit facility backed by TC Advantage 5% Secured Medium Term Notes (CUSIP 87225HAB4).
 
-**Total Documents:** 33  
+**Total Documents:** 34  
 **Categories:** 7
 
 ---
@@ -31,7 +31,7 @@ Executive-level overviews for credit committee and senior decision-makers.
 
 ---
 
-### 01_TRANSACTION_STRUCTURE (5 files)
+### 01_TRANSACTION_STRUCTURE (6 files)
 Core deal documents defining the credit facility structure.
 
 | File | Description |
@@ -39,6 +39,7 @@ Core deal documents defining the credit facility structure.
 | LOAN_COMMITMENT_PACKAGE-v2.md | **PRIMARY** - Complete lender submission with pre-formatted responses |
 | LOAN_COMMITMENT_PACKAGE.md | Original version of lender package |
 | STRATEGIC_INFRASTRUCTURE_EXECUTION_AGREEMENT.md | Unykorn 7777 partnership agreement |
+| SPONSOR_CONSIDERATION_NOTE.md | **NEW** - Financeable debt instrument for platform delivery consideration |
 | ANNEX_A_Tranche_Details.md | Asset identification, CUSIP, valuation methodology |
 | ANNEX_B_System_Architecture.md | Technical infrastructure and data flows |
 

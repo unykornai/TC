@@ -821,10 +821,10 @@ describe('Phase 12 — Cross-File Integration', () => {
     }
   });
 
-  test('funding-ops now has 8 source files', () => {
+  test('funding-ops source files include Phase 12 modules', () => {
     const fundingOpsSrc = path.resolve(__dirname, '../packages/funding-ops/src');
     const files = fs.readdirSync(fundingOpsSrc).filter(f => f.endsWith('.ts'));
-    expect(files.length).toBe(8);
+    expect(files.length).toBeGreaterThanOrEqual(8);
     expect(files).toContain('pipeline.ts');
     expect(files).toContain('xrpl-activator.ts');
     expect(files).toContain('stellar-activator.ts');
