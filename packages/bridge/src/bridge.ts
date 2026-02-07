@@ -20,6 +20,10 @@
 import { EventEmitter } from 'events';
 import * as crypto from 'crypto';
 
+// Optional XRPL client for transaction preparation
+let XRPLClientModule: any;
+try { XRPLClientModule = require('@optkas/xrpl-core'); } catch { /* offline mode */ }
+
 // ─── Types ───────────────────────────────────────────────────────────
 
 export interface BridgeConfig {
@@ -393,6 +397,148 @@ export class BridgeManager extends EventEmitter {
     bridge.status = 'paused';
     bridge.updatedAt = new Date().toISOString();
     this.emit('bridge_paused', { bridgeId, reason });
+  }
+
+  // ─── XRPL Transaction Preparation ─────────────────────────────
+
+  /**
+   * Prepare an unsigned XChainCreateBridge transaction.
+   * Creates the bridge object on the locking chain door account.
+   * Requires multisig approval before submission.
+   */
+  prepareXChainCreateBridge(bridgeId: string, chain: 'locking' | 'issuing'): Record<string, unknown> {
+    const bridge = this.bridges.get(bridgeId);
+    if (!bridge) throw new Error(`Bridge not found: ${bridgeId}`);
+
+    const chainConfig = chain === 'locking' ? bridge.lockingChain : bridge.issuingChain;
+    const otherChainConfig = chain === 'locking' ? bridge.issuingChain : bridge.lockingChain;
+
+    const xChainBridge: Record<string, unknown> = {
+      LockingChainDoor: bridge.lockingChain.doorAccountAddress,
+      LockingChainIssue: bridge.bridgeIssuer
+        ? { currency: bridge.bridgeCurrency, issuer: bridge.bridgeIssuer }
+        : { currency: 'XRP' },
+      IssuingChainDoor: bridge.issuingChain.doorAccountAddress,
+      IssuingChainIssue: bridge.bridgeIssuer
+        ? { currency: bridge.bridgeCurrency, issuer: bridge.bridgeIssuer }
+        : { currency: 'XRP' },
+    };
+
+    const tx: Record<string, unknown> = {
+      TransactionType: 'XChainCreateBridge',
+      Account: chainConfig.doorAccountAddress,
+      XChainBridge: xChainBridge,
+      SignatureReward: bridge.signatureReward,
+      MinAccountCreateAmount: bridge.minAccountCreateAmount,
+    };
+
+    this.emit('xchain_tx_prepared', {
+      type: 'XChainCreateBridge',
+      bridgeId,
+      chain,
+      doorAccount: chainConfig.doorAccountAddress,
+    });
+
+    return tx;
+  }
+
+  /**
+   * Prepare an unsigned XChainCommit transaction.
+   * Locks funds on the source chain to initiate a cross-chain transfer.
+   */
+  prepareXChainCommit(bridgeId: string, params: {
+    senderAddress: string;
+    amount: string;
+    destinationAddress?: string;
+  }): Record<string, unknown> {
+    const bridge = this.bridges.get(bridgeId);
+    if (!bridge) throw new Error(`Bridge not found: ${bridgeId}`);
+    if (bridge.status !== 'active') throw new Error(`Bridge ${bridgeId} is not active (status: ${bridge.status})`);
+
+    const claimId = this.claimCounter.get(bridgeId) || 1;
+
+    const xChainBridge: Record<string, unknown> = {
+      LockingChainDoor: bridge.lockingChain.doorAccountAddress,
+      LockingChainIssue: bridge.bridgeIssuer
+        ? { currency: bridge.bridgeCurrency, issuer: bridge.bridgeIssuer }
+        : { currency: 'XRP' },
+      IssuingChainDoor: bridge.issuingChain.doorAccountAddress,
+      IssuingChainIssue: bridge.bridgeIssuer
+        ? { currency: bridge.bridgeCurrency, issuer: bridge.bridgeIssuer }
+        : { currency: 'XRP' },
+    };
+
+    const tx: Record<string, unknown> = {
+      TransactionType: 'XChainCommit',
+      Account: params.senderAddress,
+      XChainBridge: xChainBridge,
+      XChainClaimID: claimId,
+      Amount: params.amount,
+    };
+
+    if (params.destinationAddress) {
+      tx.OtherChainDestination = params.destinationAddress;
+    }
+
+    this.emit('xchain_tx_prepared', {
+      type: 'XChainCommit',
+      bridgeId,
+      sender: params.senderAddress,
+      amount: params.amount,
+      claimId,
+    });
+
+    return tx;
+  }
+
+  /**
+   * Prepare an unsigned XChainClaim transaction.
+   * Claims funds on the destination chain after sufficient attestations.
+   */
+  prepareXChainClaim(bridgeId: string, params: {
+    claimRecordId: string;
+    destinationAddress: string;
+    amount: string;
+  }): Record<string, unknown> {
+    const bridge = this.bridges.get(bridgeId);
+    if (!bridge) throw new Error(`Bridge not found: ${bridgeId}`);
+
+    const claim = this.claims.get(params.claimRecordId);
+    if (!claim) throw new Error(`Claim not found: ${params.claimRecordId}`);
+    if (claim.status !== 'attested') {
+      throw new Error(`Claim ${params.claimRecordId} not ready for claiming (status: ${claim.status}, attestations: ${claim.attestations.length}/${claim.requiredAttestations})`);
+    }
+
+    const xChainBridge: Record<string, unknown> = {
+      LockingChainDoor: bridge.lockingChain.doorAccountAddress,
+      LockingChainIssue: bridge.bridgeIssuer
+        ? { currency: bridge.bridgeCurrency, issuer: bridge.bridgeIssuer }
+        : { currency: 'XRP' },
+      IssuingChainDoor: bridge.issuingChain.doorAccountAddress,
+      IssuingChainIssue: bridge.bridgeIssuer
+        ? { currency: bridge.bridgeCurrency, issuer: bridge.bridgeIssuer }
+        : { currency: 'XRP' },
+    };
+
+    const tx: Record<string, unknown> = {
+      TransactionType: 'XChainClaim',
+      Account: params.destinationAddress,
+      XChainBridge: xChainBridge,
+      XChainClaimID: claim.claimId,
+      Destination: params.destinationAddress,
+      Amount: params.amount,
+    };
+
+    this.emit('xchain_tx_prepared', {
+      type: 'XChainClaim',
+      bridgeId,
+      claimRecordId: params.claimRecordId,
+      claimId: claim.claimId,
+      destination: params.destinationAddress,
+      amount: params.amount,
+    });
+
+    return tx;
   }
 }
 

@@ -231,17 +231,50 @@ export class PortfolioManager extends EventEmitter {
 
   /**
    * Sync IOU balances (bonds, stablecoins, RWA tokens) from ledger.
+   * Uses the XRPL getTrustlines() RPC to fetch actual on-ledger balances.
    */
   async syncIouBalances(account: string): Promise<Position[]> {
-    const lines: any = await this.client.getAccountInfo(account); // Uses account_lines
-    // Note: actual implementation would use account_lines RPC
-    // This is the structural placeholder — the XRPL call pattern is:
-    // client.request({ command: 'account_lines', account })
+    const trustlines = await this.client.getTrustlines(account);
+    const synced: Position[] = [];
 
-    // For now, return existing IOU positions for this account
-    return Array.from(this.positions.values()).filter(
-      (p) => p.account === account && p.type !== 'xrp'
-    );
+    for (const tl of trustlines) {
+      const balance = parseFloat(tl.balance);
+      if (balance === 0) continue;
+
+      // Check if position already exists for this currency + issuer
+      const existing = Array.from(this.positions.values()).find(
+        (p) => p.account === account && p.instrument === tl.currency && p.type !== 'xrp'
+      );
+
+      if (existing) {
+        existing.quantity = tl.balance;
+        existing.marketValue = (Math.abs(balance) * parseFloat(existing.currentPrice)).toFixed(2);
+        existing.unrealizedPnl = (Math.abs(balance) * (parseFloat(existing.currentPrice) - parseFloat(existing.costBasis))).toFixed(2);
+        existing.updatedAt = new Date().toISOString();
+        existing.metadata = { ...existing.metadata, issuer: tl.issuer, limit: tl.limit };
+        synced.push(existing);
+      } else {
+        // Determine position type from currency code
+        let posType: PositionType = 'stablecoin';
+        if (tl.currency.includes('BOND') || tl.currency.includes('bond')) posType = 'bond';
+        else if (tl.currency.includes('RWA') || tl.currency.includes('rwa')) posType = 'rwa_token';
+
+        const pos = this.addPosition({
+          type: posType,
+          instrument: tl.currency,
+          account,
+          quantity: tl.balance,
+          costBasis: '1',
+          currentPrice: '1',
+          currency: tl.currency,
+          metadata: { issuer: tl.issuer, limit: tl.limit, syncedFromLedger: true },
+        });
+        synced.push(pos);
+      }
+    }
+
+    this.emit('iou_sync_complete', { account, trustlineCount: trustlines.length, syncedPositions: synced.length });
+    return synced;
   }
 
   // ─── NAV Calculation ───────────────────────────────────────────
