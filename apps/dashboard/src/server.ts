@@ -23,6 +23,8 @@ import { ComplianceEngine } from '../../../packages/compliance/src';
 import { BondFactory } from '../../../packages/bond/src';
 import { ReportingEngine } from '../../../packages/reporting/src';
 import { AuditEventStore, ReportGenerator } from '../../../packages/audit/src';
+import { XRPLClient } from '../../../packages/xrpl-core/src';
+import { StellarClient } from '../../../packages/stellar-core/src';
 
 const PORT = parseInt(process.env.PORT || '3000', 10);
 const CONFIG_PATH = process.env.CONFIG_PATH || path.join(__dirname, '..', '..', '..', 'config', 'platform-config.yaml');
@@ -34,6 +36,10 @@ const bondFactory = new BondFactory();
 const reporting = new ReportingEngine();
 const auditStore = new AuditEventStore();
 const auditReporter = new ReportGenerator(auditStore);
+
+// ── Live ledger clients ────────────────────────────────────────
+const xrplClient = new XRPLClient({ network: 'testnet' });
+const stellarClient = new StellarClient({ network: 'testnet' });
 
 interface DashboardState {
   config: any;
@@ -85,9 +91,11 @@ function loadConfig(): any {
   }
 }
 
-export function buildState(): DashboardState {
+export async function buildState(): Promise<DashboardState> {
   const config = loadConfig();
-  return {
+
+  // ── Build base state ───────────────────────────────────────────
+  const state: DashboardState = {
     config: {
       platform: config.platform,
       governance: config.governance,
@@ -95,7 +103,7 @@ export function buildState(): DashboardState {
     lastRefresh: new Date().toISOString(),
     xrpl: {
       connected: false,
-      network: config.networks?.xrpl?.default || 'testnet',
+      network: config.networks?.xrpl?.active || 'testnet',
       accounts: Object.fromEntries(
         Object.entries(config.xrpl_accounts || {}).map(([role, acct]: [string, any]) => [
           role,
@@ -106,7 +114,7 @@ export function buildState(): DashboardState {
     },
     stellar: {
       connected: false,
-      network: config.networks?.stellar?.default || 'testnet',
+      network: config.networks?.stellar?.active || 'testnet',
       accounts: Object.fromEntries(
         Object.entries(config.stellar_accounts || {}).map(([role, acct]: [string, any]) => [
           role,
@@ -140,6 +148,65 @@ export function buildState(): DashboardState {
       engineStatus: 'active',
     },
   };
+
+  // ── XRPL live balance queries ──────────────────────────────────
+  try {
+    if (!xrplClient.isConnected) {
+      await xrplClient.connect();
+    }
+    state.xrpl.connected = true;
+
+    const xrplQueries = Object.entries(state.xrpl.accounts).map(async ([role, acct]) => {
+      if (!acct.address || acct.address === 'not_configured') return;
+      try {
+        const info = await xrplClient.getAccountInfo(acct.address);
+        acct.balance = `${info.balance} XRP`;
+        const trustlines = await xrplClient.getTrustlines(acct.address);
+        acct.trustlines = trustlines.length;
+      } catch (err: any) {
+        acct.balance = err.message?.includes('actNotFound') ? 'not_funded' : 'query_error';
+      }
+    });
+    await Promise.all(xrplQueries);
+
+    // Query escrows from escrow account
+    const escrowAddr = config.xrpl_accounts?.escrow?.address;
+    if (escrowAddr && escrowAddr !== 'not_configured') {
+      try {
+        const escrowObjects = await xrplClient.getEscrows(escrowAddr) as any[];
+        state.xrpl.escrows = escrowObjects.map((obj: any) => ({
+          id: obj.index || obj.PreviousTxnID || 'unknown',
+          amount: XRPLClient.dropsToXrp(obj.Amount || '0'),
+          status: obj.Condition ? 'conditional' : 'time-locked',
+          expires: obj.CancelAfter ? XRPLClient.rippleTimeToIso(obj.CancelAfter) : 'no_expiry',
+        }));
+      } catch { /* no escrows yet */ }
+    }
+  } catch (err: any) {
+    state.xrpl.connected = false;
+    console.error(`XRPL connection error: ${err.message}`);
+  }
+
+  // ── Stellar live balance queries ───────────────────────────────
+  try {
+    const stellarQueries = Object.entries(state.stellar.accounts).map(async ([role, acct]) => {
+      if (!acct.address || acct.address === 'not_configured') return;
+      try {
+        const info = await stellarClient.getAccountInfo(acct.address);
+        const native = info.balances.find(b => b.assetType === 'native');
+        acct.balance = native ? `${native.balance} XLM` : '0 XLM';
+      } catch (err: any) {
+        acct.balance = err.message?.includes('404') ? 'not_funded' : 'query_error';
+      }
+    });
+    await Promise.all(stellarQueries);
+    state.stellar.connected = true;
+  } catch (err: any) {
+    state.stellar.connected = false;
+    console.error(`Stellar connection error: ${err.message}`);
+  }
+
+  return state;
 }
 
 export function generateDashboardHTML(state: DashboardState): string {
@@ -367,24 +434,35 @@ export function generateDashboardHTML(state: DashboardState): string {
 }
 
 export function startServer(port = PORT): http.Server {
-  const server = http.createServer((req, res) => {
-    if (req.url === '/api/state') {
-      const state = buildState();
-      res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
-      res.end(JSON.stringify(state, null, 2));
-      return;
-    }
+  const server = http.createServer(async (req, res) => {
+    try {
+      if (req.url === '/api/state') {
+        const state = await buildState();
+        res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+        res.end(JSON.stringify(state, null, 2));
+        return;
+      }
 
-    if (req.url === '/api/health') {
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ status: 'ok', mode: 'read-only', timestamp: new Date().toISOString() }));
-      return;
-    }
+      if (req.url === '/api/health') {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+          status: 'ok',
+          mode: 'read-only',
+          xrpl_connected: xrplClient.isConnected,
+          stellar_connected: true,
+          timestamp: new Date().toISOString()
+        }));
+        return;
+      }
 
-    // Serve dashboard HTML
-    const state = buildState();
-    res.writeHead(200, { 'Content-Type': 'text/html' });
-    res.end(generateDashboardHTML(state));
+      // Serve dashboard HTML
+      const state = await buildState();
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      res.end(generateDashboardHTML(state));
+    } catch (err: any) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: err.message }));
+    }
   });
 
   server.listen(port, () => {

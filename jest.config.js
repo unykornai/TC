@@ -31,5 +31,7 @@ module.exports = {
     '!packages/*/src/index.ts'
   ],
   coverageDirectory: 'coverage',
-  coverageReporters: ['text', 'lcov', 'json-summary']
+  coverageReporters: ['text', 'lcov', 'json-summary'],
+  forceExit: true,
+  testTimeout: 30000,
 };

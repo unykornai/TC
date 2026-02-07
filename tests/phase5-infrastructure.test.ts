@@ -104,9 +104,9 @@ describe('Phase 5 — Dashboard', () => {
     expect(typeof mod.startServer).toBe('function');
   });
 
-  test('buildState returns valid state object', () => {
+  test('buildState returns valid state object', async () => {
     const { buildState } = require('../apps/dashboard/src/server');
-    const state = buildState();
+    const state = await buildState();
     expect(state).toBeDefined();
     expect(state.lastRefresh).toBeDefined();
     expect(state.xrpl).toBeDefined();
@@ -115,11 +115,11 @@ describe('Phase 5 — Dashboard', () => {
     expect(state.compliance).toBeDefined();
     expect(state.bonds).toBeDefined();
     expect(state.reporting).toBeDefined();
-  });
+  }, 60000);
 
-  test('generateDashboardHTML returns valid HTML', () => {
+  test('generateDashboardHTML returns valid HTML', async () => {
     const { buildState, generateDashboardHTML } = require('../apps/dashboard/src/server');
-    const state = buildState();
+    const state = await buildState();
     const html = generateDashboardHTML(state);
     expect(html).toContain('<!DOCTYPE html>');
     expect(html).toContain('OPTKAS INSTITUTIONAL DASHBOARD');
@@ -127,7 +127,7 @@ describe('Phase 5 — Dashboard', () => {
     expect(html).toContain('Compliance');
     expect(html).toContain('Bond Pipeline');
     expect(html).toContain('Reporting Engine');
-  });
+  }, 60000);
 });
 
 function findTestFiles(dir: string): string[] {
