@@ -1,19 +1,44 @@
 {
   "voice_agent": {
-    "name": "OPTKAS Capital Markets AI Concierge",
-    "description": "ElevenLabs Conversational AI agent for the OPTKAS 877-570-XRPL investor relations line",
+    "name": "OPTKAS Capital Markets — Out-Kast AI Concierge",
+    "description": "ElevenLabs Conversational AI with OutKast personality, deep platform knowledge, and team awareness for 877-570-XRPL",
     "created": "2026-02-07T19:14:00Z",
-    "status": "ACTIVE"
+    "enhanced": "2026-02-07T22:30:00Z",
+    "status": "ACTIVE",
+    "prompt_version": "2.0 — OutKast Enhanced",
+    "prompt_length": "8,635 characters"
+  },
+  "team": {
+    "jimmy": {
+      "role": "Co-Founder / Banker",
+      "location": "Houston, Texas",
+      "expertise": "Real estate, banking, deal architecture, facility structuring",
+      "contact": "jimmy@optkas.com"
+    },
+    "isaac": {
+      "role": "Co-Founder / Banker",
+      "location": "Mobile / Aviation",
+      "expertise": "Banking, capital markets",
+      "personality": "Flies a single-engine Cessna with zebra paint job — ears are the wings"
+    },
+    "kendal": {
+      "role": "Commercial Attorney",
+      "location": "Bahamas",
+      "expertise": "Legal architecture, entity structuring, compliance, executed agreements",
+      "status": "Winding toward retirement but sharp as ever"
+    }
   },
   "elevenlabs": {
     "agent_id": "agent_0501kgwrcceqeyhab6fq60bzdm4h",
-    "phone_number_id": "phnum_8201kgwrhck6ekksj8c1g0w836ch",
+    "phone_number_id": "phnum_6601kgws1jt9ey7vypeymft9whsj",
     "voice_id": "cjVigY5qzO86Huf0OWal",
     "voice_name": "Smooth Tenor — Male 40s, Classy, Conversational",
     "model": "eleven_turbo_v2",
     "llm": "gemini-2.5-flash",
     "language": "en",
-    "first_message": "Thank you for calling OPTKAS Capital Markets. This is the investor relations desk. How may I assist you today?",
+    "first_message": "Hey, welcome to Out-Kast Capital Markets — you've reached the 877-570-XRPL line. I appreciate you calling in. Before we get into it, who do I have the pleasure of speaking with today?",
+    "personality": "OutKast swagger — confident, knowledgeable, smooth southern hospitality meets Wall Street",
+    "knowledge_scope": "Full platform: $500M bond program, $10M tranche, facility structure, collateral, 9 wallets, 4 AI systems, 36 data room docs, lender targets, smart contract settlement, team bios",
     "dashboard": "https://elevenlabs.io/app/agents",
     "call_history": "https://elevenlabs.io/app/agents/history"
   },
@@ -38,8 +63,9 @@
       "3. TeXML app fetches https://optkas-tc.netlify.app/texml-bridge.xml",
       "4. TeXML <Dial><Sip> bridges to sip:+18775709775@sip.rtc.elevenlabs.io:5060",
       "5. ElevenLabs matches +18775709775 → OPTKAS Capital Markets agent",
-      "6. AI agent answers with investor relations greeting",
-      "7. Full conversational AI handles the call"
+      "6. AI greets with OutKast swagger and asks who's calling",
+      "7. Recognizes Jimmy, Isaac, or Kendal as team — handles all others as prospects/inquiries",
+      "8. Full conversational AI with deep platform knowledge handles the call"
     ],
     "outbound": [
       "1. ElevenLabs initiates call via agent dashboard",
@@ -49,26 +75,38 @@
     ]
   },
   "agent_capabilities": {
-    "investment_inquiries": "Collects name, firm, email; explains $10M tranche of $500M program",
-    "due_diligence": "Directs to data room portal, offers NDA-gated access",
-    "technical_questions": "Explains XRPL settlement, 5-layer architecture, token structure",
+    "caller_identification": "Asks who's calling first — recognizes Jimmy, Isaac, Kendal as principals",
+    "investment_inquiries": "Collects name, firm, email; explains $10M tranche of $500M program with full detail",
+    "facility_knowledge": "$4M on $10M collateral, 250%+ coverage, SOFR+8-12%, 12-24mo, bullet repayment",
+    "collateral_expertise": "CUSIP 87225HAB4, STC verification, $25.75M insurance, Western Surety bond",
+    "blockchain_infrastructure": "9 wallets (6 XRPL + 3 Stellar), stablecoin trustlines, 4-second settlement",
+    "ai_systems": "4 AI execution systems: Asset Intake, Credit & Structure, Lender Interaction, Governance Sentinel",
+    "due_diligence": "36-document data room, 7 categories, institutional-grade",
+    "lender_targets": "15+ platforms: Goldman, Morgan Stanley, JPM, BofA, Wells, NYDIG, Galaxy, Genesis, Circle, Fidelity",
+    "legal_structure": "Wyoming Series LLC, bankruptcy remote, UCC-1 perfected, no rehypothecation",
+    "partnership": "Unykorn 7777 — RWA infrastructure partner, Option B economics (2% + 4%)",
     "media_press": "Takes contact info, routes to communications team",
-    "existing_investors": "Confirms identity, offers relationship manager connection",
-    "compliance": "Rule 144A / Reg S disclaimer included, not investment advice"
+    "compliance": "Rule 144A / Reg S disclaimer, not investment advice, QIBs and accredited only"
   },
   "bond_knowledge": {
-    "program_size": "$500,000,000",
+    "program_size": "$500,000,000 (50 bonds)",
+    "current_position": "$50,000,000 face value (5 bonds)",
     "current_tranche": "$10,000,000 (Tranche 1)",
-    "instrument": "Senior Secured Notes",
-    "coupon": "5.00% Fixed",
-    "maturity": "May 2030",
+    "instrument": "TC Advantage 5% Secured Medium Term Notes",
+    "coupon": "5.00% Fixed, paid annually",
+    "maturity": "May 31, 2030",
     "cusip_144a": "87225HAB4",
     "cusip_reg_s": "P9000TAA8",
     "isin_144a": "US87225HAB42",
     "isin_reg_s": "BSP9000TAA83",
+    "certificate": "TCAT-10M-2030-001",
     "issuer": "TC Advantage Traders, Ltd. (Bahamas)",
+    "chairman": "Larry Corona",
+    "transfer_agent": "Securities Transfer Corporation (STC), Plano TX",
     "settlement": "DTC/DWAC + XRPL",
-    "surety_bond": "Western Surety Company #71003488",
-    "vault_nav": "$4,110,000"
+    "surety_bond": "Western Surety Company #71003488 ($10M)",
+    "insurance": "C.J. Coleman & Co., London ($25.75M, 2024-2029)",
+    "vault_nav": "$4,110,000",
+    "funding_readiness": "85%"
   }
 }
