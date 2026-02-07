@@ -21,23 +21,25 @@
     "phone_number": "+18775709775",
     "phone_number_vanity": "877-570-XRPL",
     "phone_number_id": "2868305994083993108",
+    "texml_app_id": "2890265544894711120",
+    "texml_app_name": "OPTKAS-ElevenLabs-Bridge",
+    "texml_url": "https://optkas-tc.netlify.app/texml-bridge.xml",
     "fqdn_connection_id": "2890262212058809441",
-    "fqdn_connection_name": "ElevenLabs-OPTKAS",
-    "fqdn_id": "2890262278236537968",
     "fqdn_target": "sip.rtc.elevenlabs.io:5060",
     "transport": "TCP",
     "codecs": ["G722", "G711U", "G711A"],
-    "old_connection_id": "2884356795604665959",
-    "old_connection_name": "XRPL"
+    "original_connection_id": "2884356795604665959",
+    "original_connection_name": "XRPL"
   },
   "call_flow": {
     "inbound": [
       "1. Caller dials 877-570-XRPL (877-570-9775)",
       "2. Telnyx receives call on +18775709775",
-      "3. FQDN connection routes SIP INVITE to sip.rtc.elevenlabs.io:5060",
-      "4. ElevenLabs matches +18775709775 → OPTKAS Capital Markets agent",
-      "5. AI agent answers with investor relations greeting",
-      "6. Full conversational AI handles the call"
+      "3. TeXML app fetches https://optkas-tc.netlify.app/texml-bridge.xml",
+      "4. TeXML <Dial><Sip> bridges to sip:+18775709775@sip.rtc.elevenlabs.io:5060",
+      "5. ElevenLabs matches +18775709775 → OPTKAS Capital Markets agent",
+      "6. AI agent answers with investor relations greeting",
+      "7. Full conversational AI handles the call"
     ],
     "outbound": [
       "1. ElevenLabs initiates call via agent dashboard",
