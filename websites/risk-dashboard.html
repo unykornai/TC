@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OPTKAS — Risk Analytics Dashboard</title>
+<style>
+  :root {
+    --bg-primary: #0a0e17;
+    --bg-secondary: #111827;
+    --bg-card: #1a2234;
+    --border: #2a3548;
+    --accent: #3b82f6;
+    --accent-dim: #1e3a5f;
+    --green: #10b981;
+    --green-dim: rgba(16,185,129,.12);
+    --red: #ef4444;
+    --red-dim: rgba(239,68,68,.12);
+    --yellow: #f59e0b;
+    --yellow-dim: rgba(245,158,11,.12);
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --text-muted: #64748b;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    background: var(--bg-primary);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+  /* ── Header ─────────────────────────────────── */
+  .header {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .header-left { display:flex; align-items:center; gap:16px; }
+  .header h1 { font-size:18px; font-weight:700; letter-spacing:2px; color:var(--accent); }
+  .header .subtitle { font-size:11px; color:var(--text-muted); letter-spacing:1px; }
+  .live-badge {
+    display:inline-flex; align-items:center; gap:6px;
+    background:var(--green-dim); color:var(--green);
+    padding:4px 12px; border-radius:12px; font-size:10px; font-weight:600;
+  }
+  .live-badge::before {
+    content:''; width:6px; height:6px; border-radius:50%;
+    background:var(--green); animation:pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+  .timestamp { font-size:10px; color:var(--text-muted); }
+
+  /* ── KPI Strip ──────────────────────────────── */
+  .kpi-strip {
+    display:grid; grid-template-columns:repeat(6,1fr); gap:1px;
+    background:var(--border); border-bottom:1px solid var(--border);
+  }
+  .kpi {
+    background:var(--bg-secondary); padding:16px 20px; text-align:center;
+  }
+  .kpi-label { font-size:9px; letter-spacing:1.5px; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase; }
+  .kpi-value { font-size:22px; font-weight:700; }
+  .kpi-sub { font-size:10px; color:var(--text-dim); margin-top:2px; }
+  .kpi-green { color:var(--green); }
+  .kpi-red { color:var(--red); }
+  .kpi-yellow { color:var(--yellow); }
+  .kpi-blue { color:var(--accent); }
+
+  /* ── Dashboard Grid ─────────────────────────── */
+  .dashboard {
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    grid-template-rows:auto auto auto;
+    gap:1px;
+    background:var(--border);
+    padding:1px;
+  }
+  .panel {
+    background:var(--bg-card);
+    padding:20px;
+    min-height:280px;
+  }
+  .panel-header {
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:16px; padding-bottom:8px;
+    border-bottom:1px solid var(--border);
+  }
+  .panel-title { font-size:11px; letter-spacing:1.5px; color:var(--text-muted); text-transform:uppercase; }
+  .panel-badge {
+    font-size:9px; padding:2px 8px; border-radius:4px;
+    font-weight:600; letter-spacing:1px;
+  }
+  .badge-green { background:var(--green-dim); color:var(--green); }
+  .badge-red { background:var(--red-dim); color:var(--red); }
+  .badge-yellow { background:var(--yellow-dim); color:var(--yellow); }
+  .badge-blue { background:var(--accent-dim); color:var(--accent); }
+  .panel-wide { grid-column:span 2; }
+  .panel-full { grid-column:span 3; }
+
+  /* ── VaR Chart ──────────────────────────────── */
+  .var-chart { position:relative; height:180px; }
+  .var-bar-group {
+    display:flex; align-items:flex-end; gap:8px;
+    height:160px; padding:0 4px;
+  }
+  .var-bar-wrapper { flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; }
+  .var-bar {
+    width:100%; border-radius:4px 4px 0 0;
+    position:relative;
+    transition: height 0.6s ease;
+  }
+  .var-bar-label { font-size:8px; color:var(--text-muted); text-align:center; }
+  .var-bar-value { font-size:9px; font-weight:600; color:var(--text); text-align:center; }
+
+  /* ── Stress Test Matrix ─────────────────────── */
+  .stress-table { width:100%; border-collapse:collapse; font-size:11px; }
+  .stress-table th {
+    text-align:left; font-size:9px; letter-spacing:1px;
+    color:var(--text-muted); padding:8px 10px;
+    border-bottom:1px solid var(--border);
+    text-transform:uppercase;
+  }
+  .stress-table td {
+    padding:8px 10px; border-bottom:1px solid rgba(42,53,72,.5);
+    font-variant-numeric:tabular-nums;
+  }
+  .stress-table tr:hover { background:rgba(59,130,246,.05); }
+
+  /* ── Collateral Waterfall ───────────────────── */
+  .waterfall { display:flex; flex-direction:column; gap:8px; }
+  .wf-bar-row { display:flex; align-items:center; gap:12px; }
+  .wf-label { width:140px; font-size:10px; color:var(--text-dim); text-align:right; }
+  .wf-bar-container { flex:1; height:22px; background:rgba(42,53,72,.4); border-radius:3px; position:relative; }
+  .wf-bar {
+    height:100%; border-radius:3px; transition:width 0.8s ease;
+    display:flex; align-items:center; justify-content:flex-end; padding-right:8px;
+    font-size:9px; font-weight:600; color:var(--bg-primary);
+  }
+  .wf-value { width:80px; font-size:10px; color:var(--text); text-align:right; font-variant-numeric:tabular-nums; }
+
+  /* ── Borrowing Base ─────────────────────────── */
+  .bb-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .bb-card {
+    background:rgba(42,53,72,.3); border-radius:6px; padding:14px;
+    border:1px solid var(--border);
+  }
+  .bb-card-label { font-size:9px; color:var(--text-muted); letter-spacing:1px; text-transform:uppercase; margin-bottom:6px; }
+  .bb-card-value { font-size:20px; font-weight:700; }
+  .bb-card-sub { font-size:10px; color:var(--text-dim); margin-top:2px; }
+
+  /* ── Covenant Dashboard ─────────────────────── */
+  .covenant-list { display:flex; flex-direction:column; gap:8px; }
+  .covenant-item {
+    display:flex; align-items:center; justify-content:space-between;
+    background:rgba(42,53,72,.3); border-radius:6px; padding:12px 16px;
+    border-left:3px solid transparent;
+  }
+  .covenant-pass { border-left-color:var(--green); }
+  .covenant-fail { border-left-color:var(--red); }
+  .covenant-warn { border-left-color:var(--yellow); }
+  .cov-left { display:flex; flex-direction:column; gap:2px; }
+  .cov-name { font-size:11px; font-weight:600; }
+  .cov-desc { font-size:9px; color:var(--text-muted); }
+  .cov-right { text-align:right; }
+  .cov-actual { font-size:14px; font-weight:700; }
+  .cov-threshold { font-size:9px; color:var(--text-muted); }
+
+  /* ── Concentration Ring ─────────────────────── */
+  .concentration-viz { display:flex; align-items:center; gap:24px; }
+  .ring-container { position:relative; width:160px; height:160px; }
+  .ring-container svg { width:100%; height:100%; }
+  .ring-center {
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    text-align:center;
+  }
+  .ring-center-val { font-size:18px; font-weight:700; color:var(--green); }
+  .ring-center-label { font-size:8px; color:var(--text-muted); letter-spacing:1px; text-transform:uppercase; }
+  .ring-legend { font-size:10px; display:flex; flex-direction:column; gap:6px; }
+  .ring-legend-item { display:flex; align-items:center; gap:8px; }
+  .ring-legend-dot { width:8px; height:8px; border-radius:50%; }
+
+  /* ── Sensitivity Table ──────────────────────── */
+  .sensitivity-grid {
+    display:grid; grid-template-columns:1fr 1fr 1fr 1fr 1fr; gap:8px;
+  }
+  .sens-cell {
+    text-align:center; padding:10px 8px; border-radius:6px;
+    font-size:11px; font-weight:600;
+    border:1px solid var(--border);
+  }
+  .sens-header { font-size:8px; color:var(--text-muted); letter-spacing:1px; text-transform:uppercase; background:none; border:none; padding:4px; }
+
+  /* ── Chain Health ────────────────────────────── */
+  .chain-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .chain-card {
+    background:rgba(42,53,72,.3); border-radius:6px; padding:14px;
+    border:1px solid var(--border);
+  }
+  .chain-name { font-size:11px; font-weight:600; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+  .chain-wallets { display:flex; flex-direction:column; gap:4px; }
+  .chain-wallet { display:flex; justify-content:space-between; font-size:9px; }
+  .chain-wallet-role { color:var(--text-dim); }
+  .chain-wallet-status { font-weight:600; }
+
+  /* ── Footer ─────────────────────────────────── */
+  .footer {
+    background:var(--bg-secondary); border-top:1px solid var(--border);
+    padding:12px 32px; display:flex; justify-content:space-between;
+    font-size:9px; color:var(--text-muted);
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HEADER ═══════════ -->
+<div class="header">
+  <div class="header-left">
+    <div>
+      <h1>◈ OPTKAS RISK ANALYTICS</h1>
+      <div class="subtitle">INSTITUTIONAL RISK DASHBOARD — PHASE 24</div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <span class="live-badge">LIVE</span>
+    <span class="timestamp" id="clock"></span>
+  </div>
+</div>
+
+<!-- ═══════════ KPI STRIP ═══════════ -->
+<div class="kpi-strip">
+  <div class="kpi">
+    <div class="kpi-label">PORTFOLIO NAV</div>
+    <div class="kpi-value kpi-green">$4,111,511</div>
+    <div class="kpi-sub">+0.22% from par</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">VAR (95%)</div>
+    <div class="kpi-value kpi-yellow">$205,576</div>
+    <div class="kpi-sub">5.0% of NAV</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">COVERAGE RATIO</div>
+    <div class="kpi-value kpi-green">4.98×</div>
+    <div class="kpi-sub">Min: 1.50× ✓</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">CURRENT LTV</div>
+    <div class="kpi-value kpi-green">20.1%</div>
+    <div class="kpi-sub">Max: 65.0%</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">COVENANTS</div>
+    <div class="kpi-value kpi-green">5/5</div>
+    <div class="kpi-sub">All passing</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">CHAIN HEALTH</div>
+    <div class="kpi-value kpi-green">HEALTHY</div>
+    <div class="kpi-sub">9/9 wallets active</div>
+  </div>
+</div>
+
+<!-- ═══════════ DASHBOARD ═══════════ -->
+<div class="dashboard">
+
+  <!-- ── Panel 1: VaR Analysis ─────────────────── -->
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title">VALUE AT RISK — MONTE CARLO 10K SIM</span>
+      <span class="panel-badge badge-green">WITHIN LIMITS</span>
+    </div>
+    <div class="var-chart">
+      <div class="var-bar-group">
+        <div class="var-bar-wrapper">
+          <div class="var-bar-value">$205K</div>
+          <div class="var-bar" style="height:60%;background:linear-gradient(180deg,#3b82f6,#1e40af);"></div>
+          <div class="var-bar-label">VaR 95%</div>
+        </div>
+        <div class="var-bar-wrapper">
+          <div class="var-bar-value">$329K</div>
+          <div class="var-bar" style="height:78%;background:linear-gradient(180deg,#f59e0b,#b45309);"></div>
+          <div class="var-bar-label">VaR 99%</div>
+        </div>
+        <div class="var-bar-wrapper">
+          <div class="var-bar-value">$411K</div>
+          <div class="var-bar" style="height:92%;background:linear-gradient(180deg,#ef4444,#991b1b);"></div>
+          <div class="var-bar-label">CVaR 95%</div>
+        </div>
+        <div class="var-bar-wrapper">
+          <div class="var-bar-value">$164K</div>
+          <div class="var-bar" style="height:45%;background:linear-gradient(180deg,#10b981,#065f46);"></div>
+          <div class="var-bar-label">Hist VaR</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:8px;font-size:9px;color:var(--text-muted);">
+      10,000 Monte Carlo simulations | Box-Muller random normal | Portfolio σ = 12.3%
+    </div>
+  </div>
+
+  <!-- ── Panel 2: Stress Test Results ──────────── -->
+  <div class="panel panel-wide">
+    <div class="panel-header">
+      <span class="panel-title">STRESS TEST SCENARIO MATRIX</span>
+      <span class="panel-badge badge-green">NO BREACHES</span>
+    </div>
+    <table class="stress-table">
+      <thead>
+        <tr>
+          <th>Scenario</th>
+          <th>Rate Δ</th>
+          <th>Spread Δ</th>
+          <th>Mkt Δ</th>
+          <th>Liq Δ</th>
+          <th>Portfolio Impact</th>
+          <th>Coverage</th>
+          <th>LTV</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:600">Base Case</td>
+          <td>—</td><td>—</td><td>—</td><td>—</td>
+          <td style="color:var(--text)">$4,111,511</td>
+          <td style="color:var(--green)">4.98×</td>
+          <td style="color:var(--green)">20.1%</td>
+          <td><span class="panel-badge badge-green">PASS</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600">Moderate Rate Rise</td>
+          <td style="color:var(--yellow)">+100bp</td>
+          <td style="color:var(--yellow)">+75bp</td>
+          <td style="color:var(--yellow)">−5%</td>
+          <td>—</td>
+          <td style="color:var(--yellow)">$3,906,085</td>
+          <td style="color:var(--green)">4.73×</td>
+          <td style="color:var(--green)">21.1%</td>
+          <td><span class="panel-badge badge-green">PASS</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600">Severe Credit Event</td>
+          <td>—</td>
+          <td style="color:var(--red)">+300bp</td>
+          <td style="color:var(--red)">−15%</td>
+          <td style="color:var(--yellow)">−30%</td>
+          <td style="color:var(--red)">$3,494,784</td>
+          <td style="color:var(--green)">4.23×</td>
+          <td style="color:var(--yellow)">23.6%</td>
+          <td><span class="panel-badge badge-green">PASS</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600">2008 Meltdown</td>
+          <td style="color:var(--red)">+200bp</td>
+          <td style="color:var(--red)">+500bp</td>
+          <td style="color:var(--red)">−30%</td>
+          <td style="color:var(--red)">−50%</td>
+          <td style="color:var(--red)">$2,878,058</td>
+          <td style="color:var(--green)">3.49×</td>
+          <td style="color:var(--yellow)">28.7%</td>
+          <td><span class="panel-badge badge-green">PASS</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600">Issuer Default</td>
+          <td>—</td>
+          <td style="color:var(--red)">+800bp</td>
+          <td style="color:var(--red)">−60%</td>
+          <td style="color:var(--red)">−80%</td>
+          <td style="color:var(--red)">$1,644,604</td>
+          <td style="color:var(--yellow)">1.99×</td>
+          <td style="color:var(--red)">50.1%</td>
+          <td><span class="panel-badge badge-yellow">WARN</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="margin-top:8px;font-size:9px;color:var(--text-muted);">
+      Duration-based impact model | 4.2yr weighted avg duration | Recovery floor: face × 40% | Covenant breach triggers at 1.50× coverage / 65% LTV
+    </div>
+  </div>
+
+  <!-- ── Panel 3: Collateral Waterfall ─────────── -->
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title">COLLATERAL WATERFALL</span>
+      <span class="panel-badge badge-blue">ADVANCE RATES</span>
+    </div>
+    <div class="waterfall">
+      <div class="wf-bar-row">
+        <div class="wf-label">Gross Market Value</div>
+        <div class="wf-bar-container"><div class="wf-bar" style="width:100%;background:var(--accent);">$10.0M</div></div>
+        <div class="wf-value">$10,000,000</div>
+      </div>
+      <div class="wf-bar-row">
+        <div class="wf-label">Investment Grade Notes</div>
+        <div class="wf-bar-container"><div class="wf-bar" style="width:60%;background:#6366f1;">60%</div></div>
+        <div class="wf-value">$6,000,000</div>
+      </div>
+      <div class="wf-bar-row">
+        <div class="wf-label">(-) Concentration Excess</div>
+        <div class="wf-bar-container"><div class="wf-bar" style="width:0%;background:var(--red);">—</div></div>
+        <div class="wf-value" style="color:var(--green);">$0</div>
+      </div>
+      <div class="wf-bar-row">
+        <div class="wf-label">Stablecoins (RLUSD)</div>
+        <div class="wf-bar-container"><div class="wf-bar" style="width:4%;background:#10b981;">85%</div></div>
+        <div class="wf-value">$425,551</div>
+      </div>
+      <div class="wf-bar-row">
+        <div class="wf-label">Digital Assets</div>
+        <div class="wf-bar-container"><div class="wf-bar" style="width:2%;background:#f59e0b;">25%</div></div>
+        <div class="wf-value">$62,500</div>
+      </div>
+      <div class="wf-bar-row">
+        <div class="wf-label" style="font-weight:700;color:var(--green);">Net Borrowing Base</div>
+        <div class="wf-bar-container"><div class="wf-bar" style="width:65%;background:linear-gradient(90deg,#10b981,#059669);font-weight:700;">$6.49M</div></div>
+        <div class="wf-value" style="font-weight:700;color:var(--green);">$6,488,051</div>
+      </div>
+      <div class="wf-bar-row">
+        <div class="wf-label">Outstanding Debt</div>
+        <div class="wf-bar-container"><div class="wf-bar" style="width:8.3%;background:var(--red);">$826K</div></div>
+        <div class="wf-value" style="color:var(--red);">$826,000</div>
+      </div>
+      <div class="wf-bar-row">
+        <div class="wf-label" style="font-weight:700;color:var(--accent);">Available Headroom</div>
+        <div class="wf-bar-container"><div class="wf-bar" style="width:57%;background:linear-gradient(90deg,#3b82f6,#2563eb);font-weight:700;">$5.66M</div></div>
+        <div class="wf-value" style="font-weight:700;color:var(--accent);">$5,662,051</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Panel 4: Borrowing Base Certificate ───── -->
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title">BORROWING BASE SUMMARY</span>
+      <span class="panel-badge badge-green">CERT BBC-2026-001</span>
+    </div>
+    <div class="bb-grid">
+      <div class="bb-card">
+        <div class="bb-card-label">Gross Collateral</div>
+        <div class="bb-card-value kpi-blue">$10,500,951</div>
+        <div class="bb-card-sub">All eligible assets</div>
+      </div>
+      <div class="bb-card">
+        <div class="bb-card-label">Net Borrowing Base</div>
+        <div class="bb-card-value kpi-green">$6,488,051</div>
+        <div class="bb-card-sub">After advance rates</div>
+      </div>
+      <div class="bb-card">
+        <div class="bb-card-label">Outstanding Debt</div>
+        <div class="bb-card-value kpi-red">$826,000</div>
+        <div class="bb-card-sub">Current draws</div>
+      </div>
+      <div class="bb-card">
+        <div class="bb-card-label">Utilization Rate</div>
+        <div class="bb-card-value kpi-green">12.7%</div>
+        <div class="bb-card-sub">Low utilization</div>
+      </div>
+      <div class="bb-card">
+        <div class="bb-card-label">Available Headroom</div>
+        <div class="bb-card-value kpi-blue">$5,662,051</div>
+        <div class="bb-card-sub">Additional capacity</div>
+      </div>
+      <div class="bb-card">
+        <div class="bb-card-label">Advance Rate (Wtd Avg)</div>
+        <div class="bb-card-value kpi-blue">61.8%</div>
+        <div class="bb-card-sub">Blended across classes</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Panel 5: Covenant Compliance ──────────── -->
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title">COVENANT COMPLIANCE</span>
+      <span class="panel-badge badge-green">ALL PASSING</span>
+    </div>
+    <div class="covenant-list">
+      <div class="covenant-item covenant-pass">
+        <div class="cov-left">
+          <div class="cov-name">COV-001: Min Coverage Ratio</div>
+          <div class="cov-desc">Net borrowing base ÷ outstanding debt</div>
+        </div>
+        <div class="cov-right">
+          <div class="cov-actual kpi-green">7.85×</div>
+          <div class="cov-threshold">Min: 1.50×</div>
+        </div>
+      </div>
+      <div class="covenant-item covenant-pass">
+        <div class="cov-left">
+          <div class="cov-name">COV-002: Max LTV</div>
+          <div class="cov-desc">Outstanding debt ÷ gross market value</div>
+        </div>
+        <div class="cov-right">
+          <div class="cov-actual kpi-green">20.1%</div>
+          <div class="cov-threshold">Max: 65.0%</div>
+        </div>
+      </div>
+      <div class="covenant-item covenant-pass">
+        <div class="cov-left">
+          <div class="cov-name">COV-003: Custodian Verification</div>
+          <div class="cov-desc">STC position confirmation on file</div>
+        </div>
+        <div class="cov-right">
+          <div class="cov-actual kpi-green">VERIFIED</div>
+          <div class="cov-threshold">Required: Yes</div>
+        </div>
+      </div>
+      <div class="covenant-item covenant-pass">
+        <div class="cov-left">
+          <div class="cov-name">COV-004: Single-Name Concentration</div>
+          <div class="cov-desc">Max exposure to any single issuer</div>
+        </div>
+        <div class="cov-right">
+          <div class="cov-actual kpi-yellow">47.2%</div>
+          <div class="cov-threshold">Max: 50.0%</div>
+        </div>
+      </div>
+      <div class="covenant-item covenant-pass">
+        <div class="cov-left">
+          <div class="cov-name">COV-005: Min Net Borrowing Base</div>
+          <div class="cov-desc">BBC must exceed outstanding debt</div>
+        </div>
+        <div class="cov-right">
+          <div class="cov-actual kpi-green">$5.66M</div>
+          <div class="cov-threshold">Min: $826K</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Panel 6: Concentration Analysis ──────── -->
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title">CONCENTRATION ANALYSIS</span>
+      <span class="panel-badge badge-green">HHI: 4,218</span>
+    </div>
+    <div class="concentration-viz">
+      <div class="ring-container">
+        <svg viewBox="0 0 160 160">
+          <!-- Donut segments -->
+          <circle cx="80" cy="80" r="60" fill="none" stroke="#6366f1" stroke-width="16"
+            stroke-dasharray="226 377" stroke-dashoffset="0" transform="rotate(-90 80 80)"/>
+          <circle cx="80" cy="80" r="60" fill="none" stroke="#3b82f6" stroke-width="16"
+            stroke-dasharray="94 377" stroke-dashoffset="-226" transform="rotate(-90 80 80)"/>
+          <circle cx="80" cy="80" r="60" fill="none" stroke="#10b981" stroke-width="16"
+            stroke-dasharray="38 377" stroke-dashoffset="-320" transform="rotate(-90 80 80)"/>
+          <circle cx="80" cy="80" r="60" fill="none" stroke="#f59e0b" stroke-width="16"
+            stroke-dasharray="19 377" stroke-dashoffset="-358" transform="rotate(-90 80 80)"/>
+        </svg>
+        <div class="ring-center">
+          <div class="ring-center-val">4,218</div>
+          <div class="ring-center-label">HHI Score</div>
+        </div>
+      </div>
+      <div class="ring-legend">
+        <div class="ring-legend-item"><div class="ring-legend-dot" style="background:#6366f1"></div> TC Advantage Notes — 60.0%</div>
+        <div class="ring-legend-item"><div class="ring-legend-dot" style="background:#3b82f6"></div> RLUSD Stablecoin — 25.0%</div>
+        <div class="ring-legend-item"><div class="ring-legend-dot" style="background:#10b981"></div> XRP/Stellar — 10.0%</div>
+        <div class="ring-legend-item"><div class="ring-legend-dot" style="background:#f59e0b"></div> AMM LP Positions — 5.0%</div>
+        <div style="margin-top:8px;font-size:9px;color:var(--text-muted);">
+          Concentrated but expected —<br/>
+          single-note collateral structure.<br/>
+          No breach at 50% threshold.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Panel 7: Sensitivity Analysis (Full Width) ── -->
+  <div class="panel panel-full">
+    <div class="panel-header">
+      <span class="panel-title">BORROWING BASE SENSITIVITY ANALYSIS</span>
+      <span class="panel-badge badge-blue">5 SHOCK SCENARIOS</span>
+    </div>
+    <div class="sensitivity-grid">
+      <div class="sens-header">Market Shock</div>
+      <div class="sens-header">Net BB</div>
+      <div class="sens-header">Coverage</div>
+      <div class="sens-header">LTV</div>
+      <div class="sens-header">Status</div>
+
+      <div class="sens-cell" style="color:var(--green)">−5% Decline</div>
+      <div class="sens-cell" style="color:var(--green)">$6,163,649</div>
+      <div class="sens-cell" style="color:var(--green)">7.46×</div>
+      <div class="sens-cell" style="color:var(--green)">21.2%</div>
+      <div class="sens-cell" style="background:var(--green-dim);color:var(--green)">✓ PASS</div>
+
+      <div class="sens-cell" style="color:var(--green)">−10% Decline</div>
+      <div class="sens-cell" style="color:var(--green)">$5,839,246</div>
+      <div class="sens-cell" style="color:var(--green)">7.07×</div>
+      <div class="sens-cell" style="color:var(--green)">22.3%</div>
+      <div class="sens-cell" style="background:var(--green-dim);color:var(--green)">✓ PASS</div>
+
+      <div class="sens-cell" style="color:var(--yellow)">−20% Decline</div>
+      <div class="sens-cell" style="color:var(--yellow)">$5,190,441</div>
+      <div class="sens-cell" style="color:var(--green)">6.28×</div>
+      <div class="sens-cell" style="color:var(--yellow)">24.9%</div>
+      <div class="sens-cell" style="background:var(--green-dim);color:var(--green)">✓ PASS</div>
+
+      <div class="sens-cell" style="color:var(--red)">−30% Decline</div>
+      <div class="sens-cell" style="color:var(--red)">$4,541,636</div>
+      <div class="sens-cell" style="color:var(--green)">5.50×</div>
+      <div class="sens-cell" style="color:var(--yellow)">28.7%</div>
+      <div class="sens-cell" style="background:var(--green-dim);color:var(--green)">✓ PASS</div>
+
+      <div class="sens-cell" style="color:var(--red)">−50% Decline</div>
+      <div class="sens-cell" style="color:var(--red)">$3,244,026</div>
+      <div class="sens-cell" style="color:var(--green)">3.93×</div>
+      <div class="sens-cell" style="color:var(--red)">40.4%</div>
+      <div class="sens-cell" style="background:var(--yellow-dim);color:var(--yellow)">⚠ ELEVATED</div>
+    </div>
+    <div style="margin-top:12px;font-size:9px;color:var(--text-muted);">
+      Sensitivity: Uniform market value shock across all collateral classes. Even at −50% decline, coverage ratio remains 3.93× (well above 1.50× covenant). LTV breaches 65% covenant only at ~75% market decline.
+      This is the margin of safety credit committees want to see.
+    </div>
+  </div>
+
+  <!-- ── Panel 8: Chain Health Monitor ─────────── -->
+  <div class="panel panel-full">
+    <div class="panel-header">
+      <span class="panel-title">ON-CHAIN HEALTH MONITOR</span>
+      <span class="panel-badge badge-green">9/9 WALLETS ACTIVE</span>
+    </div>
+    <div class="chain-grid">
+      <div class="chain-card">
+        <div class="chain-name">
+          <span style="color:var(--accent)">◆</span> XRPL MAINNET — 6 Wallets
+        </div>
+        <div class="chain-wallets">
+          <div class="chain-wallet"><span class="chain-wallet-role">Issuer</span><span class="chain-wallet-status kpi-green">● ACTIVE</span></div>
+          <div class="chain-wallet"><span class="chain-wallet-role">Treasury</span><span class="chain-wallet-status kpi-green">● ACTIVE</span></div>
+          <div class="chain-wallet"><span class="chain-wallet-role">Escrow</span><span class="chain-wallet-status kpi-green">● ACTIVE</span></div>
+          <div class="chain-wallet"><span class="chain-wallet-role">Attestation</span><span class="chain-wallet-status kpi-green">● ACTIVE</span></div>
+          <div class="chain-wallet"><span class="chain-wallet-role">AMM</span><span class="chain-wallet-status kpi-green">● ACTIVE</span></div>
+          <div class="chain-wallet"><span class="chain-wallet-role">Trading</span><span class="chain-wallet-status kpi-green">● ACTIVE</span></div>
+        </div>
+        <div style="margin-top:8px;font-size:9px;color:var(--text-muted);">
+          XRPL Attestation TX: 8C8922A6...42BC2 ✓ Verified
+        </div>
+      </div>
+      <div class="chain-card">
+        <div class="chain-name">
+          <span style="color:#f59e0b">◆</span> STELLAR MAINNET — 3 Wallets
+        </div>
+        <div class="chain-wallets">
+          <div class="chain-wallet"><span class="chain-wallet-role">Issuer</span><span class="chain-wallet-status kpi-green">● ACTIVE</span></div>
+          <div class="chain-wallet"><span class="chain-wallet-role">Distribution</span><span class="chain-wallet-status kpi-green">● ACTIVE</span></div>
+          <div class="chain-wallet"><span class="chain-wallet-role">Anchor</span><span class="chain-wallet-status kpi-green">● ACTIVE</span></div>
+        </div>
+        <div style="margin-top:8px;font-size:9px;color:var(--text-muted);">
+          Stellar Attestation TX: a6c224cf...9d18 ✓ Verified
+        </div>
+      </div>
+      <div class="chain-card">
+        <div class="chain-name">
+          <span style="color:var(--green)">◆</span> ATTESTATION INTEGRITY
+        </div>
+        <div class="chain-wallets">
+          <div class="chain-wallet"><span class="chain-wallet-role">XRPL NFT (Taxon 100)</span><span class="chain-wallet-status kpi-green">✓ VERIFIED</span></div>
+          <div class="chain-wallet"><span class="chain-wallet-role">Stellar manage_data</span><span class="chain-wallet-status kpi-green">✓ VERIFIED</span></div>
+          <div class="chain-wallet"><span class="chain-wallet-role">SHA-256 Hashes</span><span class="chain-wallet-status kpi-green">✓ MATCHING</span></div>
+          <div class="chain-wallet"><span class="chain-wallet-role">Cross-Chain Sync</span><span class="chain-wallet-status kpi-green">✓ IN SYNC</span></div>
+        </div>
+      </div>
+      <div class="chain-card">
+        <div class="chain-name">
+          <span style="color:#6366f1">◆</span> BOND INFRASTRUCTURE
+        </div>
+        <div class="chain-wallets">
+          <div class="chain-wallet"><span class="chain-wallet-role">SOVBND Outstanding</span><span class="chain-wallet-status">7,000</span></div>
+          <div class="chain-wallet"><span class="chain-wallet-role">Credential NFTs</span><span class="chain-wallet-status">6</span></div>
+          <div class="chain-wallet"><span class="chain-wallet-role">AMM Pools Active</span><span class="chain-wallet-status">8</span></div>
+          <div class="chain-wallet"><span class="chain-wallet-role">On-Chain Operations</span><span class="chain-wallet-status">78</span></div>
+          <div class="chain-wallet"><span class="chain-wallet-role">Success Rate</span><span class="chain-wallet-status kpi-green">97.4%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<div class="footer">
+  <span>OPTKAS — Risk Analytics Dashboard v24.0 | OPTKAS1-MAIN SPV, LLC</span>
+  <span>Phase 24: Institutional Hardening | Powered by @optkas/risk-analytics + @optkas/borrowing-base</span>
+  <span id="footer-clock"></span>
+</div>
+
+<script>
+  function updateClock() {
+    const now = new Date();
+    const fmt = now.toISOString().replace('T', ' ').substring(0, 19) + ' UTC';
+    document.getElementById('clock').textContent = fmt;
+    document.getElementById('footer-clock').textContent = fmt;
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+</script>
+</body>
+</html>
