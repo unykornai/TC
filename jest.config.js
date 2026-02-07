@@ -2,7 +2,7 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  roots: ['<rootDir>/packages/', '<rootDir>/scripts/'],
+  roots: ['<rootDir>/packages/', '<rootDir>/scripts/', '<rootDir>/tests/'],
   testMatch: ['**/__tests__/**/*.ts', '**/*.test.ts', '**/*.spec.ts'],
   moduleNameMapper: {
     '^@optkas/xrpl-core$': '<rootDir>/packages/xrpl-core/src',
@@ -12,7 +12,14 @@ module.exports = {
     '^@optkas/attestation$': '<rootDir>/packages/attestation/src',
     '^@optkas/dex-amm$': '<rootDir>/packages/dex-amm/src',
     '^@optkas/trading$': '<rootDir>/packages/trading/src',
-    '^@optkas/audit$': '<rootDir>/packages/audit/src'
+    '^@optkas/audit$': '<rootDir>/packages/audit/src',
+    '^@optkas/ledger$': '<rootDir>/packages/ledger/src',
+    '^@optkas/dex$': '<rootDir>/packages/dex/src',
+    '^@optkas/gateway$': '<rootDir>/packages/gateway/src',
+    '^@optkas/bond$': '<rootDir>/packages/bond/src',
+    '^@optkas/rwa$': '<rootDir>/packages/rwa/src',
+    '^@optkas/portfolio$': '<rootDir>/packages/portfolio/src',
+    '^@optkas/settlement$': '<rootDir>/packages/settlement/src'
   },
   collectCoverageFrom: [
     'packages/*/src/**/*.ts',

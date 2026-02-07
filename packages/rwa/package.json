@@ -1,0 +1,13 @@
+{
+  "name": "@optkas/rwa",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OPTKAS1 — RWA Token Factory: tokenize any real-world asset class on XRPL",
+  "main": "src/index.ts",
+  "dependencies": {
+    "@optkas/xrpl-core": "1.0.0",
+    "@optkas/issuance": "1.0.0",
+    "@optkas/attestation": "1.0.0",
+    "@optkas/audit": "1.0.0"
+  }
+}

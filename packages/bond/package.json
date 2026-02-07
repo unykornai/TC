@@ -1,0 +1,13 @@
+{
+  "name": "@optkas/bond",
+  "version": "1.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "dependencies": {
+    "@optkas/xrpl-core": "1.0.0",
+    "@optkas/issuance": "1.0.0",
+    "@optkas/escrow": "1.0.0",
+    "@optkas/gateway": "1.0.0",
+    "@optkas/audit": "1.0.0"
+  }
+}

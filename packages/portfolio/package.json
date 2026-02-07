@@ -1,0 +1,13 @@
+{
+  "name": "@optkas/portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OPTKAS1 — Portfolio & Position Manager: NAV, P&L, exposure tracking across all instruments",
+  "main": "src/index.ts",
+  "dependencies": {
+    "@optkas/xrpl-core": "1.0.0",
+    "@optkas/bond": "1.0.0",
+    "@optkas/rwa": "1.0.0",
+    "@optkas/gateway": "1.0.0"
+  }
+}

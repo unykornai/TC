@@ -22,12 +22,20 @@
       "@optkas/attestation": ["./packages/attestation/src"],
       "@optkas/dex-amm": ["./packages/dex-amm/src"],
       "@optkas/trading": ["./packages/trading/src"],
-      "@optkas/audit": ["./packages/audit/src"]
+      "@optkas/audit": ["./packages/audit/src"],
+      "@optkas/ledger": ["./packages/ledger/src"],
+      "@optkas/dex": ["./packages/dex/src"],
+      "@optkas/gateway": ["./packages/gateway/src"],
+      "@optkas/bond": ["./packages/bond/src"],
+      "@optkas/rwa": ["./packages/rwa/src"],
+      "@optkas/portfolio": ["./packages/portfolio/src"],
+      "@optkas/settlement": ["./packages/settlement/src"]
     }
   },
   "include": [
     "packages/*/src/**/*.ts",
-    "scripts/**/*.ts"
+    "scripts/**/*.ts",
+    "tests/**/*.ts"
   ],
   "exclude": [
     "node_modules",
