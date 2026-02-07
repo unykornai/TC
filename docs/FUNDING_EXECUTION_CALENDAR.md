@@ -2,7 +2,31 @@
 
 **Track:** 1 (Bond / Collateral Facility)  
 **Status:** Active execution  
-**Effective:** February 7, 2026
+**Effective:** February 7, 2026  
+**Updated:** February 7, 2026
+
+---
+
+## 🔴 CRITICAL-PATH GATING ITEM
+
+### STC Holder Position Statement Confirming OPTKAS1
+
+**Status:** Pending  
+**Impact:** Blocks funded close. Does NOT block outreach or diligence.
+
+Until this arrives, lenders will:
+- Review ✔ → Soft-approve ✔ → Issue conditional terms ✔ → **Fund ✘**
+
+When this arrives:
+- "Is this real?" becomes "What are the terms?"
+- Conditional interest converts to binding negotiations
+- Credit committee can vote
+
+**Immediate action upon receipt:**
+1. Add to data room (01_COLLATERAL folder)
+2. Re-attest on XRPL with updated document hash
+3. Send follow-up to any lenders in active diligence
+4. Push for term sheet / LOI commitments within 48 hours
 
 ---
 
@@ -69,22 +93,35 @@ Outputs:
 
 **Key strategic point:** Mainnet attestation is stronger if it already exists when funders open the email. The package is frozen and verifiable before anyone sees it.
 
+**Never attest something that can still change.**
+
 ---
 
-## Phase D — Channel 3 Outreach (Sunday Evening or Monday AM, Feb 9–10)
+## Phase D — Channel 3 Outreach (Monday AM, Feb 10)
 
-**Send Track 1 lender emails.**
+**Send Track 1 lender emails. Tier 1A ONLY in first wave.**
 
-Wave 1 first (7 lenders):
+Monday Wave 1 (10 lenders — bond-backed credit funds):
 1. Ares (Alternative Credit / ABF)
 2. Apollo (Asset-Backed Finance)
 3. KKR (Asset-Based Finance)
 4. HPS (Asset-Based Financing)
 5. Fortress (Asset-Based Credit)
-6. White Oak (ABL)
-7. Gordon Brothers (Asset Lending)
+6. Stonebriar (Commercial Finance)
+7. Benefit Street Partners
+8. Oaktree (Structured Credit)
+9. Cerberus (Credit Arm)
+10. BlueMountain / Assured IM
+
+Monday Wave 1B (if relationships exist — SBLC/MT760 desks):
+11. Credit Suisse legacy desks
+12. Deutsche Bank–linked SBLC desks
+13. Standard Chartered trade finance
+14. Barclays-adjacent credit desks
 
 **Posture:** "This package is already frozen and verifiable. Review when ready."
+
+**NOT in Wave 1:** Tier 2 family offices, Tier 3 large credit, backstop groups.
 
 ---
 
@@ -93,7 +130,34 @@ Wave 1 first (7 lenders):
 - Respond to diligence questions within 24 hours
 - Schedule calls within 48 hours of data room opens
 - Track term sheet / LOI responses
-- Wave 2 expansion (10–20 additional lenders) if needed
+- Reference CREDIT_COMMITTEE_QA.md for anticipated questions
+- Use one-sentence sponsor script if asked (see LANE_DISCIPLINE_RULEBOOK.md)
+
+---
+
+## Phase F — Wave 2 Expansion (After First Responses)
+
+**Trigger:** Any of: first term sheet received, 3+ diligence calls completed, or 5 business days elapsed.
+
+Wave 2 targets:
+- Tier 2A: White Oak, Gordon Brothers
+- Tier 2B: Family offices with credit arms (ME, Swiss, Singapore, US multi-family)
+- Tier 3: Blue Owl, Neuberger Berman, Guggenheim (route to ABF desk)
+
+---
+
+## Phase G — Post-Term-Sheet (After Binding Interest)
+
+**Trigger:** Signed term sheet or LOI from any Tier 1/1B lender.
+
+Actions:
+1. Open Track 2 conversations (sponsor note monetization)
+2. Share SPONSOR_DATA_ROOM_STRUCTURE with Track 2 prospects
+3. Leverage Track 1 term sheet as credibility anchor
+4. Platform economics become negotiable from position of strength
+5. Backstop groups (warehouse, insurance-wrapped) can be activated
+
+**Do NOT open Track 2 before a Track 1 term sheet exists.**
 
 ---
 
@@ -110,7 +174,7 @@ Wave 1 first (7 lenders):
 ## Decision Framework
 
 ### Option A (Recommended — "Confidence Move")
-- OPTKAS signs internal docs → Dry-run Saturday → **Mainnet Sunday afternoon** → Emails Sunday evening or Monday AM
+- OPTKAS signs internal docs → Dry-run Saturday → **Mainnet Sunday afternoon** → Emails Monday AM
 - Message: "This package is already frozen and verifiable."
 
 ### Option B (Conservative)
@@ -122,8 +186,8 @@ Wave 1 first (7 lenders):
 ## What Funders Will See
 
 ✅ XRPL TX hash  
-✅ Clean data room  
-✅ Professional email  
+✅ Clean data room (6 folders, 19 files — Track 1 only)  
+✅ Professional email asking for term sheet / LOI  
 ✅ No desperation  
 ✅ No "please sign"
 
@@ -131,7 +195,8 @@ Wave 1 first (7 lenders):
 ❌ Draft economics  
 ❌ Leverage mechanics  
 ❌ Sponsor details  
+❌ Document list in email
 
 ---
 
-*Calendar is Track 1 only. Track 2 (Sponsor) timeline is separate.*
+*Calendar is Track 1 only. Track 2 (Sponsor) timeline begins after Phase G trigger.*
