@@ -24,7 +24,7 @@ Never volunteer sponsor economics. Never explain the platform unless asked. Neve
 ### Q1: "Can you confirm OPTKAS1 is the holder of record?"
 
 **Response:**
-"STC confirmation is in process on standard timeline. Chain of custody from issuance through STC is fully documented in the data room (01_COLLATERAL folder). We can walk you through the custody trail on a call, and the position statement will be delivered upon receipt. We encourage parallel diligence."
+"Yes. The STC position statement is on file and available in the data room (02_COLLATERAL_AND_CREDIT folder). It confirms the $10M TC Advantage MTN position held at Securities Transfer Corporation. We can walk you through the full custody trail on a call."
 
 **Supporting docs:** COLLATERAL_VERIFICATION_MEMO.pdf, CUSTODY_CONFIRMATION.pdf
 
@@ -39,10 +39,10 @@ Never volunteer sponsor economics. Never explain the platform unless asked. Neve
 
 ---
 
-### Q3: "What happens if the holder confirmation is delayed?"
+### Q3: "When was holder position confirmed?"
 
 **Response:**
-"The collateral position is independently verified through STC. The position statement is an administrative formalization of an existing custody arrangement. There is no contingency or uncertainty about the underlying position — only about the timing of the formal document. We are happy to proceed with full diligence in parallel."
+"The STC position statement was issued January 23, 2026 and confirmed February 1, 2026. It is available for immediate review in the data room. The collateral position is independently verified through STC with a complete chain of custody from issuance through current holding."
 
 ---
 

@@ -7,26 +7,22 @@
 
 ---
 
-## 🔴 CRITICAL-PATH GATING ITEM
+## ✅ GATING ITEM CLEARED
 
-### STC Holder Position Statement Confirming OPTKAS1
+### STC Holder Position Statement Confirming OPTKAS1 — RECEIVED
 
-**Status:** Pending  
-**Impact:** Blocks funded close. Does NOT block outreach or diligence.
+**Status:** ✅ On file (STC_Statement.pdf, dated 2026-01-23, confirmed 2026-02-01)  
+**Impact:** No remaining blockers. Facility is fully executable.
 
-Until this arrives, lenders will:
-- Review ✔ → Soft-approve ✔ → Issue conditional terms ✔ → **Fund ✘**
+Lender posture with STC confirmed:
+- Review ✔ → Approve ✔ → Issue binding terms ✔ → **Fund ✔**
 
-When this arrives:
-- "Is this real?" becomes "What are the terms?"
-- Conditional interest converts to binding negotiations
-- Credit committee can vote
+**Document locations:**
+- `data_room/02_Asset/STC_Statement.pdf` (primary)
+- `DATA_ROOM_v1/02_COLLATERAL_AND_CREDIT/STC_Statement.pdf`
+- `Final_Funding_Package/DATA_ROOM_v1/02_COLLATERAL_AND_CREDIT/STC_Statement.pdf`
 
-**Immediate action upon receipt:**
-1. Add to data room (01_COLLATERAL folder)
-2. Re-attest on XRPL with updated document hash
-3. Send follow-up to any lenders in active diligence
-4. Push for term sheet / LOI commitments within 48 hours
+**Confirms:** $10M TC Advantage Medium-Term Note position held at Securities Transfer Corporation.
 
 ---
 

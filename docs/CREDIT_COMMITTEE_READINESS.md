@@ -2,15 +2,16 @@
 
 **Track:** 1 (Bond / Collateral Facility)  
 **Date:** February 7, 2026  
-**Status:** Credit-Committee Complete — One Gating Item Remaining
+**Updated:** February 7, 2026 — STC gating item cleared  
+**Status:** Credit-Committee Ready — No Gating Items
 
 ---
 
 ## Executive Summary
 
-This facility is **structurally fundable**. The package presentation is institutional-grade. From a credit committee perspective, this is better prepared than most $5–$25M facilities.
+This facility is **fully fundable**. The package presentation is institutional-grade. From a credit committee perspective, this is better prepared than most $5–$25M facilities.
 
-The **one remaining gating item** is the STC Holder Position Statement confirming OPTKAS1.
+The STC Holder Position Statement confirming OPTKAS1 has been **received and is on file** (STC_Statement.pdf, dated 2026-01-23, confirmed 2026-02-01). There are **zero remaining gating items**.
 
 ---
 
@@ -35,47 +36,43 @@ The **one remaining gating item** is the STC Holder Position Statement confirmin
 | Delivery attestation | ✔ Complete | XRPL memo with canonical schema, verifiable |
 | Credit committee positioning | ✔ Complete | Brief with risk assessment and recommended terms |
 | Valuation methodology | ✔ Complete | Forward revenue multiples, EBITDA validation, platform premium |
+| **STC Holder Position Statement** | **✔ Complete** | **STC_Statement.pdf — received 2026-02-01, confirms $10M MTN position** |
 
 ---
 
-### 🔴 PENDING — The One Gating Item
+### ✅ CLEARED — STC Holder Position Statement (Previously Gating)
 
-## STC Holder Position Statement Confirming OPTKAS1
+## STC Holder Position Statement Confirming OPTKAS1 — RECEIVED
 
-**What it is:** A statement from Securities Transfer Corporation confirming:
+**Status:** ✅ On file  
+**Document:** `STC_Statement.pdf` (2-page PDF, dated 2026-01-23)  
+**Confirmed:** 2026-02-01  
+**Location:** `data_room/02_Asset/STC_Statement.pdf` (mirrored to DATA_ROOM_v1 and Final_Funding_Package)  
+**Confirms:** $10M TC Advantage Medium-Term Note position held at STC
 
-> OPTKAS1 is the holder of record (or controlling beneficial holder) of the TC Advantage Notes.
+**What this document does:** Confirms OPTKAS1 as the holder of record of the TC Advantage Notes at Securities Transfer Corporation. This converts "this looks real" into "this is enforceable."
 
-**Why it matters:** This is the single document that converts "this looks real" into "this is enforceable." Without it, lenders will:
+**Impact on lender posture:**
 
-- Review the package ✔
-- Soft-approve the structure ✔
-- Issue conditional terms ✔
-- **But will NOT fund** ✘
-
-**This is normal.** Not a red flag. Just a sequencing reality.
-
-**What changes when it arrives:**
-
-| Before STC Confirmation | After STC Confirmation |
+| Status | Lender Posture |
 |---|---|
-| "Is this real?" | "What are the terms?" |
-| Conditional interest | Binding term sheet negotiations |
-| Diligence questions | Credit committee vote |
-| Wait-and-see posture | Funding timeline discussions |
+| ✅ STC confirmed | "What are the terms?" |
+| ✅ STC confirmed | Binding term sheet negotiations |
+| ✅ STC confirmed | Credit committee can vote |
+| ✅ STC confirmed | Funding timeline discussions |
 
 ---
 
 ## What Lenders Will Ask (And Our Answers)
 
 ### Q: "Can you prove holder position?"
-**A:** "STC confirmation is in process. We can provide you with all supporting documentation immediately, and the position statement upon issuance. We expect this within [X] business days."
+**A:** "Yes. The STC position statement is in the data room (02_COLLATERAL_AND_CREDIT folder). It confirms the $10M MTN position. We can walk you through the full custody trail on a call."
 
-### Q: "Why hasn't it been issued yet?"
-**A:** "Standard STC processing timeline. The notes are verified, custody is confirmed, and chain of custody is complete. The position statement is the final administrative step."
+### Q: "When was holder position confirmed?"
+**A:** "The position statement was issued January 23, 2026 and confirmed February 1, 2026. It is available for immediate review in the data room."
 
-### Q: "Can we proceed to diligence before it arrives?"
-**A:** "Absolutely. The full data room is available. The position statement will be added upon receipt. We encourage parallel diligence."
+### Q: "Can we proceed to diligence?"
+**A:** "Absolutely. The full data room is available with all documentation including the STC position statement. We encourage immediate diligence."
 
 ---
 
@@ -138,23 +135,24 @@ The **one remaining gating item** is the STC Holder Position Statement confirmin
 
 ---
 
-## Recommended Sequence After STC Confirmation
+## Recommended Execution Sequence (STC Confirmed — Ready to Execute)
 
-1. **Immediately:** Update data room with position statement
-2. **Same day:** Re-attest on XRPL with updated document hash
-3. **Next business day:** Send follow-up to any lenders in active diligence
-4. **Within 48 hours:** Push for term sheet / LOI commitments
-5. **Within 1 week:** Target credit committee presentation at lead lender
+1. **Now:** Sign internal sponsor/operator documents (Phase A)
+2. **Saturday Feb 8:** Dress rehearsal with final PDFs (Phase B)
+3. **Sunday Feb 9:** Mainnet XRPL attestation (Phase C)
+4. **Monday Feb 10:** Channel 3 outreach — Wave 1 Tier 1A (Phase D)
+5. **Within 48 hours:** Push for term sheet / LOI commitments
+6. **Within 1 week:** Target credit committee presentation at lead lender
 
 ---
 
 ## Bottom Line
 
-> **Yes, this is truly fundable once holder confirmation is issued.**  
+> **Yes, this is fully fundable. Holder confirmation is on file.**  
 > **No, you do not need more documents.**  
 > **Yes, your structure is conservative, clean, and enforceable.**
 
-The package is credit-committee ready. The only variable is timing on the STC position statement.
+The package is credit-committee ready. There are zero gating items. Execute the calendar.
 
 ---
 
