@@ -233,22 +233,37 @@ export const DATA_ROOM_STRUCTURE_VERSION = 'optkas.lender.dataroom.v1';
 
 // ─── Canonical Document List ─────────────────────────────────────────
 
+/**
+ * Track 1 (Bond / Collateral) funding wave documents.
+ * These are the documents that go into the lender data room.
+ * Sponsor docs are Track 2 (separate lane — see LANE_DISCIPLINE_RULEBOOK.md).
+ */
 export const FUNDING_WAVE_DOCUMENTS: Array<{
   name: string;
   fileName: string;
   category: DocumentCategory;
 }> = [
   { name: 'DATA_ROOM_INDEX_v1',                   fileName: 'DATA_ROOM_INDEX_v1.pdf',                   category: 'exec_summary' },
-  { name: 'COLLATERAL_VERIFICATION_MEMO',         fileName: 'COLLATERAL_VERIFICATION_MEMO.pdf',         category: 'collateral' },
-  { name: 'BORROWING_BASE_POLICY',                fileName: 'BORROWING_BASE_POLICY.pdf',                category: 'borrowing_base' },
-  { name: 'VALUATION_JUSTIFICATION_PRESET_B',     fileName: 'VALUATION_JUSTIFICATION_PRESET_B.pdf',     category: 'platform_audit' },
   { name: 'CREDIT_COMMITTEE_POSITIONING',          fileName: 'CREDIT_COMMITTEE_POSITIONING.pdf',          category: 'exec_summary' },
-  { name: 'SPONSOR_CONSIDERATION_NOTE_TEMPLATE',  fileName: 'SPONSOR_CONSIDERATION_NOTE_TEMPLATE.pdf',  category: 'sponsor_note' },
-  { name: 'SPONSOR_NOTE_ESTOPPEL_TEMPLATE',       fileName: 'SPONSOR_NOTE_ESTOPPEL_TEMPLATE.pdf',       category: 'sponsor_note' },
+  { name: 'TERMS_REQUESTED',                       fileName: 'TERMS_REQUESTED.pdf',                       category: 'exec_summary' },
+  { name: 'COLLATERAL_VERIFICATION_MEMO',         fileName: 'COLLATERAL_VERIFICATION_MEMO.pdf',         category: 'collateral' },
+  { name: 'VALUATION_JUSTIFICATION_PRESET_B',     fileName: 'VALUATION_JUSTIFICATION_PRESET_B.pdf',     category: 'platform_audit' },
+  { name: 'BORROWING_BASE_POLICY',                fileName: 'BORROWING_BASE_POLICY.pdf',                category: 'borrowing_base' },
+  { name: 'REPORTING_COVENANT_SCHEDULE',           fileName: 'REPORTING_COVENANT_SCHEDULE.pdf',           category: 'reporting_controls' },
+  { name: 'DRAFT_TERM_SHEET',                      fileName: 'DRAFT_TERM_SHEET.pdf',                      category: 'legal' },
 ];
 
 // ─── Canonical Data Room Structure ───────────────────────────────────
 
+/**
+ * Track 1 (Bond / Collateral) — Lender Data Room Structure
+ *
+ * This is the ONLY structure that goes to bond / collateral funders.
+ * No sponsor economics. No platform licensing. No internal docs.
+ * See LANE_DISCIPLINE_RULEBOOK.md for the two-lane rule.
+ *
+ * 6 folders, 19 files.
+ */
 export const LENDER_DATA_ROOM_STRUCTURE: DataRoomFolder[] = [
   {
     code: '00_EXEC_SUMMARY',
@@ -256,6 +271,7 @@ export const LENDER_DATA_ROOM_STRUCTURE: DataRoomFolder[] = [
     files: [
       { name: 'CREDIT_COMMITTEE_POSITIONING.pdf', sourceDocument: 'CREDIT_COMMITTEE_POSITIONING', description: 'Credit committee brief with risk assessment and recommended terms' },
       { name: 'DATA_ROOM_INDEX.pdf', sourceDocument: 'DATA_ROOM_INDEX_v1', description: 'Complete document index and navigation guide' },
+      { name: 'TERMS_REQUESTED.pdf', sourceDocument: 'TERMS_REQUESTED', description: 'One-page summary of requested facility terms' },
     ],
   },
   {
@@ -273,40 +289,81 @@ export const LENDER_DATA_ROOM_STRUCTURE: DataRoomFolder[] = [
     files: [
       { name: 'BORROWING_BASE_POLICY.pdf', sourceDocument: 'BORROWING_BASE_POLICY', description: 'Haircut methodology and advance rate policy' },
       { name: 'SAMPLE_BORROWING_BASE_CERTIFICATE.pdf', description: 'Auto-generated borrowing base certificate sample' },
+      { name: 'REPORTING_COVENANT_SCHEDULE.pdf', sourceDocument: 'REPORTING_COVENANT_SCHEDULE', description: 'Monthly and quarterly reporting covenant frequency and deliverables' },
     ],
   },
   {
     code: '03_LEGAL',
     name: 'Legal',
     files: [
-      { name: 'PLATFORM_AGREEMENT_EXECUTED.pdf', description: 'Executed strategic infrastructure execution agreement' },
+      { name: 'DRAFT_TERM_SHEET.pdf', sourceDocument: 'DRAFT_TERM_SHEET', description: 'Preferred facility structure and terms (1-2 pages)' },
       { name: 'SECURITY_AND_CONTROL_TEMPLATE.pdf', description: 'Security and control agreement template' },
       { name: 'UCC_LANGUAGE_DRAFT.pdf', description: 'UCC-1 financing statement language draft' },
+      { name: 'SPONSOR_ACKNOWLEDGMENT.pdf', description: 'One-line confirmation: sponsor/operator agreements executed, separate from borrowing base' },
     ],
   },
   {
     code: '04_PLATFORM_AND_AUDIT',
     name: 'Platform & Audit',
     files: [
-      { name: 'PLATFORM_SUMMARY.pdf', description: 'Platform architecture and capability summary' },
+      { name: 'PLATFORM_SUMMARY.pdf', description: 'Platform architecture and capability summary (2-4 pages)' },
       { name: 'AUDITBRIDGE_OVERVIEW.pdf', description: 'Audit bridge infrastructure and event trail overview' },
       { name: 'DASHBOARD_SCREENSHOTS.pdf', description: 'Live dashboard screenshots showing system status' },
     ],
   },
   {
-    code: '05_SPONSOR_NOTE',
-    name: 'Sponsor Note',
+    code: '05_REPORTING',
+    name: 'Reporting',
     files: [
-      { name: 'SPONSOR_CONSIDERATION_NOTE_TEMPLATE.pdf', sourceDocument: 'SPONSOR_CONSIDERATION_NOTE_TEMPLATE', description: 'Sponsor Consideration Note template ($2.5M, 6% PIK, 24mo)' },
-      { name: 'SPONSOR_NOTE_ESTOPPEL_TEMPLATE.pdf', sourceDocument: 'SPONSOR_NOTE_ESTOPPEL_TEMPLATE', description: 'Estoppel certificate for note financing' },
+      { name: 'MONTHLY_REPORTING_PACK_OUTLINE.pdf', description: 'Monthly reporting pack format and contents post-close' },
+      { name: 'EXCEPTION_REPORTING_DEFINITION.pdf', description: 'Exception triggers, alert thresholds, and escalation paths' },
+      { name: 'BORROWING_BASE_AUTOMATION_OVERVIEW.pdf', description: 'Automated borrowing base generation system overview' },
+    ],
+  },
+];
+
+/**
+ * Track 2 (Sponsor / Platform) — Separate data room for sponsor-finance lenders.
+ *
+ * NOT shared with Track 1 (bond/collateral) funders.
+ * Used only when monetizing the Sponsor Note or platform economics.
+ * See LANE_DISCIPLINE_RULEBOOK.md.
+ *
+ * 4 folders, 10 files.
+ */
+export const SPONSOR_DATA_ROOM_STRUCTURE: DataRoomFolder[] = [
+  {
+    code: '00_SPONSOR_OVERVIEW',
+    name: 'Sponsor Overview',
+    files: [
+      { name: 'SPONSOR_EXECUTIVE_SUMMARY.pdf', description: 'Sponsor economics overview and platform dependency analysis' },
+      { name: 'PLATFORM_DEPENDENCY_MEMO.pdf', description: 'Mission-critical platform dependency documentation' },
     ],
   },
   {
-    code: '06_REPORTING_AND_CONTROLS',
-    name: 'Reporting & Controls',
+    code: '01_SPONSOR_INSTRUMENTS',
+    name: 'Sponsor Instruments',
     files: [
-      { name: 'REPORTING_COVENANTS.pdf', description: 'Monthly / quarterly reporting covenant schedule' },
-      { name: 'BORROWING_BASE_AUTOMATION_OVERVIEW.pdf', description: 'Automated borrowing base generation system overview' },
+      { name: 'SPONSOR_CONSIDERATION_NOTE.pdf', description: 'Executed Sponsor Consideration Note ($2.5M, 6% PIK, 24mo)' },
+      { name: 'SPONSOR_NOTE_ESTOPPEL.pdf', description: 'Executed estoppel certificate for note financing' },
+      { name: 'ASSIGNMENT_RIGHTS_SUMMARY.pdf', description: 'Note assignment mechanics and transferability' },
+    ],
+  },
+  {
+    code: '02_PLATFORM_ECONOMICS',
+    name: 'Platform Economics',
+    files: [
+      { name: 'UTILIZATION_FEE_SCHEDULE.pdf', description: 'Platform utilization fee structure and projections' },
+      { name: 'LICENSE_REVENUE_MODEL.pdf', description: 'Platform licensing and revenue model' },
+      { name: 'CASH_FLOW_VISIBILITY.pdf', description: 'Sponsor cash flow projections and payment waterfall' },
+    ],
+  },
+  {
+    code: '03_AUDIT_AND_CONTROLS',
+    name: 'Audit & Controls',
+    files: [
+      { name: 'AUDIT_TRAIL_REPORT.pdf', description: 'Live audit trail and settlement verification report' },
+      { name: 'DASHBOARD_ECONOMICS_VIEW.pdf', description: 'Dashboard screenshots showing sponsor-relevant metrics' },
     ],
   },
 ];
@@ -748,37 +805,27 @@ export class FundingWaveAttestation extends EventEmitter {
     const txHash = xrplAttestation?.txHash || '[TX_HASH]';
     const txTimestamp = xrplAttestation?.timestamp || '[DATE/TIME]';
 
-    const subject = 'OPTKAS — Verified Funding Package (XRPL Attested)';
+    const subject = 'Senior Secured Facility | Collateral Verified | Borrowing Base + Reporting Ready | XRPL-Attested Delivery';
 
     const body = `Hello ${recipientName || '[Name]'},
 
-On behalf of OPTKAS1-MAIN SPV, we are providing access to our verified funding package.
+On behalf of OPTKAS1-MAIN SPV, we are providing access to our verified funding package
+for a senior secured facility backed by the SPV's collateral position.
 
-Delivery of the package has been cryptographically attested on the XRP Ledger to ensure
+Delivery of this package has been cryptographically attested on the XRP Ledger to ensure
 document integrity and version certainty.
 
 XRPL Attestation Reference:
-• Ledger: XRPL Mainnet
-• Transaction Hash: ${txHash}
-• Timestamp: ${txTimestamp}
-
-The attestation anchors hashes of:
-1. Institutional Data Room Index
-2. Collateral Verification Memorandum
-3. Borrowing Base Policy
-4. Valuation Justification (Preset B)
-5. Sponsor Consideration Note (template)
-6. Sponsor Note Estoppel (template)
+\u2022 Ledger: XRPL Mainnet
+\u2022 Transaction Hash: ${txHash}
+\u2022 Timestamp: ${txTimestamp}
 
 Read-only Data Room Access:
 ${this.config.dataRoomLink}
 
-Next Steps:
-• Review materials
-• Submit diligence questions
-• Issue a lender term sheet or LOI if aligned
-
-We are available to walk through the structure as needed.
+Requested Next Step:
+If aligned, please issue a term sheet / LOI. We are available for a diligence call
+and to respond to questions promptly.
 
 Regards,
 ${senderName || '[Name]'}

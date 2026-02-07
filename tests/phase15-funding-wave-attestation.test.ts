@@ -27,6 +27,7 @@ import {
   FundingWaveAttestation,
   FUNDING_WAVE_DOCUMENTS,
   LENDER_DATA_ROOM_STRUCTURE,
+  SPONSOR_DATA_ROOM_STRUCTURE,
   MEMO_SCHEMA_ID,
   DATA_ROOM_STRUCTURE_VERSION,
 } from '../packages/funding-ops/src/funding-wave-attestation';
@@ -159,9 +160,9 @@ describe('Phase 15 — Funding Wave Attestation', () => {
 
   // ─── Canonical Document List ────────────────────────────────────
 
-  describe('Canonical Document List', () => {
-    test('defines 7 funding wave documents', () => {
-      expect(FUNDING_WAVE_DOCUMENTS).toHaveLength(7);
+  describe('Canonical Document List (Track 1)', () => {
+    test('defines 8 Track 1 funding wave documents', () => {
+      expect(FUNDING_WAVE_DOCUMENTS).toHaveLength(8);
     });
 
     test('every document has name, fileName, category', () => {
@@ -198,29 +199,39 @@ describe('Phase 15 — Funding Wave Attestation', () => {
       expect(FUNDING_WAVE_DOCUMENTS.some(d => d.name === 'CREDIT_COMMITTEE_POSITIONING')).toBe(true);
     });
 
-    test('includes SPONSOR_CONSIDERATION_NOTE_TEMPLATE', () => {
-      expect(FUNDING_WAVE_DOCUMENTS.some(d => d.name === 'SPONSOR_CONSIDERATION_NOTE_TEMPLATE')).toBe(true);
+    test('includes TERMS_REQUESTED', () => {
+      expect(FUNDING_WAVE_DOCUMENTS.some(d => d.name === 'TERMS_REQUESTED')).toBe(true);
     });
 
-    test('includes SPONSOR_NOTE_ESTOPPEL_TEMPLATE', () => {
-      expect(FUNDING_WAVE_DOCUMENTS.some(d => d.name === 'SPONSOR_NOTE_ESTOPPEL_TEMPLATE')).toBe(true);
+    test('includes DRAFT_TERM_SHEET', () => {
+      expect(FUNDING_WAVE_DOCUMENTS.some(d => d.name === 'DRAFT_TERM_SHEET')).toBe(true);
     });
 
-    test('covers required categories', () => {
+    test('includes REPORTING_COVENANT_SCHEDULE', () => {
+      expect(FUNDING_WAVE_DOCUMENTS.some(d => d.name === 'REPORTING_COVENANT_SCHEDULE')).toBe(true);
+    });
+
+    test('does NOT include sponsor docs (Track 2 only)', () => {
+      expect(FUNDING_WAVE_DOCUMENTS.some(d => d.name === 'SPONSOR_CONSIDERATION_NOTE_TEMPLATE')).toBe(false);
+      expect(FUNDING_WAVE_DOCUMENTS.some(d => d.name === 'SPONSOR_NOTE_ESTOPPEL_TEMPLATE')).toBe(false);
+    });
+
+    test('covers required Track 1 categories', () => {
       const categories = new Set(FUNDING_WAVE_DOCUMENTS.map(d => d.category));
       expect(categories.has('exec_summary')).toBe(true);
       expect(categories.has('collateral')).toBe(true);
       expect(categories.has('borrowing_base')).toBe(true);
       expect(categories.has('platform_audit')).toBe(true);
-      expect(categories.has('sponsor_note')).toBe(true);
+      expect(categories.has('legal')).toBe(true);
+      expect(categories.has('reporting_controls')).toBe(true);
     });
   });
 
   // ─── Lender Data Room Structure ─────────────────────────────────
 
-  describe('Lender Data Room Structure', () => {
-    test('defines 7 folders', () => {
-      expect(LENDER_DATA_ROOM_STRUCTURE).toHaveLength(7);
+  describe('Lender Data Room Structure (Track 1 — Bond/Collateral)', () => {
+    test('defines 6 folders (no sponsor folder)', () => {
+      expect(LENDER_DATA_ROOM_STRUCTURE).toHaveLength(6);
     });
 
     test('folder codes follow 0X_ prefix pattern', () => {
@@ -229,10 +240,10 @@ describe('Phase 15 — Funding Wave Attestation', () => {
       }
     });
 
-    test('00_EXEC_SUMMARY folder has 2 files', () => {
+    test('00_EXEC_SUMMARY folder has 3 files', () => {
       const folder = LENDER_DATA_ROOM_STRUCTURE.find(f => f.code === '00_EXEC_SUMMARY');
       expect(folder).toBeDefined();
-      expect(folder!.files).toHaveLength(2);
+      expect(folder!.files).toHaveLength(3);
     });
 
     test('01_COLLATERAL folder has 3 files', () => {
@@ -241,16 +252,23 @@ describe('Phase 15 — Funding Wave Attestation', () => {
       expect(folder!.files).toHaveLength(3);
     });
 
-    test('02_BORROWING_BASE folder has 2 files', () => {
+    test('02_BORROWING_BASE folder has 3 files', () => {
       const folder = LENDER_DATA_ROOM_STRUCTURE.find(f => f.code === '02_BORROWING_BASE');
       expect(folder).toBeDefined();
-      expect(folder!.files).toHaveLength(2);
+      expect(folder!.files).toHaveLength(3);
     });
 
-    test('03_LEGAL folder has 3 files', () => {
+    test('03_LEGAL folder has 4 files (includes sponsor acknowledgment)', () => {
       const folder = LENDER_DATA_ROOM_STRUCTURE.find(f => f.code === '03_LEGAL');
       expect(folder).toBeDefined();
-      expect(folder!.files).toHaveLength(3);
+      expect(folder!.files).toHaveLength(4);
+    });
+
+    test('03_LEGAL contains sponsor acknowledgment (one line only)', () => {
+      const folder = LENDER_DATA_ROOM_STRUCTURE.find(f => f.code === '03_LEGAL');
+      const ack = folder!.files.find(f => f.name === 'SPONSOR_ACKNOWLEDGMENT.pdf');
+      expect(ack).toBeDefined();
+      expect(ack!.description).toContain('separate from borrowing base');
     });
 
     test('04_PLATFORM_AND_AUDIT folder has 3 files', () => {
@@ -259,21 +277,20 @@ describe('Phase 15 — Funding Wave Attestation', () => {
       expect(folder!.files).toHaveLength(3);
     });
 
-    test('05_SPONSOR_NOTE folder has 2 files', () => {
+    test('05_REPORTING folder has 3 files', () => {
+      const folder = LENDER_DATA_ROOM_STRUCTURE.find(f => f.code === '05_REPORTING');
+      expect(folder).toBeDefined();
+      expect(folder!.files).toHaveLength(3);
+    });
+
+    test('does NOT contain 05_SPONSOR_NOTE folder (Track 2 only)', () => {
       const folder = LENDER_DATA_ROOM_STRUCTURE.find(f => f.code === '05_SPONSOR_NOTE');
-      expect(folder).toBeDefined();
-      expect(folder!.files).toHaveLength(2);
+      expect(folder).toBeUndefined();
     });
 
-    test('06_REPORTING_AND_CONTROLS folder has 2 files', () => {
-      const folder = LENDER_DATA_ROOM_STRUCTURE.find(f => f.code === '06_REPORTING_AND_CONTROLS');
-      expect(folder).toBeDefined();
-      expect(folder!.files).toHaveLength(2);
-    });
-
-    test('total files across all folders is 17', () => {
+    test('total files across all folders is 19', () => {
       const total = LENDER_DATA_ROOM_STRUCTURE.reduce((sum, f) => sum + f.files.length, 0);
-      expect(total).toBe(17);
+      expect(total).toBe(19);
     });
 
     test('every file has name and description', () => {
@@ -452,8 +469,8 @@ describe('Phase 15 — Funding Wave Attestation', () => {
       expect(memo.dataRoom).toBeDefined();
       expect(memo.dataRoom.structureVersion).toBe(DATA_ROOM_STRUCTURE_VERSION);
       expect(memo.dataRoom.structureVersion).toBe('optkas.lender.dataroom.v1');
-      expect(memo.dataRoom.folders).toBe(7);
-      expect(memo.dataRoom.files).toBe(17);
+      expect(memo.dataRoom.folders).toBe(6);
+      expect(memo.dataRoom.files).toBe(19);
     });
 
     test('memo contains issuer', () => {
@@ -731,14 +748,14 @@ describe('Phase 15 — Funding Wave Attestation', () => {
       wave = new FundingWaveAttestation();
     });
 
-    test('manifest has 7 folders', () => {
+    test('manifest has 6 folders (Track 1)', () => {
       const manifest = wave.generateDataRoomManifest();
-      expect(manifest.folders).toHaveLength(7);
+      expect(manifest.folders).toHaveLength(6);
     });
 
-    test('manifest total files is 17', () => {
+    test('manifest total files is 19', () => {
       const manifest = wave.generateDataRoomManifest();
-      expect(manifest.totalFiles).toBe(17);
+      expect(manifest.totalFiles).toBe(19);
     });
 
     test('manifest has read-only access policy', () => {
@@ -746,7 +763,7 @@ describe('Phase 15 — Funding Wave Attestation', () => {
       expect(manifest.accessPolicy).toContain('Read-only');
     });
 
-    test('manifest folders match canonical structure', () => {
+    test('manifest folders match Track 1 structure', () => {
       const manifest = wave.generateDataRoomManifest();
       const codes = manifest.folders.map(f => f.code);
       expect(codes).toContain('00_EXEC_SUMMARY');
@@ -754,8 +771,9 @@ describe('Phase 15 — Funding Wave Attestation', () => {
       expect(codes).toContain('02_BORROWING_BASE');
       expect(codes).toContain('03_LEGAL');
       expect(codes).toContain('04_PLATFORM_AND_AUDIT');
-      expect(codes).toContain('05_SPONSOR_NOTE');
-      expect(codes).toContain('06_REPORTING_AND_CONTROLS');
+      expect(codes).toContain('05_REPORTING');
+      expect(codes).not.toContain('05_SPONSOR_NOTE');
+      expect(codes).not.toContain('06_REPORTING_AND_CONTROLS');
     });
 
     test('manifest has version and timestamp', () => {
@@ -777,14 +795,14 @@ describe('Phase 15 — Funding Wave Attestation', () => {
       wave.recordXrplAttestation('TX_HASH_ABC123');
     });
 
-    test('email subject contains OPTKAS', () => {
+    test('email subject contains Senior Secured Facility', () => {
       const email = wave.generateLenderEmail();
-      expect(email.subject).toContain('OPTKAS');
+      expect(email.subject).toContain('Senior Secured Facility');
     });
 
-    test('email subject contains XRPL Attested', () => {
+    test('email subject contains XRPL-Attested', () => {
       const email = wave.generateLenderEmail();
-      expect(email.subject).toContain('XRPL Attested');
+      expect(email.subject).toContain('XRPL-Attested');
     });
 
     test('email body contains TX hash', () => {
@@ -802,14 +820,17 @@ describe('Phase 15 — Funding Wave Attestation', () => {
       expect(email.body).toContain('OPTKAS1-MAIN SPV');
     });
 
-    test('email body contains all 6 document references', () => {
+    test('email body is collateral-forward (Track 1 lane discipline)', () => {
       const email = wave.generateLenderEmail();
-      expect(email.body).toContain('Institutional Data Room Index');
-      expect(email.body).toContain('Collateral Verification Memorandum');
-      expect(email.body).toContain('Borrowing Base Policy');
-      expect(email.body).toContain('Valuation Justification');
-      expect(email.body).toContain('Sponsor Consideration Note');
-      expect(email.body).toContain('Sponsor Note Estoppel');
+      // Track 1: must mention senior secured facility and collateral position
+      expect(email.body).toContain('senior secured facility');
+      expect(email.body).toContain('collateral position');
+      // Track 1: must ask for term sheet / LOI
+      expect(email.body).toContain('term sheet / LOI');
+      // Track 1: must NOT list individual documents (no document list in email)
+      expect(email.body).not.toContain('Institutional Data Room Index');
+      expect(email.body).not.toContain('Sponsor Consideration Note');
+      expect(email.body).not.toContain('Sponsor Note Estoppel');
     });
 
     test('email body contains term sheet prompt', () => {
@@ -1034,6 +1055,10 @@ describe('Phase 15 — Funding Wave Attestation', () => {
       expect(content).toContain('LENDER_DATA_ROOM_STRUCTURE');
     });
 
+    test('exports SPONSOR_DATA_ROOM_STRUCTURE', () => {
+      expect(content).toContain('SPONSOR_DATA_ROOM_STRUCTURE');
+    });
+
     test('exports FundingWaveConfig type', () => {
       expect(content).toContain('FundingWaveConfig');
     });
@@ -1191,8 +1216,8 @@ describe('Phase 15 — Funding Wave Attestation', () => {
       expect(schema.documents).toHaveLength(1);
       expect(schema.rootHash).toBe(wave.getRootHash());
       expect(schema.dataRoom.structureVersion).toBe(DATA_ROOM_STRUCTURE_VERSION);
-      expect(schema.dataRoom.folders).toBe(7);
-      expect(schema.dataRoom.files).toBe(17);
+      expect(schema.dataRoom.folders).toBe(6);
+      expect(schema.dataRoom.files).toBe(19);
       expect(schema.issuer).toBeTruthy();
       expect(schema.purpose).toBe('Verified delivery of institutional funding package');
       expect(schema.legalEffect).toBe('Evidence of existence, integrity, and delivery timing');
