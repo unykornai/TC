@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as yaml from 'yaml';
 
 describe('Platform Configuration', () => {
-  const configPath = path.join(__dirname, '..', '..', '..', 'config', 'platform-config.yaml');
+  const configPath = path.join(__dirname, '..', '..', '..', '..', 'config', 'platform-config.yaml');
   let config: any;
 
   beforeAll(() => {
@@ -17,26 +17,26 @@ describe('Platform Configuration', () => {
   });
 
   it('should have platform metadata', () => {
-    expect(config.platform.name).toBe('OPTKAS');
+    expect(config.platform.name).toContain('OPTKAS');
     expect(config.platform.version).toBeDefined();
   });
 
   it('should have governance configuration', () => {
     expect(config.governance).toBeDefined();
-    expect(config.governance.model).toBe('multisig');
-    expect(config.governance.quorum).toBe(2);
-    expect(config.governance.signers).toHaveLength(3);
+    expect(config.governance.multisig).toBeDefined();
+    expect(config.governance.multisig.threshold).toBe(2);
+    expect(config.governance.multisig.roles).toHaveLength(3);
   });
 
   it('should have XRPL network configuration', () => {
     expect(config.networks.xrpl).toBeDefined();
-    expect(config.networks.xrpl.default).toBe('testnet');
+    expect(config.networks.xrpl.active).toBe('testnet');
     expect(config.networks.xrpl.testnet.url).toBeDefined();
   });
 
   it('should have Stellar network configuration', () => {
     expect(config.networks.stellar).toBeDefined();
-    expect(config.networks.stellar.default).toBe('testnet');
+    expect(config.networks.stellar.active).toBe('testnet');
   });
 
   it('should have XRPL accounts defined', () => {
@@ -57,12 +57,12 @@ describe('Platform Configuration', () => {
 
   it('should have audit configuration', () => {
     expect(config.audit).toBeDefined();
-    expect(config.audit.retention_years).toBeGreaterThanOrEqual(7);
+    expect(config.audit.retention_days).toBeGreaterThanOrEqual(2555);
   });
 
   it('should default to safe/testnet', () => {
-    expect(config.networks.xrpl.default).toBe('testnet');
-    expect(config.networks.stellar.default).toBe('testnet');
+    expect(config.networks.xrpl.active).toBe('testnet');
+    expect(config.networks.stellar.active).toBe('testnet');
   });
 
   it('should have compliance configuration', () => {

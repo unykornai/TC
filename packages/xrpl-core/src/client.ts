@@ -156,7 +156,7 @@ export class XRPLClient extends EventEmitter {
 
     const info: AccountInfo = {
       address: accountData.Account,
-      balance: dropsToXrp(accountData.Balance),
+      balance: String(dropsToXrp(accountData.Balance)),
       sequence: accountData.Sequence,
       flags: accountData.Flags,
       ownerCount: accountData.OwnerCount,
@@ -210,7 +210,7 @@ export class XRPLClient extends EventEmitter {
     const client = this.ensureConnected();
 
     // Auto-fill sequence, fee, lastLedgerSequence
-    const prepared = await client.autofill(tx);
+    const prepared = await client.autofill(tx as SubmittableTransaction);
 
     const preparedTx: PreparedTransaction = {
       unsigned: prepared,
@@ -252,7 +252,7 @@ export class XRPLClient extends EventEmitter {
     const result: TransactionResult = {
       success: response.result.engine_result === 'tesSUCCESS',
       txHash: response.result.tx_json?.hash || '',
-      ledgerIndex: response.result.tx_json?.ledger_index || 0,
+      ledgerIndex: (response.result.tx_json as any)?.ledger_index || 0,
       fee: response.result.tx_json?.Fee || '0',
       timestamp: new Date().toISOString(),
       network: this.config.network,
@@ -302,7 +302,7 @@ export class XRPLClient extends EventEmitter {
   }
 
   static dropsToXrp(drops: string | number): string {
-    return dropsToXrp(drops);
+    return String(dropsToXrp(drops));
   }
 
   static hexEncode(str: string): string {

@@ -42,9 +42,9 @@ async function main(): Promise<void> {
     }
 
     // Governance
-    if (config.governance?.multisig?.threshold && config.governance?.multisig?.signers) {
+    if (config.governance?.multisig?.threshold && config.governance?.multisig?.roles) {
       const threshold = config.governance.multisig.threshold;
-      const signerCount = Object.keys(config.governance.multisig.signers).length;
+      const signerCount = config.governance.multisig.roles.length;
       printSuccess(`Governance: ${threshold}-of-${signerCount} multisig`);
     } else {
       printError('Governance multisig configuration missing'); errors++;
@@ -106,8 +106,9 @@ async function main(): Promise<void> {
     }
 
     // Audit
-    if (config.audit?.retention_years && config.audit?.required_events) {
-      printSuccess(`Audit: ${config.audit.retention_years}-year retention, ${config.audit.required_events.length} event types`);
+    if (config.audit?.retention_days && config.audit?.required_events) {
+      const years = Math.round(config.audit.retention_days / 365);
+      printSuccess(`Audit: ${years}-year retention (${config.audit.retention_days} days), ${config.audit.required_events.length} event types`);
     } else {
       printError('Audit configuration incomplete'); errors++;
     }

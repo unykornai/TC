@@ -305,7 +305,7 @@ export class StellarClient extends EventEmitter {
     medThreshold?: number;
     highThreshold?: number;
   }): StellarSdk.xdr.Operation {
-    return StellarSdk.Operation.setOptions(flags);
+    return StellarSdk.Operation.setOptions(flags as any);
   }
 
   /**
