@@ -1,0 +1,21 @@
+{
+  "name": "@optkas/cross-chain-dex",
+  "version": "1.0.0",
+  "description": "Sovereign cross-chain DEX for trustless XRP/XLM/stablecoin swaps",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "dependencies": {
+    "xrpl": "^3.1.0",
+    "@stellar/stellar-sdk": "^11.3.0",
+    "crypto-js": "^4.2.0",
+    "bignumber.js": "^9.1.2"
+  },
+  "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
+    "typescript": "^5.3.3"
+  }
+}

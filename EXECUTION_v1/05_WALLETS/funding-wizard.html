@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OPTKAS Funding Wizard</title>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Segoe UI',Arial,sans-serif; background:#0d1117; color:#e6edf3; min-height:100vh; display:flex; flex-direction:column; align-items:center; }
+  .header { text-align:center; padding:24px 20px 10px; }
+  .header h1 { font-size:22px; color:#58a6ff; }
+  .header .sub { color:#8b949e; font-size:13px; margin-top:4px; }
+  .progress { display:flex; gap:6px; justify-content:center; margin:16px 0 20px; flex-wrap:wrap; padding:0 10px; }
+  .dot { width:32px; height:32px; border-radius:50%; border:2px solid #30363d; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#484f58; transition:all .3s; cursor:pointer; }
+  .dot.active { border-color:#58a6ff; color:#58a6ff; background:#58a6ff22; transform:scale(1.15); }
+  .dot.done { border-color:#3fb950; color:#fff; background:#3fb950; }
+  .card { background:#161b22; border:2px solid #30363d; border-radius:16px; width:90%; max-width:480px; padding:28px 24px; text-align:center; }
+  .badge { display:inline-block; font-size:11px; font-weight:700; padding:3px 12px; border-radius:20px; margin-bottom:10px; }
+  .badge.xrpl { background:#0066ff33; color:#58a6ff; border:1px solid #0066ff55; }
+  .badge.stellar { background:#00aa4433; color:#3fb950; border:1px solid #00aa4455; }
+  .role-name { font-size:26px; font-weight:700; margin-bottom:4px; }
+  .purpose { color:#8b949e; font-size:13px; margin-bottom:20px; }
+  .qr-box { background:#fff; border-radius:12px; display:inline-block; padding:16px; margin-bottom:16px; }
+  .qr-box canvas { display:block; }
+  .addr-box { background:#0d1117; border:1px solid #30363d; border-radius:8px; padding:12px; margin-bottom:16px; cursor:pointer; position:relative; transition:border-color .2s; word-break:break-all; font-family:'Consolas','Courier New',monospace; font-size:14px; letter-spacing:.5px; }
+  .addr-box:hover { border-color:#58a6ff; }
+  .addr-box .copy-hint { position:absolute; top:50%; right:10px; transform:translateY(-50%); font-size:11px; color:#58a6ff; font-family:'Segoe UI',sans-serif; }
+  .send-info { font-size:20px; margin-bottom:6px; }
+  .send-info strong { color:#f0883e; }
+  .usd { color:#8b949e; font-size:14px; margin-bottom:20px; }
+  .btn-row { display:flex; gap:10px; justify-content:center; margin-top:20px; }
+  .btn { padding:12px 28px; border-radius:10px; border:none; font-size:15px; font-weight:600; cursor:pointer; transition:all .15s; }
+  .btn-prev { background:#21262d; color:#c9d1d9; border:1px solid #30363d; }
+  .btn-prev:hover { background:#30363d; }
+  .btn-funded { background:#238636; color:#fff; }
+  .btn-funded:hover { background:#2ea043; }
+  .btn-funded.checked { background:#3fb950; }
+  .btn-skip { background:#21262d; color:#8b949e; border:1px solid #30363d; }
+  .btn-skip:hover { background:#30363d; color:#c9d1d9; }
+  .status-bar { margin-top:16px; padding:8px 16px; border-radius:8px; font-size:13px; display:none; }
+  .status-bar.show { display:block; }
+  .status-bar.success { background:#2ea04322; border:1px solid #2ea04366; color:#3fb950; }
+  .summary-page { display:none; text-align:center; }
+  .summary-page h2 { color:#3fb950; font-size:24px; margin-bottom:16px; }
+  .summary-table { width:100%; border-collapse:collapse; margin:16px 0; font-size:13px; }
+  .summary-table th { background:#21262d; padding:8px; border:1px solid #30363d; color:#8b949e; font-weight:600; }
+  .summary-table td { padding:8px; border:1px solid #30363d; }
+  .summary-table .funded { color:#3fb950; }
+  .summary-table .skipped { color:#f0883e; }
+  .next-steps { background:#161b22; border:1px solid #30363d; border-radius:10px; padding:16px; margin-top:16px; text-align:left; font-size:13px; color:#8b949e; line-height:1.8; }
+  .next-steps code { background:#0d1117; padding:2px 6px; border-radius:4px; color:#79c0ff; font-size:12px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🏛️ OPTKAS Funding Wizard</h1>
+  <div class="sub">Scan each QR → Send from exchange → Mark funded → Next</div>
+</div>
+
+<div class="progress" id="progress"></div>
+
+<div class="card" id="card"></div>
+
+<div class="summary-page" id="summary" style="width:90%;max-width:520px;"></div>
+
+<script>
+const XRP_PRICE = 1.42;
+const XLM_PRICE = 0.16;
+
+const wallets = [
+  { role:'ISSUER',       ledger:'xrpl',    addr:'rpraqLjKmDB9a43F9fURWA2bVaywkyJua3',                                    amount:25, purpose:'Token issuance authority — fund first' },
+  { role:'TREASURY',     ledger:'xrpl',    addr:'r3JfTyqU9jwnXh2aWCwr738fb9HygNmBys',                                    amount:30, purpose:'Primary treasury & custody' },
+  { role:'ESCROW',       ledger:'xrpl',    addr:'rBC9g8YVU6HZouStFcdE5a8kmsob8napKD',                                    amount:25, purpose:'Time-locked escrow settlements' },
+  { role:'ATTESTATION',  ledger:'xrpl',    addr:'rEUxqL1Rmzciu31Sq7ocx6KZyt6htqjjBv',                                    amount:20, purpose:'On-chain compliance attestations' },
+  { role:'AMM LIQUIDITY',ledger:'xrpl',    addr:'raCevnYFkqAvkDAoeQ7uttf9okSaWxXFuP',                                    amount:25, purpose:'Automated market maker pool' },
+  { role:'TRADING',      ledger:'xrpl',    addr:'rBAAd5z7e4Yvy4QzZ37WjmbZj1dnzJaTfY',                                    amount:25, purpose:'DEX trading operations' },
+  { role:'ISSUER',       ledger:'stellar', addr:'GBJIMHMBGTPN5RS42OGBUY5NC2ATZLPT3B3EWV32SM2GQLS46TRJWG4I',              amount:7,  purpose:'Stellar token issuance authority' },
+  { role:'DISTRIBUTION', ledger:'stellar', addr:'GAKCD7OKDM4HLZDBEE7KXTRFAYIE755UHL3JFQEOOHDPIMM5GEFY3RPF',              amount:7,  purpose:'Stellar token distribution' },
+  { role:'ANCHOR',       ledger:'stellar', addr:'GC6O6Q7FG5FZGHE5D5BHGA6ZTLRAU7UWFJKKWNOJ36G3PKVVKVYLQGA6',              amount:7,  purpose:'Stellar anchor / bridge operations' },
+];
+
+let current = 0;
+const funded = new Array(wallets.length).fill(false);
+
+function makeQR(text, size) {
+  const qr = qrcode(0, 'H');
+  qr.addData(text);
+  qr.make();
+  const canvas = document.createElement('canvas');
+  const cellSize = Math.floor(size / (qr.getModuleCount() + 8));
+  const realSize = cellSize * (qr.getModuleCount() + 8);
+  canvas.width = realSize;
+  canvas.height = realSize;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(0, 0, realSize, realSize);
+  const offset = cellSize * 4;
+  for (let r = 0; r < qr.getModuleCount(); r++) {
+    for (let c = 0; c < qr.getModuleCount(); c++) {
+      if (qr.isDark(r, c)) {
+        ctx.fillStyle = '#000';
+        ctx.fillRect(offset + c * cellSize, offset + r * cellSize, cellSize, cellSize);
+      }
+    }
+  }
+  return canvas;
+}
+
+function renderProgress() {
+  const el = document.getElementById('progress');
+  el.innerHTML = '';
+  wallets.forEach((w, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === current ? ' active' : '') + (funded[i] ? ' done' : '');
+    d.textContent = i + 1;
+    d.onclick = () => { current = i; render(); };
+    el.appendChild(d);
+  });
+}
+
+function render() {
+  document.getElementById('summary').style.display = 'none';
+  document.getElementById('card').style.display = '';
+  const w = wallets[current];
+  const unit = w.ledger === 'xrpl' ? 'XRP' : 'XLM';
+  const price = w.ledger === 'xrpl' ? XRP_PRICE : XLM_PRICE;
+  const usd = (w.amount * price).toFixed(2);
+
+  renderProgress();
+
+  const card = document.getElementById('card');
+  card.innerHTML = `
+    <div class="badge ${w.ledger}">${w.ledger.toUpperCase()} — Wallet ${current+1} of ${wallets.length}</div>
+    <div class="role-name">${w.role}</div>
+    <div class="purpose">${w.purpose}</div>
+    <div class="qr-box" id="qr-target"></div>
+    <div class="addr-box" id="addr" onclick="copyAddr()">
+      ${w.addr}
+      <span class="copy-hint">📋 click to copy</span>
+    </div>
+    <div class="send-info">Send <strong>${w.amount} ${unit}</strong></div>
+    <div class="usd">≈ $${usd} USD at $${price}/${unit}</div>
+    <div id="status" class="status-bar"></div>
+    <div class="btn-row">
+      ${current > 0 ? '<button class="btn btn-prev" onclick="prev()">← Back</button>' : ''}
+      <button class="btn btn-funded ${funded[current]?'checked':''}" onclick="markFunded()" id="fundBtn">
+        ${funded[current] ? '✅ Funded!' : '✅ Mark Funded'}
+      </button>
+      <button class="btn btn-skip" onclick="next()">
+        ${current < wallets.length-1 ? 'Skip →' : 'Finish →'}
+      </button>
+    </div>
+  `;
+
+  const canvas = makeQR(w.addr, 280);
+  document.getElementById('qr-target').appendChild(canvas);
+}
+
+function copyAddr() {
+  const w = wallets[current];
+  navigator.clipboard.writeText(w.addr).then(() => {
+    const el = document.getElementById('status');
+    el.className = 'status-bar show success';
+    el.textContent = '✓ Address copied to clipboard!';
+    setTimeout(() => el.className = 'status-bar', 2000);
+  });
+}
+
+function markFunded() {
+  funded[current] = true;
+  const btn = document.getElementById('fundBtn');
+  btn.textContent = '✅ Funded!';
+  btn.classList.add('checked');
+  renderProgress();
+  // Auto-advance after a beat
+  setTimeout(() => {
+    if (current < wallets.length - 1) next();
+    else showSummary();
+  }, 800);
+}
+
+function prev() { if (current > 0) { current--; render(); } }
+function next() {
+  if (current < wallets.length - 1) { current++; render(); }
+  else showSummary();
+}
+
+function showSummary() {
+  document.getElementById('card').style.display = 'none';
+  renderProgress();
+  const s = document.getElementById('summary');
+  s.style.display = 'block';
+  const fundedCount = funded.filter(Boolean).length;
+  const totalXrp = wallets.filter((w,i) => w.ledger==='xrpl' && funded[i]).reduce((s,w)=>s+w.amount,0);
+  const totalXlm = wallets.filter((w,i) => w.ledger==='stellar' && funded[i]).reduce((s,w)=>s+w.amount,0);
+  const totalUsd = (totalXrp*XRP_PRICE + totalXlm*XLM_PRICE).toFixed(2);
+  s.innerHTML = `
+    <h2>${fundedCount === wallets.length ? '🎉 All Wallets Funded!' : '📋 Funding Status'}</h2>
+    <p style="color:#8b949e;margin-bottom:16px">${fundedCount} of ${wallets.length} wallets marked as funded</p>
+    <table class="summary-table">
+      <tr><th>#</th><th>Ledger</th><th>Role</th><th>Amount</th><th>Status</th></tr>
+      ${wallets.map((w,i) => `<tr>
+        <td>${i+1}</td>
+        <td>${w.ledger.toUpperCase()}</td>
+        <td>${w.role}</td>
+        <td>${w.amount} ${w.ledger==='xrpl'?'XRP':'XLM'}</td>
+        <td class="${funded[i]?'funded':'skipped'}">${funded[i]?'✅ Funded':'⏭ Skipped'}</td>
+      </tr>`).join('')}
+      <tr style="font-weight:700"><td colspan="3">TOTAL FUNDED</td><td colspan="2" class="funded">$${totalUsd}</td></tr>
+    </table>
+    ${fundedCount < wallets.length ? '<button class="btn btn-funded" style="margin:16px 0" onclick="current=funded.indexOf(false);render()">Fund Remaining →</button>' : ''}
+    <div class="next-steps">
+      <strong style="color:#e6edf3">✅ Next Steps:</strong><br>
+      1. Verify each account on explorer (XRPL: xrpscan.com / Stellar: stellar.expert)<br>
+      2. Run trustline deployment:<br>
+      <code>npx ts-node scripts/deploy-mainnet-trustlines.ts --network mainnet</code><br>
+      3. Switch platform config from testnet → mainnet
+    </div>
+  `;
+}
+
+render();
+</script>
+</body>
+</html>
