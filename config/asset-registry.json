@@ -194,6 +194,52 @@
           "tokenDeposit": "10000"
         }
       }
+    },
+    "SOVBND": {
+      "name": "SOVBND Sovereign Bond Token — Series A",
+      "type": "bond",
+      "status": "LIVE",
+      "bondTerms": {
+        "series": "SOVBND-A-2026",
+        "faceValue": "$100/unit",
+        "couponRate": "6.5% annual",
+        "frequency": "quarterly",
+        "issueDate": "2026-02-07",
+        "maturityDate": "2031-02-07",
+        "totalIssuance": "$1,000,000 (10,000 units)",
+        "collateral": "Multi-asset sovereign portfolio",
+        "regExemption": "Reg D 506(c)",
+        "secondaryLiquidity": "Deferred — pending allocation phase"
+      },
+      "xrpl": {
+        "currencyHex": "534F56424E440000000000000000000000000000",
+        "issuer": "rpraqLjKmDB9a43F9fURWA2bVaywkyJua3",
+        "totalSupply": "10000",
+        "issuedToTreasury": "5000",
+        "issuedToEscrow": "2000",
+        "issuedToAmm": "500",
+        "ammPool": {
+          "status": "DEFERRED",
+          "note": "Secondary liquidity intentionally deferred pending allocation phase"
+        }
+      },
+      "stellar": {
+        "assetCode": "SOVBND",
+        "issuer": "GBJIMHMBGTPN5RS42OGBUY5NC2ATZLPT3B3EWV32SM2GQLS46TRJWG4I",
+        "totalSupply": "10000",
+        "issuedToDistribution": "1000",
+        "pool": {
+          "xlmDeposit": "10",
+          "tokenDeposit": "200",
+          "status": "LIVE"
+        }
+      },
+      "reserveVault": {
+        "vaultId": "URV-001",
+        "yieldStrippable": true,
+        "haircut": 0.05,
+        "maxVaultAllocation": 0.40
+      }
     }
   },
   "stablecoins": {
@@ -272,5 +318,20 @@
       "GEMVLT": 0.1
     }
   },
-  "lastDeployment": "2026-02-07T15:05:43.089Z"
+  "lastDeployment": "2026-02-07T21:00:00.000Z",
+  "reserveVault": {
+    "id": "URV-001",
+    "name": "Unykorn Reserve Vault — Series 1",
+    "status": "ACTIVE",
+    "acceptedAssets": ["SOVBND", "OPTKAS", "IMPERIA", "GEMVLT", "TERRAVL", "PETRO"],
+    "reserveTarget": "125%",
+    "compounding": "quarterly",
+    "governance": "2-of-3 multisig",
+    "attestationNftTaxon": 100,
+    "allocationTiers": {
+      "Founder": { "nftTaxon": 1, "rights": ["allocate", "vote", "redeem", "observe"] },
+      "Institutional": { "nftTaxon": 2, "rights": ["subscribe", "redeem", "observe"] },
+      "Genesis": { "nftTaxon": 3, "rights": ["observe"] }
+    }
+  }
 }

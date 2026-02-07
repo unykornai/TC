@@ -463,8 +463,8 @@
       <div class="label">Digital Securities</div>
     </div>
     <div class="hero-stat">
-      <div class="value"><span class="currency">$</span>1M</div>
-      <div class="label">Bond Series-A</div>
+      <div class="value"><span class="currency">$</span>4.1M</div>
+      <div class="label">Reserve Vault NAV</div>
     </div>
   </div>
 </div>
@@ -475,6 +475,7 @@
   <button class="nav-btn" onclick="showSection('pools')">DEX Pools</button>
   <button class="nav-btn" onclick="showSection('bonds')">Bonds</button>
   <button class="nav-btn" onclick="showSection('nfts')">NFT Access</button>
+  <button class="nav-btn" onclick="showSection('vault')">Reserve Vault</button>
   <button class="nav-btn" onclick="showSection('architecture')">Architecture</button>
   <button class="nav-btn" onclick="showSection('invest')">Invest</button>
 </div>
@@ -493,8 +494,9 @@
         <div class="stat-row"><span class="label">Stellar Mainnet</span><span class="value" style="color:var(--green)">● Connected</span></div>
         <div class="stat-row"><span class="label">AMM Pools</span><span class="value">6 Active</span></div>
         <div class="stat-row"><span class="label">NFT Credentials</span><span class="value">6 Minted</span></div>
+        <div class="stat-row"><span class="label">Reserve Vault</span><span class="value" style="color:var(--gold)">● $4.1M NAV</span></div>
         <div class="stat-row"><span class="label">AI Trading Agents</span><span class="value">5 Ready</span></div>
-        <div class="stat-row"><span class="label">Platform Uptime</span><span class="value" style="color:var(--green)">99.97%</span></div>
+        <div class="stat-row"><span class="label">On-Chain Attestations</span><span class="value" style="color:var(--green)">● Dual-chain</span></div>
       </div>
 
       <div class="card card-glow">
@@ -505,9 +507,9 @@
         <div class="stat-row"><span class="label">Total NAV</span><span class="value" id="nav-value">Loading...</span></div>
         <div class="stat-row"><span class="label">24h Volume</span><span class="value" id="volume-value">Loading...</span></div>
         <div class="stat-row"><span class="label">Tokens Issued</span><span class="value">7 Classes</span></div>
-        <div class="stat-row"><span class="label">Bond Outstanding</span><span class="value" style="color:var(--gold)">$700,000</span></div>
-        <div class="stat-row"><span class="label">Coverage Ratio</span><span class="value" style="color:var(--green)">3.2x</span></div>
-        <div class="stat-row"><span class="label">Risk Score</span><span class="value" style="color:var(--green)">A+</span></div>
+        <div class="stat-row"><span class="label">Vault NAV</span><span class="value" style="color:var(--gold)">$4,111,510</span></div>
+        <div class="stat-row"><span class="label">PRR Share Price</span><span class="value" style="color:var(--gold)">$1.0022</span></div>
+        <div class="stat-row"><span class="label">Yield Strips Active</span><span class="value" style="color:var(--green)">4 (40 coupons)</span></div>
       </div>
 
       <div class="card card-glow">
@@ -641,11 +643,171 @@
     </div>
   </div>
 
+  <!-- ═══ RESERVE VAULT ═══ -->
+  <div class="section" id="section-vault">
+    <div class="section-header">
+      <h2>🏦 Unykorn Reserve Vault</h2>
+      <span class="badge badge-live">LIVE — ON-CHAIN ATTESTED</span>
+    </div>
+    <p style="color:var(--text-muted);margin-bottom:2rem;max-width:700px">The missing piece — a self-reinforcing reserve engine that transforms bonds, IOUs, and real-world assets into composable financial primitives. On-chain attestation NFTs prove reserves in real time. Yield stripping decomposes bonds into tradeable coupon streams. NFT credentials gate every allocation.</p>
+
+    <!-- Vault Headline Stats -->
+    <div class="grid-4" style="margin-bottom:2rem">
+      <div class="card card-glow" style="text-align:center">
+        <div style="font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em">Total NAV</div>
+        <div style="font-size:2rem;font-weight:900;font-family:'JetBrains Mono',monospace;color:var(--gold);margin-top:0.5rem">$4,111,510</div>
+        <div style="font-size:0.7rem;color:var(--green);margin-top:0.25rem">+$9,030.94 yield</div>
+      </div>
+      <div class="card card-glow" style="text-align:center">
+        <div style="font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em">PRR Share Price</div>
+        <div style="font-size:2rem;font-weight:900;font-family:'JetBrains Mono',monospace;margin-top:0.5rem">$1.0022</div>
+        <div style="font-size:0.7rem;color:var(--green);margin-top:0.25rem">+0.22% from genesis</div>
+      </div>
+      <div class="card card-glow" style="text-align:center">
+        <div style="font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em">Reserve Ratio</div>
+        <div style="font-size:2rem;font-weight:900;font-family:'JetBrains Mono',monospace;color:var(--green);margin-top:0.5rem">∞</div>
+        <div style="font-size:0.7rem;color:var(--text-muted);margin-top:0.25rem">Target: 125%</div>
+      </div>
+      <div class="card card-glow" style="text-align:center">
+        <div style="font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em">Attestations</div>
+        <div style="font-size:2rem;font-weight:900;font-family:'JetBrains Mono',monospace;color:var(--gold);margin-top:0.5rem">1</div>
+        <div style="font-size:0.7rem;color:var(--green);margin-top:0.25rem">XRPL + Stellar verified</div>
+      </div>
+    </div>
+
+    <!-- Vault Core Metrics -->
+    <div class="grid-3" style="margin-bottom:2rem">
+      <div class="card card-glow">
+        <div class="card-header">
+          <div><div class="card-title">📊 Vault Composition</div><div class="card-subtitle">7 active deposits across 6 asset classes</div></div>
+        </div>
+        <div class="stat-row"><span class="label">🥇 IMPERIA (Gold)</span><span class="value" style="color:var(--gold)">$1,845,000</span></div>
+        <div class="stat-row"><span class="label">💎 GEMVLT (Gemstones)</span><span class="value">$1,275,000</span></div>
+        <div class="stat-row"><span class="label">📜 SOVBND (Bonds)</span><span class="value">$626,531</span></div>
+        <div class="stat-row"><span class="label">🏗️ TERRAVL (Real Estate)</span><span class="value">$312,000</span></div>
+        <div class="stat-row"><span class="label">🪙 OPTKAS (Utility)</span><span class="value">$52,500</span></div>
+        <div class="stat-row"><span class="label">⛽ PETRO (Energy)</span><span class="value">$480</span></div>
+        <div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-glow);display:flex;justify-content:space-between;font-size:0.85rem">
+          <span style="color:var(--gold);font-weight:700">TOTAL NAV</span>
+          <span style="color:var(--gold);font-weight:800;font-family:'JetBrains Mono',monospace">$4,111,510.94</span>
+        </div>
+      </div>
+
+      <div class="card card-glow">
+        <div class="card-header">
+          <div><div class="card-title">✂️ Yield Strips</div><div class="card-subtitle">SOVBND decomposed into tradeable components</div></div>
+        </div>
+        <div style="padding:1rem;background:var(--bg-secondary);border-radius:8px;margin-bottom:1rem;border:1px solid var(--border)">
+          <div style="font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem">Principal Strip</div>
+          <div style="font-size:1.1rem;font-weight:700;font-family:'JetBrains Mono',monospace">$416,915.96</div>
+          <div style="font-size:0.7rem;color:var(--text-muted);margin-top:0.3rem">🔒 Locked until Feb 2031 · Non-transferable</div>
+        </div>
+        <div style="padding:1rem;background:linear-gradient(135deg,rgba(201,168,76,0.05),rgba(201,168,76,0.02));border-radius:8px;border:1px solid var(--border-glow)">
+          <div style="font-size:0.65rem;color:var(--gold);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem">Yield Strip (Tradeable)</div>
+          <div style="font-size:1.1rem;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--gold)">$200,584.04</div>
+          <div style="font-size:0.7rem;color:var(--gold);margin-top:0.3rem">💰 40 coupons · 6.5% annual · Next: May 7, 2026</div>
+        </div>
+        <div class="stat-row" style="margin-top:1rem"><span class="label">Coupon per Period</span><span class="value" style="color:var(--gold)">$2,256.57</span></div>
+        <div class="stat-row"><span class="label">Total Coupon Stream</span><span class="value">40 payments</span></div>
+      </div>
+
+      <div class="card card-glow">
+        <div class="card-header">
+          <div><div class="card-title">🔐 On-Chain Attestation</div><div class="card-subtitle">Cryptographic proof of reserves</div></div>
+          <span class="badge badge-live">VERIFIED</span>
+        </div>
+        <div class="stat-row"><span class="label">Attestation ID</span><span class="value" style="font-size:0.75rem">ATT-bde79d1a</span></div>
+        <div class="stat-row"><span class="label">Snapshot Hash</span><span class="value" style="font-size:0.7rem;word-break:break-all">df41807b...ce03f</span></div>
+        <div class="stat-row"><span class="label">NAV at Snapshot</span><span class="value" style="color:var(--gold)">$4,111,510</span></div>
+        <div class="stat-row"><span class="label">Share Price</span><span class="value">$1.002201</span></div>
+        <div style="margin-top:1rem;padding:0.75rem;background:var(--green-dim);border:1px solid rgba(34,197,94,0.3);border-radius:8px">
+          <div style="font-size:0.65rem;color:var(--green);font-weight:600;margin-bottom:0.3rem">✅ XRPL ATTESTATION NFT</div>
+          <div style="font-size:0.7rem;font-family:'JetBrains Mono',monospace;color:var(--text-muted);word-break:break-all">8C8922A650A8EA0ABA030245...</div>
+        </div>
+        <div style="margin-top:0.5rem;padding:0.75rem;background:var(--blue-dim);border:1px solid rgba(59,130,246,0.3);border-radius:8px">
+          <div style="font-size:0.65rem;color:var(--blue);font-weight:600;margin-bottom:0.3rem">✅ STELLAR ATTESTATION</div>
+          <div style="font-size:0.7rem;font-family:'JetBrains Mono',monospace;color:var(--text-muted);word-break:break-all">a6c224cfe275baccf00775...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NFT-Gated Allocation + Governance + Circle of Life -->
+    <div class="grid-3">
+      <div class="card card-glow">
+        <div class="card-header">
+          <div><div class="card-title">🎟️ NFT-Gated Allocation</div><div class="card-subtitle">Tiered access based on on-chain credentials</div></div>
+        </div>
+        <div style="padding:0.75rem;background:linear-gradient(135deg,rgba(201,168,76,0.08),rgba(201,168,76,0.02));border:1px solid var(--border-glow);border-radius:8px;margin-bottom:0.75rem">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div><div style="font-weight:700;font-size:0.9rem">👑 Founder</div><div style="font-size:0.65rem;color:var(--text-muted)">Priority 1</div></div>
+            <div style="text-align:right"><div style="font-size:0.7rem;color:var(--gold)">allocate · vote · redeem</div><div style="font-size:0.65rem;color:var(--green);margin-top:0.2rem">1,000 SOVBND subscribed</div></div>
+          </div>
+        </div>
+        <div style="padding:0.75rem;background:var(--blue-dim);border:1px solid rgba(59,130,246,0.3);border-radius:8px;margin-bottom:0.75rem">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div><div style="font-weight:700;font-size:0.9rem">🏛️ Institutional</div><div style="font-size:0.65rem;color:var(--text-muted)">Priority 2</div></div>
+            <div style="text-align:right"><div style="font-size:0.7rem;color:var(--blue)">subscribe · redeem</div><div style="font-size:0.65rem;color:var(--green);margin-top:0.2rem">500 SOVBND subscribed</div></div>
+          </div>
+        </div>
+        <div style="padding:0.75rem;background:var(--purple-dim);border:1px solid rgba(168,85,247,0.3);border-radius:8px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div><div style="font-weight:700;font-size:0.9rem">⚡ Genesis</div><div style="font-size:0.65rem;color:var(--text-muted)">Priority 3</div></div>
+            <div style="text-align:right"><div style="font-size:0.7rem;color:var(--purple)">observe only</div><div style="font-size:0.65rem;color:var(--text-muted);margin-top:0.2rem">Read-only access</div></div>
+          </div>
+        </div>
+        <div style="margin-top:1rem">
+          <div class="stat-row"><span class="label">Total Allocated</span><span class="value" style="color:var(--gold)">1,500 SOVBND</span></div>
+          <div class="stat-row"><span class="label">Allocation Round</span><span class="value">Complete</span></div>
+        </div>
+      </div>
+
+      <div class="card card-glow">
+        <div class="card-header">
+          <div><div class="card-title">⚖️ Vault Governance</div><div class="card-subtitle">2-of-3 multisig with timelock</div></div>
+        </div>
+        <div class="stat-row"><span class="label">Multisig Type</span><span class="value">2-of-3</span></div>
+        <div class="stat-row"><span class="label">Signer 1 — Issuer</span><span class="value" style="color:var(--green)">● Active</span></div>
+        <div class="stat-row"><span class="label">Signer 2 — Treasury</span><span class="value" style="color:var(--green)">● Active</span></div>
+        <div class="stat-row"><span class="label">Signer 3 — Escrow</span><span class="value" style="color:var(--green)">● Active</span></div>
+        <div class="stat-row"><span class="label">Timelock</span><span class="value">48 hours</span></div>
+        <div class="stat-row"><span class="label">Emergency Bypass</span><span class="value" style="color:var(--green)">Available</span></div>
+        <div class="stat-row"><span class="label">Lock Period</span><span class="value">90 days</span></div>
+        <div class="stat-row"><span class="label">Max Withdrawal</span><span class="value">10% per epoch</span></div>
+        <div class="stat-row"><span class="label">Management Fee</span><span class="value">0.5%</span></div>
+        <div class="stat-row"><span class="label">Performance Fee</span><span class="value">10%</span></div>
+      </div>
+
+      <div class="card card-glow" style="background:linear-gradient(135deg,var(--bg-card) 0%,rgba(201,168,76,0.04) 100%)">
+        <div class="card-header">
+          <div><div class="card-title">🔄 Circle of Life</div><div class="card-subtitle">Self-reinforcing sovereign reserve engine</div></div>
+          <span class="badge badge-live">ACTIVE</span>
+        </div>
+        <div style="padding:1rem 0;font-family:'JetBrains Mono',monospace;font-size:0.7rem;line-height:2;color:var(--text-muted)">
+          <div style="color:var(--gold)">Assets ──────────▶ Reserve Vault</div>
+          <div style="padding-left:2rem;color:var(--green)">▼</div>
+          <div style="color:var(--gold)">Reserve Vault ───▶ Attestation NFTs</div>
+          <div style="padding-left:2rem;color:var(--green)">▼</div>
+          <div style="color:var(--gold)">Attestation ─────▶ Bond Backing</div>
+          <div style="padding-left:2rem;color:var(--green)">▼</div>
+          <div style="color:var(--gold)">Bond Yield ──────▶ Compounding</div>
+          <div style="padding-left:2rem;color:var(--green)">▼</div>
+          <div style="color:var(--gold)">NAV Growth ──────▶ More Attestations</div>
+          <div style="padding-left:2rem;color:var(--green)">▼</div>
+          <div style="color:var(--gold)">NFTs ────────────▶ Gated Allocation</div>
+          <div style="padding-left:2rem;color:var(--green)">▼</div>
+          <div style="color:var(--gold)">Settlement ──────▶ New Deposits</div>
+          <div style="padding-left:2rem;color:var(--green)">▼</div>
+          <div style="color:var(--gold);font-weight:700">🔄 REPEAT ─────── ∞</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ═══ ARCHITECTURE ═══ -->
   <div class="section" id="section-architecture">
     <div class="section-header">
       <h2>Platform Architecture</h2>
-      <span class="badge badge-gold">22 MODULES</span>
+      <span class="badge badge-gold">23 MODULES</span>
     </div>
 
     <div class="arch-layer">
@@ -669,6 +831,7 @@
         <div class="arch-item active">@optkas/dex-amm</div>
         <div class="arch-item active">@optkas/rwa</div>
         <div class="arch-item active">@optkas/trading</div>
+        <div class="arch-item active" style="color:var(--gold);border-color:var(--border-glow);background:var(--gold-dim)">@optkas/reserve-vault ★</div>
       </div>
     </div>
     <div class="arch-layer">

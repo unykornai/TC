@@ -1,0 +1,66 @@
+{
+  "deployment": "Unykorn Reserve Vault — Phase 22",
+  "timestamp": "2026-02-07T16:35:52.726Z",
+  "vault": {
+    "id": "URV-001",
+    "name": "Unykorn Reserve Vault — Series 1",
+    "entity": "OPTKAS1-MAIN SPV",
+    "status": "active",
+    "totalNAV": "4111510.94",
+    "totalShares": "4102480.000000",
+    "sharePrice": "1.002201",
+    "reserveRatio": 999,
+    "yieldAccrued": "9030.94",
+    "totalDeposits": 7,
+    "activeStrips": 4,
+    "subscriptions": 2,
+    "attestations": 1,
+    "epoch": 0,
+    "lastAttestation": "2026-02-07T16:35:47.041Z",
+    "lastAttestationHash": "df41807bcbf4d16b...",
+    "acceptedAssets": [
+      "SOVBND",
+      "OPTKAS",
+      "IMPERIA",
+      "GEMVLT",
+      "TERRAVL",
+      "PETRO"
+    ],
+    "allocationTiers": [
+      {
+        "name": "Founder",
+        "priority": 1,
+        "rights": [
+          "allocate",
+          "vote",
+          "redeem",
+          "observe"
+        ]
+      },
+      {
+        "name": "Institutional",
+        "priority": 2,
+        "rights": [
+          "subscribe",
+          "redeem",
+          "observe"
+        ]
+      },
+      {
+        "name": "Genesis",
+        "priority": 3,
+        "rights": [
+          "observe"
+        ]
+      }
+    ]
+  },
+  "attestation": {
+    "id": "ATT-mlcjcvs1-bde79d1a",
+    "hash": "df41807bcbf4d16beef6a181b9669e62ca9861cd4942d56d34504dfdb83ce03f",
+    "xrplTx": "8C8922A650A8EA0ABA03024567535D9DA9B65AA547B57CC728B16B1338842BC2",
+    "stellarTx": "a6c224cfe275baccf00775214d40b29a4abdffe193ac36e576023aad08629d18"
+  },
+  "yieldStrips": 40,
+  "circleOfLife": "ACTIVE"
+}
