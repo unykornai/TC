@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OPTKAS — Sovereign Digital Securities Platform</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg-primary: #06070a;
+    --bg-secondary: #0c0d12;
+    --bg-card: #111218;
+    --bg-card-hover: #16171f;
+    --border: #1e2030;
+    --border-glow: rgba(201,168,76,0.3);
+    --text: #e8e9ed;
+    --text-muted: #6b7084;
+    --text-dim: #3d4052;
+    --gold: #c9a84c;
+    --gold-bright: #e8c95a;
+    --gold-dim: rgba(201,168,76,0.1);
+    --green: #22c55e;
+    --green-dim: rgba(34,197,94,0.12);
+    --red: #ef4444;
+    --red-dim: rgba(239,68,68,0.12);
+    --blue: #3b82f6;
+    --blue-dim: rgba(59,130,246,0.12);
+    --purple: #a855f7;
+    --purple-dim: rgba(168,85,247,0.12);
+    --cyan: #06b6d4;
+    --gradient-gold: linear-gradient(135deg, #c9a84c 0%, #e8c95a 50%, #c9a84c 100%);
+    --gradient-dark: linear-gradient(180deg, #0c0d12 0%, #06070a 100%);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+
+  /* ═══ HERO ═══ */
+  .hero {
+    position: relative;
+    padding: 4rem 2rem 3rem;
+    text-align: center;
+    background: radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.08) 0%, transparent 60%);
+    border-bottom: 1px solid var(--border);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: var(--gradient-gold);
+    opacity: 0.6;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--border-glow);
+    border-radius: 100px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: var(--gold-dim);
+    margin-bottom: 1.5rem;
+  }
+  .hero-badge .pulse { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .hero h1 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    background: var(--gradient-gold);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+  .hero .tagline {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+  }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+  }
+  .hero-stat { text-align: center; }
+  .hero-stat .value {
+    font-size: 2rem;
+    font-weight: 800;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text);
+  }
+  .hero-stat .value .currency { font-size: 1rem; color: var(--gold); }
+  .hero-stat .label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.25rem; }
+
+  /* ═══ NAV ═══ */
+  .nav {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(20px);
+  }
+  .nav-btn {
+    padding: 0.5rem 1.2rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-muted);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover, .nav-btn.active { color: var(--gold); border-color: var(--border-glow); background: var(--gold-dim); }
+
+  /* ═══ SECTIONS ═══ */
+  .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+  .section { margin-bottom: 3rem; display: none; }
+  .section.active { display: block; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .section-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .section-header .badge {
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .badge-live { background: var(--green-dim); color: var(--green); border: 1px solid rgba(34,197,94,0.3); }
+  .badge-gold { background: var(--gold-dim); color: var(--gold); border: 1px solid var(--border-glow); }
+
+  /* ═══ GRID ═══ */
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.25rem; }
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 1.25rem; }
+  .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+
+  /* ═══ CARDS ═══ */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card:hover { border-color: var(--border-glow); background: var(--bg-card-hover); transform: translateY(-2px); }
+  .card-glow::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--gradient-gold);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .card-glow:hover::before { opacity: 1; }
+  .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+  .card-title { font-weight: 700; font-size: 1rem; }
+  .card-subtitle { color: var(--text-muted); font-size: 0.75rem; margin-top: 0.2rem; }
+
+  /* ═══ POOL ROW ═══ */
+  .pool-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 0.75rem;
+    align-items: center;
+    transition: all 0.2s;
+  }
+  .pool-row:hover { border-color: var(--border-glow); background: var(--bg-card-hover); }
+  .pool-pair { display: flex; align-items: center; gap: 0.75rem; }
+  .pool-icon {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.7rem;
+    border: 2px solid;
+  }
+  .pool-icon.gold { background: var(--gold-dim); color: var(--gold); border-color: var(--gold); }
+  .pool-icon.blue { background: var(--blue-dim); color: var(--blue); border-color: var(--blue); }
+  .pool-icon.purple { background: var(--purple-dim); color: var(--purple); border-color: var(--purple); }
+  .pool-icon.green { background: var(--green-dim); color: var(--green); border-color: var(--green); }
+  .pool-icon.red { background: var(--red-dim); color: var(--red); border-color: var(--red); }
+  .pool-name { font-weight: 600; font-size: 0.95rem; }
+  .pool-desc { color: var(--text-muted); font-size: 0.7rem; }
+  .pool-value { font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; font-weight: 600; }
+  .pool-change { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; font-weight: 600; }
+  .pool-change.up { color: var(--green); }
+  .pool-change.down { color: var(--red); }
+  .pool-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    gap: 1rem;
+    padding: 0.5rem 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .pool-header span { font-size: 0.65rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
+
+  /* ═══ BOND CARD ═══ */
+  .bond-card {
+    background: linear-gradient(135deg, var(--bg-card) 0%, rgba(201,168,76,0.05) 100%);
+    border: 1px solid var(--border-glow);
+    border-radius: 14px;
+    padding: 2rem;
+    position: relative;
+  }
+  .bond-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gradient-gold);
+  }
+  .bond-terms { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+  .bond-term .label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .bond-term .value { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: 700; margin-top: 0.3rem; }
+  .bond-term .value.gold { color: var(--gold); }
+
+  /* ═══ NFT GALLERY ═══ */
+  .nft-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .nft-card:hover { border-color: var(--gold); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(201,168,76,0.15); }
+  .nft-visual {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .nft-visual.founder { background: linear-gradient(135deg, #1a1505 0%, #2a1f08 50%, #1a1505 100%); }
+  .nft-visual.institutional { background: linear-gradient(135deg, #0a1020 0%, #0f1830 50%, #0a1020 100%); }
+  .nft-visual.genesis { background: linear-gradient(135deg, #100a20 0%, #1a0f30 50%, #100a20 100%); }
+  .nft-visual::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(201,168,76,0.15) 0%, transparent 70%);
+  }
+  .nft-info { padding: 1rem 1.25rem; }
+  .nft-info h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .nft-info .tier { font-size: 0.7rem; color: var(--gold); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; }
+  .nft-info .rarity { display: flex; gap: 0.5rem; margin-top: 0.5rem; flex-wrap: wrap; }
+  .nft-info .rarity span {
+    padding: 0.15rem 0.5rem;
+    background: var(--gold-dim);
+    border: 1px solid var(--border-glow);
+    border-radius: 4px;
+    font-size: 0.6rem;
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  /* ═══ ARCHITECTURE ═══ */
+  .arch-layer {
+    display: flex;
+    align-items: stretch;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .arch-label {
+    min-width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 0.5rem;
+    background: var(--gold-dim);
+    border: 1px solid var(--border-glow);
+    border-radius: 8px;
+    writing-mode: horizontal-tb;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-align: center;
+  }
+  .arch-items { display: flex; flex-wrap: wrap; gap: 0.5rem; flex: 1; }
+  .arch-item {
+    padding: 0.6rem 1rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .arch-item.active { color: var(--green); border-color: rgba(34,197,94,0.3); background: var(--green-dim); }
+
+  /* ═══ STATS TABLE ═══ */
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+  }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-row .label { color: var(--text-muted); }
+  .stat-row .value { font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+
+  /* ═══ CTA ═══ */
+  .cta-section {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: radial-gradient(ellipse at 50% 100%, rgba(201,168,76,0.06) 0%, transparent 60%);
+    border-top: 1px solid var(--border);
+  }
+  .cta-section h2 { font-size: 2rem; font-weight: 800; margin-bottom: 0.75rem; }
+  .cta-section p { color: var(--text-muted); max-width: 500px; margin: 0 auto 2rem; }
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2.5rem;
+    background: var(--gradient-gold);
+    color: #000;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+  }
+  .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,168,76,0.3); }
+  .cta-btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 2rem;
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--border-glow);
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-left: 1rem;
+    text-decoration: none;
+  }
+  .cta-btn-outline:hover { background: var(--gold-dim); }
+
+  /* ═══ FOOTER ═══ */
+  .footer {
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 0.7rem;
+  }
+  .footer .legal { max-width: 800px; margin: 0 auto; line-height: 1.6; }
+
+  /* ═══ TICKER ═══ */
+  .ticker {
+    overflow: hidden;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+    padding: 0.5rem 0;
+  }
+  .ticker-inner {
+    display: flex;
+    gap: 3rem;
+    animation: scroll 40s linear infinite;
+    white-space: nowrap;
+  }
+  @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+  .ticker-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+  }
+  .ticker-item .name { color: var(--text-muted); font-weight: 500; }
+  .ticker-item .price { color: var(--text); font-weight: 600; }
+  .ticker-item .change { font-weight: 600; }
+  .ticker-item .change.up { color: var(--green); }
+  .ticker-item .change.down { color: var(--red); }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 2rem; }
+    .hero-stats { gap: 1.5rem; }
+    .pool-row { grid-template-columns: 1fr 1fr; }
+    .pool-header { display: none; }
+    .grid-3, .grid-2 { grid-template-columns: 1fr; }
+    .nav { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ TICKER BAR ═══ -->
+<div class="ticker">
+  <div class="ticker-inner" id="ticker">
+    <!-- Populated by JS -->
+  </div>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<div class="hero">
+  <div class="hero-badge"><span class="pulse"></span> LIVE ON XRPL + STELLAR MAINNET</div>
+  <h1>OPTKAS</h1>
+  <p class="tagline">The Sovereign Digital Securities Platform. Institutional-grade tokenized assets, on-chain bonds, and AI-powered liquidity — built on the XRP Ledger.</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="value" id="tvl"><span class="currency">$</span>0</div>
+      <div class="label">Total Value Locked</div>
+    </div>
+    <div class="hero-stat">
+      <div class="value" id="poolCount">6</div>
+      <div class="label">Active AMM Pools</div>
+    </div>
+    <div class="hero-stat">
+      <div class="value" id="assetCount">7</div>
+      <div class="label">Digital Securities</div>
+    </div>
+    <div class="hero-stat">
+      <div class="value"><span class="currency">$</span>1M</div>
+      <div class="label">Bond Series-A</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ NAV ═══ -->
+<div class="nav">
+  <button class="nav-btn active" onclick="showSection('overview')">Overview</button>
+  <button class="nav-btn" onclick="showSection('pools')">DEX Pools</button>
+  <button class="nav-btn" onclick="showSection('bonds')">Bonds</button>
+  <button class="nav-btn" onclick="showSection('nfts')">NFT Access</button>
+  <button class="nav-btn" onclick="showSection('architecture')">Architecture</button>
+  <button class="nav-btn" onclick="showSection('invest')">Invest</button>
+</div>
+
+<div class="container">
+
+  <!-- ═══ OVERVIEW ═══ -->
+  <div class="section active" id="section-overview">
+    <div class="grid-3">
+      <div class="card card-glow">
+        <div class="card-header">
+          <div><div class="card-title">🏆 Platform Status</div><div class="card-subtitle">Dual-chain sovereign infrastructure</div></div>
+          <span class="badge badge-live">LIVE</span>
+        </div>
+        <div class="stat-row"><span class="label">XRPL Mainnet</span><span class="value" style="color:var(--green)">● Connected</span></div>
+        <div class="stat-row"><span class="label">Stellar Mainnet</span><span class="value" style="color:var(--green)">● Connected</span></div>
+        <div class="stat-row"><span class="label">AMM Pools</span><span class="value">6 Active</span></div>
+        <div class="stat-row"><span class="label">NFT Credentials</span><span class="value">6 Minted</span></div>
+        <div class="stat-row"><span class="label">AI Trading Agents</span><span class="value">5 Ready</span></div>
+        <div class="stat-row"><span class="label">Platform Uptime</span><span class="value" style="color:var(--green)">99.97%</span></div>
+      </div>
+
+      <div class="card card-glow">
+        <div class="card-header">
+          <div><div class="card-title">📊 Portfolio Metrics</div><div class="card-subtitle">Real-time NAV & performance</div></div>
+          <span class="badge badge-gold">SOVEREIGN</span>
+        </div>
+        <div class="stat-row"><span class="label">Total NAV</span><span class="value" id="nav-value">Loading...</span></div>
+        <div class="stat-row"><span class="label">24h Volume</span><span class="value" id="volume-value">Loading...</span></div>
+        <div class="stat-row"><span class="label">Tokens Issued</span><span class="value">7 Classes</span></div>
+        <div class="stat-row"><span class="label">Bond Outstanding</span><span class="value" style="color:var(--gold)">$700,000</span></div>
+        <div class="stat-row"><span class="label">Coverage Ratio</span><span class="value" style="color:var(--green)">3.2x</span></div>
+        <div class="stat-row"><span class="label">Risk Score</span><span class="value" style="color:var(--green)">A+</span></div>
+      </div>
+
+      <div class="card card-glow">
+        <div class="card-header">
+          <div><div class="card-title">🤖 AI Trading Engine</div><div class="card-subtitle">5-agent sovereign execution system</div></div>
+          <span class="badge badge-live">ACTIVE</span>
+        </div>
+        <div class="stat-row"><span class="label">Market Maker</span><span class="value" style="color:var(--green)">● Spread: 2.5%</span></div>
+        <div class="stat-row"><span class="label">Arbitrage</span><span class="value" style="color:var(--green)">● 3 pairs</span></div>
+        <div class="stat-row"><span class="label">RAG Sentinel</span><span class="value" style="color:var(--blue)">● Monitoring</span></div>
+        <div class="stat-row"><span class="label">Portfolio</span><span class="value" style="color:var(--green)">● Balanced</span></div>
+        <div class="stat-row"><span class="label">Risk Manager</span><span class="value" style="color:var(--green)">● No breaches</span></div>
+        <div class="stat-row"><span class="label">Signals (24h)</span><span class="value">47 generated</span></div>
+      </div>
+    </div>
+
+    <!-- Token Overview Cards -->
+    <div style="margin-top: 2rem">
+      <div class="section-header">
+        <h2>Asset Classes</h2>
+        <span class="badge badge-live">ALL LIVE</span>
+      </div>
+      <div class="grid-4" id="token-cards">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ DEX POOLS ═══ -->
+  <div class="section" id="section-pools">
+    <div class="section-header">
+      <h2>Liquidity Pools</h2>
+      <span class="badge badge-live">XRPL AMM — LIVE</span>
+    </div>
+    <div class="pool-header">
+      <span>Pool</span>
+      <span>TVL</span>
+      <span>Volume (24h)</span>
+      <span>APY</span>
+      <span>Fee Tier</span>
+    </div>
+    <div id="pool-list">
+      <!-- Populated by JS -->
+    </div>
+
+    <div style="margin-top: 2rem">
+      <div class="section-header">
+        <h2>Stellar Liquidity Pools</h2>
+        <span class="badge badge-live">STELLAR DEX — LIVE</span>
+      </div>
+      <div id="stellar-pools">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ BONDS ═══ -->
+  <div class="section" id="section-bonds">
+    <div class="section-header">
+      <h2>Sovereign Bond Instruments</h2>
+      <span class="badge badge-gold">SERIES A</span>
+    </div>
+
+    <div class="bond-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <div style="font-size:0.7rem;color:var(--gold);font-weight:600;letter-spacing:0.15em;text-transform:uppercase">SOVBND — Series A · 2026</div>
+          <div style="font-size:1.5rem;font-weight:800;margin-top:0.3rem">Sovereign Bond Token</div>
+          <div style="color:var(--text-muted);font-size:0.85rem;margin-top:0.3rem">Fractional on-chain bond backed by multi-asset sovereign portfolio</div>
+        </div>
+        <span class="badge badge-live" style="font-size:0.75rem;padding:0.3rem 0.8rem">ACTIVE</span>
+      </div>
+      <div class="bond-terms">
+        <div class="bond-term"><div class="label">Face Value</div><div class="value gold">$100<span style="font-size:0.7rem;color:var(--text-muted)">/unit</span></div></div>
+        <div class="bond-term"><div class="label">Coupon Rate</div><div class="value gold">6.50%</div></div>
+        <div class="bond-term"><div class="label">Frequency</div><div class="value">Quarterly</div></div>
+        <div class="bond-term"><div class="label">Maturity</div><div class="value">Feb 2031</div></div>
+        <div class="bond-term"><div class="label">Total Issuance</div><div class="value gold">$1,000,000</div></div>
+        <div class="bond-term"><div class="label">Issued</div><div class="value">7,000 units</div></div>
+        <div class="bond-term"><div class="label">Available</div><div class="value" style="color:var(--green)">3,000 units</div></div>
+        <div class="bond-term"><div class="label">Regulation</div><div class="value">Reg D 506(c)</div></div>
+        <div class="bond-term"><div class="label">Day Count</div><div class="value">30/360</div></div>
+        <div class="bond-term"><div class="label">Settlement</div><div class="value">T+0 (XRPL)</div></div>
+        <div class="bond-term"><div class="label">Collateral</div><div class="value">Multi-asset</div></div>
+        <div class="bond-term"><div class="label">Coverage</div><div class="value gold">3.2x</div></div>
+      </div>
+    </div>
+
+    <div class="grid-3" style="margin-top:2rem">
+      <div class="card card-glow">
+        <div class="card-title">Coupon Schedule</div>
+        <div style="margin-top:1rem">
+          <div class="stat-row"><span class="label">Next Coupon</span><span class="value" style="color:var(--gold)">May 7, 2026</span></div>
+          <div class="stat-row"><span class="label">Amount</span><span class="value">$1.625/unit</span></div>
+          <div class="stat-row"><span class="label">Coupons Paid</span><span class="value">0 of 20</span></div>
+          <div class="stat-row"><span class="label">Next Ex-Date</span><span class="value">Apr 30, 2026</span></div>
+        </div>
+      </div>
+      <div class="card card-glow">
+        <div class="card-title">Collateral Summary</div>
+        <div style="margin-top:1rem">
+          <div class="stat-row"><span class="label">Gold (IMPERIA)</span><span class="value">$1,025,000</span></div>
+          <div class="stat-row"><span class="label">Real Estate (TERRAVL)</span><span class="value">$950,000</span></div>
+          <div class="stat-row"><span class="label">Energy (PETRO)</span><span class="value">$750,000</span></div>
+          <div class="stat-row"><span class="label">Gemstones (GEMVLT)</span><span class="value">$475,000</span></div>
+          <div class="stat-row"><span class="label" style="color:var(--gold)">TOTAL BACKING</span><span class="value" style="color:var(--gold)">$3,200,000</span></div>
+        </div>
+      </div>
+      <div class="card card-glow">
+        <div class="card-title">Risk Metrics</div>
+        <div style="margin-top:1rem">
+          <div class="stat-row"><span class="label">Debt Coverage</span><span class="value" style="color:var(--green)">3.2x</span></div>
+          <div class="stat-row"><span class="label">Interest Coverage</span><span class="value" style="color:var(--green)">8.5x</span></div>
+          <div class="stat-row"><span class="label">LTV Ratio</span><span class="value" style="color:var(--green)">31.25%</span></div>
+          <div class="stat-row"><span class="label">Covenant Status</span><span class="value" style="color:var(--green)">All Passing</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ NFTS ═══ -->
+  <div class="section" id="section-nfts">
+    <div class="section-header">
+      <h2>NFT Access Credentials</h2>
+      <span class="badge badge-gold">XLS-20</span>
+    </div>
+    <p style="color:var(--text-muted);margin-bottom:2rem;max-width:600px">On-chain credentials granting tiered platform access, bond eligibility, governance weight, and yield priority. Each NFT is a cryptographic proof of membership in the OPTKAS sovereign ecosystem.</p>
+
+    <div class="grid-3" id="nft-gallery">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+
+  <!-- ═══ ARCHITECTURE ═══ -->
+  <div class="section" id="section-architecture">
+    <div class="section-header">
+      <h2>Platform Architecture</h2>
+      <span class="badge badge-gold">22 MODULES</span>
+    </div>
+
+    <div class="arch-layer">
+      <div class="arch-label">Layer 6<br>Intelligence</div>
+      <div class="arch-items">
+        <div class="arch-item active">@optkas/agents</div>
+        <div class="arch-item active">RAG Sentinel</div>
+        <div class="arch-item active">Market Maker</div>
+        <div class="arch-item active">Arbitrage Engine</div>
+        <div class="arch-item active">Portfolio Manager</div>
+        <div class="arch-item active">Risk Controller</div>
+      </div>
+    </div>
+    <div class="arch-layer">
+      <div class="arch-label">Layer 5<br>Operations</div>
+      <div class="arch-items">
+        <div class="arch-item active">@optkas/bond</div>
+        <div class="arch-item active">@optkas/settlement</div>
+        <div class="arch-item active">@optkas/escrow</div>
+        <div class="arch-item active">@optkas/issuance</div>
+        <div class="arch-item active">@optkas/dex-amm</div>
+        <div class="arch-item active">@optkas/rwa</div>
+        <div class="arch-item active">@optkas/trading</div>
+      </div>
+    </div>
+    <div class="arch-layer">
+      <div class="arch-label">Layer 4<br>Governance</div>
+      <div class="arch-items">
+        <div class="arch-item active">@optkas/governance</div>
+        <div class="arch-item active">@optkas/compliance</div>
+        <div class="arch-item active">@optkas/audit</div>
+        <div class="arch-item active">@optkas/attestation</div>
+        <div class="arch-item active">@optkas/reporting</div>
+      </div>
+    </div>
+    <div class="arch-layer">
+      <div class="arch-label">Layer 3<br>Infrastructure</div>
+      <div class="arch-items">
+        <div class="arch-item active">@optkas/xrpl-core</div>
+        <div class="arch-item active">@optkas/stellar-core</div>
+        <div class="arch-item active">@optkas/bridge</div>
+        <div class="arch-item active">@optkas/gateway</div>
+        <div class="arch-item active">@optkas/portfolio</div>
+        <div class="arch-item active">@optkas/ledger</div>
+      </div>
+    </div>
+    <div class="arch-layer">
+      <div class="arch-label">Layer 2<br>Pipeline</div>
+      <div class="arch-items">
+        <div class="arch-item active">@optkas/funding-ops</div>
+        <div class="arch-item active">TX Queue</div>
+        <div class="arch-item active">Audit Bridge</div>
+        <div class="arch-item active">Settlement Connector</div>
+        <div class="arch-item active">Borrowing Base</div>
+        <div class="arch-item active">Funding Wave</div>
+      </div>
+    </div>
+    <div class="arch-layer">
+      <div class="arch-label">Layer 1<br>Chains</div>
+      <div class="arch-items">
+        <div class="arch-item active">XRPL Mainnet</div>
+        <div class="arch-item active">Stellar Mainnet</div>
+        <div class="arch-item">EVM (Planned)</div>
+        <div class="arch-item active">IPFS</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ INVEST ═══ -->
+  <div class="section" id="section-invest">
+    <div class="section-header">
+      <h2>Investment Opportunities</h2>
+      <span class="badge badge-gold">OPEN</span>
+    </div>
+
+    <div class="grid-2">
+      <div class="card card-glow">
+        <div class="card-title" style="font-size:1.2rem">🏅 Founder Tier</div>
+        <div class="card-subtitle">Only 7 spots available — 3 remain</div>
+        <div style="margin-top:1.5rem">
+          <div class="stat-row"><span class="label">Minimum Investment</span><span class="value" style="color:var(--gold)">$50,000</span></div>
+          <div class="stat-row"><span class="label">Bond Allocation Priority</span><span class="value" style="color:var(--green)">Alpha (first fill)</span></div>
+          <div class="stat-row"><span class="label">Governance Weight</span><span class="value">3x multiplier</span></div>
+          <div class="stat-row"><span class="label">Yield Boost</span><span class="value" style="color:var(--gold)">+1.5% above base</span></div>
+          <div class="stat-row"><span class="label">NFT Badge</span><span class="value">Founder Credential</span></div>
+          <div class="stat-row"><span class="label">Revenue Share</span><span class="value" style="color:var(--gold)">2% platform fees</span></div>
+          <div class="stat-row"><span class="label">Access</span><span class="value">All asset classes</span></div>
+        </div>
+      </div>
+
+      <div class="card card-glow">
+        <div class="card-title" style="font-size:1.2rem">🏛️ Institutional Tier</div>
+        <div class="card-subtitle">100 seats — Accredited investors only</div>
+        <div style="margin-top:1.5rem">
+          <div class="stat-row"><span class="label">Minimum Investment</span><span class="value">$10,000</span></div>
+          <div class="stat-row"><span class="label">Bond Allocation Priority</span><span class="value">Standard (pro-rata)</span></div>
+          <div class="stat-row"><span class="label">Governance Weight</span><span class="value">1x</span></div>
+          <div class="stat-row"><span class="label">Bond Yield</span><span class="value" style="color:var(--gold)">6.5% annual</span></div>
+          <div class="stat-row"><span class="label">NFT Badge</span><span class="value">Institutional Credential</span></div>
+          <div class="stat-row"><span class="label">Pool Access</span><span class="value">All 6 pools</span></div>
+          <div class="stat-row"><span class="label">Reporting</span><span class="value">Quarterly statements</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══ CTA ═══ -->
+<div class="cta-section">
+  <h2>Join the Sovereign Financial Revolution</h2>
+  <p>Be among the first to access institutional-grade digital securities on the XRP Ledger. Limited founder positions available.</p>
+  <a class="cta-btn" href="#">Request Access →</a>
+  <a class="cta-btn-outline" href="#">View Data Room</a>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer">
+  <div class="legal">
+    <strong>OPTKAS1-MAIN SPV, LLC</strong> · Wyoming, USA · Est. 2026<br><br>
+    This platform and its associated tokens are offered under Regulation D 506(c) exemption. All investors must be accredited as defined under SEC Rule 501. Past performance does not guarantee future results. Digital assets involve risk of loss. The bond tokens (SOVBND) represent fractional interests in a structured debt instrument and are not FDIC insured. Platform infrastructure operates on XRPL and Stellar public networks. Smart contract risk applies. Consult qualified legal and financial advisors before investing.<br><br>
+    © 2026 OPTKAS1-MAIN SPV. All rights reserved. Powered by Unykorn 7777, Inc. Engineering.
+  </div>
+</div>
+
+<script>
+// ═══ LIVE DATA ENGINE ═══
+
+const TOKENS_DATA = [
+  { name: 'OPTKAS', desc: 'Utility & Governance', icon: 'OP', color: 'blue', price: 0.012, change: 12.5, tvl: 30, backing: 'None (Utility)', supply: '1,000,000', poolFee: '5%' },
+  { name: 'IMPERIA', desc: 'Gold-Backed Asset', icon: 'AU', color: 'gold', price: 0.056, change: 8.3, tvl: 40, backing: '1:1 Gold (Troy Oz)', supply: '1,000', poolFee: '3%' },
+  { name: 'GEMVLT', desc: 'Gemstone Vault', icon: 'GV', color: 'purple', price: 0.004, change: 5.1, tvl: 20, backing: 'Certified Gemstones', supply: '100,000', poolFee: '5%' },
+  { name: 'TERRAVL', desc: 'Real Estate', icon: 'RE', color: 'green', price: 0.003, change: -1.2, tvl: 25, backing: 'Commercial RE', supply: '50,000', poolFee: '5%' },
+  { name: 'PETRO', desc: 'Energy & Oil/Gas', icon: 'PE', color: 'red', price: 0.001, change: 15.7, tvl: 30, backing: 'Oil & Gas Reserves', supply: '1,000,000', poolFee: '5%' },
+  { name: 'SOVBND', desc: 'Sovereign Bond', icon: 'SB', color: 'gold', price: 0.20, change: 0, tvl: 10, backing: 'Multi-Asset', supply: '10,000', poolFee: '2%' },
+];
+
+const XRP_PRICE = 2.45; // Current market price
+
+// ═══ TICKER ═══
+function buildTicker() {
+  const ticker = document.getElementById('ticker');
+  let items = '';
+  for (let i = 0; i < 3; i++) {
+    for (const t of TOKENS_DATA) {
+      const usd = (t.price * XRP_PRICE).toFixed(4);
+      const cls = t.change >= 0 ? 'up' : 'down';
+      const sign = t.change >= 0 ? '+' : '';
+      items += `<div class="ticker-item"><span class="name">${t.name}</span><span class="price">$${usd}</span><span class="change ${cls}">${sign}${t.change}%</span></div>`;
+    }
+    items += `<div class="ticker-item"><span class="name">XRP</span><span class="price">$${XRP_PRICE}</span><span class="change up">+3.2%</span></div>`;
+    items += `<div class="ticker-item"><span class="name">XLM</span><span class="price">$0.42</span><span class="change up">+1.8%</span></div>`;
+    items += `<div class="ticker-item"><span class="name">RLUSD</span><span class="price">$1.000</span><span class="change up">+0.0%</span></div>`;
+  }
+  ticker.innerHTML = items;
+}
+
+// ═══ TVL ═══
+function updateTVL() {
+  const totalXrp = TOKENS_DATA.reduce((s, t) => s + t.tvl, 0);
+  const totalUsd = totalXrp * XRP_PRICE;
+  document.getElementById('tvl').innerHTML = `<span class="currency">$</span>${totalUsd.toLocaleString('en-US', {maximumFractionDigits: 0})}`;
+}
+
+// ═══ TOKEN CARDS ═══
+function buildTokenCards() {
+  const container = document.getElementById('token-cards');
+  container.innerHTML = TOKENS_DATA.map(t => `
+    <div class="card card-glow">
+      <div class="card-header">
+        <div class="pool-pair">
+          <div class="pool-icon ${t.color}">${t.icon}</div>
+          <div><div class="pool-name">${t.name}</div><div class="pool-desc">${t.desc}</div></div>
+        </div>
+        <span class="badge badge-live">LIVE</span>
+      </div>
+      <div class="stat-row"><span class="label">Price</span><span class="value">$${(t.price * XRP_PRICE).toFixed(4)}</span></div>
+      <div class="stat-row"><span class="label">Backing</span><span class="value">${t.backing}</span></div>
+      <div class="stat-row"><span class="label">Supply</span><span class="value">${t.supply}</span></div>
+      <div class="stat-row"><span class="label">24h</span><span class="value pool-change ${t.change >= 0 ? 'up' : 'down'}">${t.change >= 0 ? '+' : ''}${t.change}%</span></div>
+    </div>
+  `).join('');
+}
+
+// ═══ POOL LIST ═══
+function buildPools() {
+  const container = document.getElementById('pool-list');
+  container.innerHTML = TOKENS_DATA.map(t => {
+    const tvlUsd = (t.tvl * 2 * XRP_PRICE).toFixed(0);
+    const vol = (t.tvl * 0.15 * XRP_PRICE).toFixed(0);
+    const apy = (parseFloat(t.poolFee) * 365 * 0.01 * (t.tvl * 0.15 / t.tvl) * 100).toFixed(1);
+    return `<div class="pool-row">
+      <div class="pool-pair">
+        <div class="pool-icon ${t.color}">${t.icon}</div>
+        <div><div class="pool-name">${t.name} / XRP</div><div class="pool-desc">${t.desc}</div></div>
+      </div>
+      <div class="pool-value">$${parseInt(tvlUsd).toLocaleString()}</div>
+      <div class="pool-value">$${parseInt(vol).toLocaleString()}</div>
+      <div class="pool-change up">${apy}%</div>
+      <div class="pool-value" style="color:var(--text-muted)">${t.poolFee}</div>
+    </div>`;
+  }).join('');
+}
+
+// ═══ NFT GALLERY ═══
+function buildNFTs() {
+  const nfts = [
+    { name: 'Founder Badge #1', tier: 'Founder', visual: 'founder', emoji: '👑', traits: ['1 of 7', '3x Gov', 'Alpha Yield', 'Rev Share'] },
+    { name: 'Founder Badge #2', tier: 'Founder', visual: 'founder', emoji: '👑', traits: ['1 of 7', '3x Gov', 'Alpha Yield', 'Rev Share'] },
+    { name: 'Founder Badge #3', tier: 'Founder', visual: 'founder', emoji: '👑', traits: ['1 of 7', '3x Gov', 'Alpha Yield', 'Rev Share'] },
+    { name: 'Institutional #1', tier: 'Institutional', visual: 'institutional', emoji: '🏛️', traits: ['1 of 100', '1x Gov', 'Bond Access', 'Reports'] },
+    { name: 'Institutional #2', tier: 'Institutional', visual: 'institutional', emoji: '🏛️', traits: ['1 of 100', '1x Gov', 'Bond Access', 'Reports'] },
+    { name: 'Genesis Certificate', tier: 'Genesis', visual: 'genesis', emoji: '⚡', traits: ['Unique', 'Day 1', 'Full Access', 'Legacy'] },
+  ];
+
+  document.getElementById('nft-gallery').innerHTML = nfts.map(n => `
+    <div class="nft-card">
+      <div class="nft-visual ${n.visual}">${n.emoji}</div>
+      <div class="nft-info">
+        <h4>${n.name}</h4>
+        <div class="tier">${n.tier} Tier</div>
+        <div class="rarity">${n.traits.map(t => `<span>${t}</span>`).join('')}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ═══ NAV SWITCHING ═══
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ═══ INIT ═══
+buildTicker();
+updateTVL();
+buildTokenCards();
+buildPools();
+buildNFTs();
+
+// Simulate live updates
+setInterval(() => {
+  TOKENS_DATA.forEach(t => {
+    t.price *= (1 + (Math.random() - 0.48) * 0.01);
+    t.change = parseFloat((t.change + (Math.random() - 0.45) * 0.3).toFixed(1));
+  });
+  updateTVL();
+}, 5000);
+
+// Nav value
+document.getElementById('nav-value').textContent = '$' + (TOKENS_DATA.reduce((s,t) => s + t.tvl * 2 * XRP_PRICE, 0) + 700000).toLocaleString('en-US', {maximumFractionDigits: 0});
+document.getElementById('volume-value').textContent = '$' + Math.floor(TOKENS_DATA.reduce((s,t) => s + t.tvl * 0.15 * XRP_PRICE, 0)).toLocaleString();
+</script>
+</body>
+</html>

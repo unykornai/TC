@@ -1,0 +1,251 @@
+{
+  "timestamp": "2026-02-07T14:05:34.135Z",
+  "network": "mainnet",
+  "dryRun": false,
+  "xrpl": {
+    "accountsChecked": [
+      {
+        "role": "issuer",
+        "address": "rpraqLjKmDB9a43F9fURWA2bVaywkyJua3",
+        "funded": true,
+        "balance": 25.000001
+      },
+      {
+        "role": "treasury",
+        "address": "r3JfTyqU9jwnXh2aWCwr738fb9HygNmBys",
+        "funded": true,
+        "balance": 30.000001
+      },
+      {
+        "role": "escrow",
+        "address": "rBC9g8YVU6HZouStFcdE5a8kmsob8napKD",
+        "funded": true,
+        "balance": 25.000001
+      },
+      {
+        "role": "attestation",
+        "address": "rEUxqL1Rmzciu31Sq7ocx6KZyt6htqjjBv",
+        "funded": true,
+        "balance": 20.000001
+      },
+      {
+        "role": "amm_liquidity",
+        "address": "raCevnYFkqAvkDAoeQ7uttf9okSaWxXFuP",
+        "funded": true,
+        "balance": 25.000001
+      },
+      {
+        "role": "trading",
+        "address": "rBAAd5z7e4Yvy4QzZ37WjmbZj1dnzJaTfY",
+        "funded": true,
+        "balance": 25.000001
+      }
+    ],
+    "issuerSettingsTx": "PENDING_MANUAL",
+    "trustlinesDeployed": [
+      {
+        "from": "rpraqLjKmDB9a43F9fURWA2bVaywkyJua3",
+        "currency": "USD",
+        "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "status": "PENDING_MANUAL"
+      },
+      {
+        "from": "r3JfTyqU9jwnXh2aWCwr738fb9HygNmBys",
+        "currency": "USD",
+        "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "status": "PENDING_MANUAL"
+      },
+      {
+        "from": "rBC9g8YVU6HZouStFcdE5a8kmsob8napKD",
+        "currency": "USD",
+        "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "status": "PENDING_MANUAL"
+      },
+      {
+        "from": "raCevnYFkqAvkDAoeQ7uttf9okSaWxXFuP",
+        "currency": "USD",
+        "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "status": "PENDING_MANUAL"
+      },
+      {
+        "from": "rBAAd5z7e4Yvy4QzZ37WjmbZj1dnzJaTfY",
+        "currency": "USD",
+        "issuer": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+        "status": "PENDING_MANUAL"
+      },
+      {
+        "from": "rpraqLjKmDB9a43F9fURWA2bVaywkyJua3",
+        "currency": "USD",
+        "issuer": "rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq",
+        "status": "PENDING_MANUAL"
+      },
+      {
+        "from": "r3JfTyqU9jwnXh2aWCwr738fb9HygNmBys",
+        "currency": "USD",
+        "issuer": "rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq",
+        "status": "PENDING_MANUAL"
+      },
+      {
+        "from": "rBC9g8YVU6HZouStFcdE5a8kmsob8napKD",
+        "currency": "USD",
+        "issuer": "rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq",
+        "status": "PENDING_MANUAL"
+      },
+      {
+        "from": "raCevnYFkqAvkDAoeQ7uttf9okSaWxXFuP",
+        "currency": "USD",
+        "issuer": "rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq",
+        "status": "PENDING_MANUAL"
+      },
+      {
+        "from": "rBAAd5z7e4Yvy4QzZ37WjmbZj1dnzJaTfY",
+        "currency": "USD",
+        "issuer": "rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq",
+        "status": "PENDING_MANUAL"
+      },
+      {
+        "from": "rpraqLjKmDB9a43F9fURWA2bVaywkyJua3",
+        "currency": "USD",
+        "issuer": "rE85pdvr4icCPh9cpPr1HrSCVJCUhZ1Dqm",
+        "status": "PENDING_MANUAL"
+      },
+      {
+        "from": "r3JfTyqU9jwnXh2aWCwr738fb9HygNmBys",
+        "currency": "USD",
+        "issuer": "rE85pdvr4icCPh9cpPr1HrSCVJCUhZ1Dqm",
+        "status": "PENDING_MANUAL"
+      },
+      {
+        "from": "rBC9g8YVU6HZouStFcdE5a8kmsob8napKD",
+        "currency": "USD",
+        "issuer": "rE85pdvr4icCPh9cpPr1HrSCVJCUhZ1Dqm",
+        "status": "PENDING_MANUAL"
+      },
+      {
+        "from": "raCevnYFkqAvkDAoeQ7uttf9okSaWxXFuP",
+        "currency": "USD",
+        "issuer": "rE85pdvr4icCPh9cpPr1HrSCVJCUhZ1Dqm",
+        "status": "PENDING_MANUAL"
+      },
+      {
+        "from": "rBAAd5z7e4Yvy4QzZ37WjmbZj1dnzJaTfY",
+        "currency": "USD",
+        "issuer": "rE85pdvr4icCPh9cpPr1HrSCVJCUhZ1Dqm",
+        "status": "PENDING_MANUAL"
+      },
+      {
+        "from": "rpraqLjKmDB9a43F9fURWA2bVaywkyJua3",
+        "currency": "USD",
+        "issuer": "rcvxE9PS9YBwxtGg1qNeewV6ZB3wGubZq",
+        "status": "PENDING_MANUAL"
+      },
+      {
+        "from": "r3JfTyqU9jwnXh2aWCwr738fb9HygNmBys",
+        "currency": "USD",
+        "issuer": "rcvxE9PS9YBwxtGg1qNeewV6ZB3wGubZq",
+        "status": "PENDING_MANUAL"
+      },
+      {
+        "from": "rBC9g8YVU6HZouStFcdE5a8kmsob8napKD",
+        "currency": "USD",
+        "issuer": "rcvxE9PS9YBwxtGg1qNeewV6ZB3wGubZq",
+        "status": "PENDING_MANUAL"
+      },
+      {
+        "from": "raCevnYFkqAvkDAoeQ7uttf9okSaWxXFuP",
+        "currency": "USD",
+        "issuer": "rcvxE9PS9YBwxtGg1qNeewV6ZB3wGubZq",
+        "status": "PENDING_MANUAL"
+      },
+      {
+        "from": "rBAAd5z7e4Yvy4QzZ37WjmbZj1dnzJaTfY",
+        "currency": "USD",
+        "issuer": "rcvxE9PS9YBwxtGg1qNeewV6ZB3wGubZq",
+        "status": "PENDING_MANUAL"
+      },
+      {
+        "from": "r3JfTyqU9jwnXh2aWCwr738fb9HygNmBys",
+        "currency": "OPTKAS.BOND",
+        "issuer": "rpraqLjKmDB9a43F9fURWA2bVaywkyJua3",
+        "status": "PENDING_MANUAL"
+      },
+      {
+        "from": "rBC9g8YVU6HZouStFcdE5a8kmsob8napKD",
+        "currency": "OPTKAS.BOND",
+        "issuer": "rpraqLjKmDB9a43F9fURWA2bVaywkyJua3",
+        "status": "PENDING_MANUAL"
+      },
+      {
+        "from": "raCevnYFkqAvkDAoeQ7uttf9okSaWxXFuP",
+        "currency": "OPTKAS.BOND",
+        "issuer": "rpraqLjKmDB9a43F9fURWA2bVaywkyJua3",
+        "status": "PENDING_MANUAL"
+      },
+      {
+        "from": "r3JfTyqU9jwnXh2aWCwr738fb9HygNmBys",
+        "currency": "OPTKAS.ESCROW",
+        "issuer": "rpraqLjKmDB9a43F9fURWA2bVaywkyJua3",
+        "status": "PENDING_MANUAL"
+      },
+      {
+        "from": "rBC9g8YVU6HZouStFcdE5a8kmsob8napKD",
+        "currency": "OPTKAS.ESCROW",
+        "issuer": "rpraqLjKmDB9a43F9fURWA2bVaywkyJua3",
+        "status": "PENDING_MANUAL"
+      },
+      {
+        "from": "rEUxqL1Rmzciu31Sq7ocx6KZyt6htqjjBv",
+        "currency": "OPTKAS.ATTEST",
+        "issuer": "rpraqLjKmDB9a43F9fURWA2bVaywkyJua3",
+        "status": "PENDING_MANUAL"
+      }
+    ]
+  },
+  "stellar": {
+    "accountsChecked": [
+      {
+        "role": "issuer",
+        "address": "GBJIMHMBGTPN5RS42OGBUY5NC2ATZLPT3B3EWV32SM2GQLS46TRJWG4I",
+        "funded": true,
+        "balance": 50
+      },
+      {
+        "role": "distribution",
+        "address": "GAKCD7OKDM4HLZDBEE7KXTRFAYIE755UHL3JFQEOOHDPIMM5GEFY3RPF",
+        "funded": true,
+        "balance": 26
+      },
+      {
+        "role": "anchor",
+        "address": "GC6O6Q7FG5FZGHE5D5BHGA6ZTLRAU7UWFJKKWNOJ36G3PKVVKVYLQGA6",
+        "funded": true,
+        "balance": 26
+      }
+    ],
+    "issuerFlagsTx": "PENDING_MANUAL",
+    "trustlinesDeployed": [
+      {
+        "from": "GAKCD7OKDM4HLZDBEE7KXTRFAYIE755UHL3JFQEOOHDPIMM5GEFY3RPF",
+        "asset": "OPTKAS-USD",
+        "status": "PENDING_MANUAL"
+      },
+      {
+        "from": "GC6O6Q7FG5FZGHE5D5BHGA6ZTLRAU7UWFJKKWNOJ36G3PKVVKVYLQGA6",
+        "asset": "OPTKAS-USD",
+        "status": "PENDING_MANUAL"
+      }
+    ],
+    "authorizations": [
+      {
+        "account": "GAKCD7OKDM4HLZDBEE7KXTRFAYIE755UHL3JFQEOOHDPIMM5GEFY3RPF",
+        "asset": "OPTKAS-USD",
+        "status": "PENDING_MANUAL"
+      },
+      {
+        "account": "GC6O6Q7FG5FZGHE5D5BHGA6ZTLRAU7UWFJKKWNOJ36G3PKVVKVYLQGA6",
+        "asset": "OPTKAS-USD",
+        "status": "PENDING_MANUAL"
+      }
+    ]
+  }
+}
