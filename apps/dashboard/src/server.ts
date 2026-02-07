@@ -25,6 +25,7 @@ import { ReportingEngine } from '../../../packages/reporting/src';
 import { AuditEventStore, ReportGenerator } from '../../../packages/audit/src';
 import { XRPLClient } from '../../../packages/xrpl-core/src';
 import { StellarClient } from '../../../packages/stellar-core/src';
+import { TransactionQueue, type TxQueueSummary } from '../../../packages/funding-ops/src/tx-queue';
 
 const PORT = parseInt(process.env.PORT || '3000', 10);
 const CONFIG_PATH = process.env.CONFIG_PATH || path.join(__dirname, '..', '..', '..', 'config', 'platform-config.yaml');
@@ -36,6 +37,7 @@ const bondFactory = new BondFactory();
 const reporting = new ReportingEngine();
 const auditStore = new AuditEventStore();
 const auditReporter = new ReportGenerator(auditStore);
+const txQueue = new TransactionQueue({ autoExpire: true });
 
 // ── Live ledger clients ────────────────────────────────────────
 const xrplClient = new XRPLClient({ network: 'testnet' });
@@ -80,6 +82,13 @@ interface DashboardState {
   reporting: {
     engineStatus: string;
   };
+  fundingPipeline: {
+    status: string;
+    phasesConfigured: number;
+    activatorsReady: boolean;
+    reportGeneratorReady: boolean;
+  };
+  txQueue: TxQueueSummary;
 }
 
 function loadConfig(): any {
@@ -147,6 +156,13 @@ export async function buildState(): Promise<DashboardState> {
     reporting: {
       engineStatus: 'active',
     },
+    fundingPipeline: {
+      status: 'configured',
+      phasesConfigured: 7,
+      activatorsReady: true,
+      reportGeneratorReady: true,
+    },
+    txQueue: txQueue.getSummary(),
   };
 
   // ── XRPL live balance queries ──────────────────────────────────
@@ -419,6 +435,29 @@ export function generateDashboardHTML(state: DashboardState): string {
       <h2>Reporting Engine</h2>
       <div class="stat"><span class="label">Engine Status</span><span class="value"><span class="status-dot status-green"></span>\${state.reporting.engineStatus}</span></div>
       <div class="stat"><span class="label">Available Reports</span><span class="value">investor_statement, trustee_report, reconciliation, nav_snapshot, lifecycle_report</span></div>
+    </div>
+
+    <!-- Funding Pipeline -->
+    <div class="card">
+      <h2>Funding Pipeline</h2>
+      <div class="stat"><span class="label">Pipeline Status</span><span class="value"><span class="status-dot status-green"></span>\${state.fundingPipeline.status}</span></div>
+      <div class="stat"><span class="label">Phases Configured</span><span class="value">\${state.fundingPipeline.phasesConfigured}</span></div>
+      <div class="stat"><span class="label">XRPL Activator</span><span class="value">\${state.fundingPipeline.activatorsReady ? 'Ready' : 'Not Ready'}</span></div>
+      <div class="stat"><span class="label">Stellar Activator</span><span class="value">\${state.fundingPipeline.activatorsReady ? 'Ready' : 'Not Ready'}</span></div>
+      <div class="stat"><span class="label">Report Generator</span><span class="value">\${state.fundingPipeline.reportGeneratorReady ? 'Ready' : 'Not Ready'}</span></div>
+    </div>
+
+    <!-- Transaction Queue -->
+    <div class="card">
+      <h2>Transaction Queue</h2>
+      <div class="stat"><span class="label">Total Transactions</span><span class="value">\${state.txQueue.total}</span></div>
+      <div class="stat"><span class="label">Pending Signature</span><span class="value">\${state.txQueue.pendingSignature}</span></div>
+      <div class="stat"><span class="label">Partially Signed</span><span class="value">\${state.txQueue.partiallySigned}</span></div>
+      <div class="stat"><span class="label">Ready to Submit</span><span class="value">\${state.txQueue.readyToSubmit}</span></div>
+      <div class="stat"><span class="label">Submitted</span><span class="value">\${state.txQueue.submitted}</span></div>
+      <div class="stat"><span class="label">Confirmed</span><span class="value">\${state.txQueue.confirmed}</span></div>
+      <div class="stat"><span class="label">XRPL Transactions</span><span class="value">\${state.txQueue.byLedger.xrpl}</span></div>
+      <div class="stat"><span class="label">Stellar Transactions</span><span class="value">\${state.txQueue.byLedger.stellar}</span></div>
     </div>  </div>
 
   <div class="footer">

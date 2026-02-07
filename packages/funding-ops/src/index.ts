@@ -39,3 +39,14 @@ export {
   type FundingReport,
   type ReportSection,
 } from './report-generator';
+
+export {
+  TransactionQueue,
+  type QueuedTransaction,
+  type TransactionSignature,
+  type TxQueueConfig,
+  type TxQueueSummary,
+  type TxQueueAuditEntry,
+  type TxStatus,
+  type TxLedger,
+} from './tx-queue';
