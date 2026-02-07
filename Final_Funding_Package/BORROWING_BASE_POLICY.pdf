@@ -1,0 +1,57 @@
+BORROWING BASE POLICY
+OPTKAS1-MAIN SPV
+
+Effective Date: February 7, 2026
+Version: 1.0
+Status: FINAL
+
+SECTION 1 — PURPOSE
+
+This policy establishes the methodology for calculating the Borrowing Base under 
+the proposed credit facility secured by TC Advantage 5% Secured Medium Term Notes 
+(CUSIP 87225HAB4).
+
+SECTION 2 — ELIGIBLE COLLATERAL
+
+Category A — Investment Grade Fixed Income
+  Advance Rate: 40%
+  Haircut: 60%
+  Minimum Rating: Investment grade or equivalent
+  Maximum Concentration: 100% (single-asset facility)
+
+SECTION 3 — VALUATION METHODOLOGY
+
+Collateral is valued at the lower of:
+  (a) Face value
+  (b) Most recent market value (if traded)
+  (c) Independent third-party valuation
+
+Valuation is updated monthly or upon material event.
+
+SECTION 4 — BORROWING BASE CALCULATION
+
+  Total Face Value:          $10,000,000
+  Advance Rate:              40%
+  Eligible Borrowing Base:   $4,000,000
+  Facility Limit:            $4,000,000
+  Current Outstanding:       $0
+  Available Capacity:        $4,000,000
+
+SECTION 5 — COVENANT SCHEDULE
+
+  Minimum Collateral Coverage:  2.00x
+  Maximum Utilization:          95%
+  Interest Coverage Ratio:      1.25x minimum
+  Collateral Verification:      100% verified
+
+SECTION 6 — REPORTING
+
+Monthly: Borrowing Base Certificate (automated generation)
+Quarterly: Full collateral verification with STC confirmation
+Annual: Independent valuation review
+
+SECTION 7 — CURE PERIODS
+
+Coverage ratio breach: 10 business days
+Utilization breach: 5 business days
+Reporting failure: 30 calendar days

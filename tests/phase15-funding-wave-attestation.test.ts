@@ -27,6 +27,8 @@ import {
   FundingWaveAttestation,
   FUNDING_WAVE_DOCUMENTS,
   LENDER_DATA_ROOM_STRUCTURE,
+  MEMO_SCHEMA_ID,
+  DATA_ROOM_STRUCTURE_VERSION,
 } from '../packages/funding-ops/src/funding-wave-attestation';
 
 import type {
@@ -415,10 +417,20 @@ describe('Phase 15 — Funding Wave Attestation', () => {
       expect(memo.waveId).toBe(wave.getWaveId());
     });
 
-    test('memo contains spv and attestedBy', () => {
+    test('memo contains spv', () => {
       const memo = wave.buildXrplMemo();
       expect(memo.spv).toBe('TEST SPV');
-      expect(memo.attestedBy).toBe('TEST PLATFORM');
+    });
+
+    test('memo contains schema identifier', () => {
+      const memo = wave.buildXrplMemo();
+      expect(memo.schema).toBe(MEMO_SCHEMA_ID);
+      expect(memo.schema).toBe('optkas.funding_wave.attestation.v1');
+    });
+
+    test('memo contains network', () => {
+      const memo = wave.buildXrplMemo();
+      expect(memo.network).toBe('xrpl-mainnet');
     });
 
     test('memo contains rootHash', () => {
@@ -426,19 +438,37 @@ describe('Phase 15 — Funding Wave Attestation', () => {
       expect(memo.rootHash).toBe(wave.getRootHash());
     });
 
-    test('memo contains correct documentCount', () => {
-      const memo = wave.buildXrplMemo();
-      expect(memo.documentCount).toBe(2);
-    });
-
-    test('memo documents array has name, sha256, version per doc', () => {
+    test('memo documents array has name and sha256 per doc', () => {
       const memo = wave.buildXrplMemo();
       expect(memo.documents).toHaveLength(2);
       for (const doc of memo.documents) {
         expect(doc.name).toBeTruthy();
         expect(doc.sha256).toHaveLength(64);
-        expect(doc.version).toBeTruthy();
       }
+    });
+
+    test('memo contains dataRoom structure metadata', () => {
+      const memo = wave.buildXrplMemo();
+      expect(memo.dataRoom).toBeDefined();
+      expect(memo.dataRoom.structureVersion).toBe(DATA_ROOM_STRUCTURE_VERSION);
+      expect(memo.dataRoom.structureVersion).toBe('optkas.lender.dataroom.v1');
+      expect(memo.dataRoom.folders).toBe(7);
+      expect(memo.dataRoom.files).toBe(17);
+    });
+
+    test('memo contains issuer', () => {
+      const memo = wave.buildXrplMemo();
+      expect(memo.issuer).toBeTruthy();
+    });
+
+    test('memo contains purpose statement', () => {
+      const memo = wave.buildXrplMemo();
+      expect(memo.purpose).toBe('Verified delivery of institutional funding package');
+    });
+
+    test('memo contains legalEffect statement', () => {
+      const memo = wave.buildXrplMemo();
+      expect(memo.legalEffect).toBe('Evidence of existence, integrity, and delivery timing');
     });
 
     test('memo has timestamp', () => {
@@ -1036,6 +1066,14 @@ describe('Phase 15 — Funding Wave Attestation', () => {
       expect(content).toContain('LenderEmail');
     });
 
+    test('exports MEMO_SCHEMA_ID constant', () => {
+      expect(content).toContain('MEMO_SCHEMA_ID');
+    });
+
+    test('exports DATA_ROOM_STRUCTURE_VERSION constant', () => {
+      expect(content).toContain('DATA_ROOM_STRUCTURE_VERSION');
+    });
+
     test('from funding-wave-attestation module', () => {
       expect(content).toContain("from './funding-wave-attestation'");
     });
@@ -1138,7 +1176,7 @@ describe('Phase 15 — Funding Wave Attestation', () => {
       expect(memo.rootHash).toBe(wave.getRootHash());
     });
 
-    test('XRPL transaction memo decodes back to valid schema', () => {
+    test('XRPL transaction memo decodes back to valid canonical schema', () => {
       const wave = new FundingWaveAttestation({ spv: 'DECODE TEST' });
       wave.hashDocumentFromContent('test', 'T', 't.pdf', 'exec_summary');
       wave.computeRootHash();
@@ -1147,9 +1185,25 @@ describe('Phase 15 — Funding Wave Attestation', () => {
       // Decode
       const memoData = Buffer.from(tx.Memos[0].Memo.MemoData, 'hex').toString('utf-8');
       const schema: FundingWaveMemoSchema = JSON.parse(memoData);
+      expect(schema.schema).toBe(MEMO_SCHEMA_ID);
       expect(schema.spv).toBe('DECODE TEST');
+      expect(schema.network).toBe('xrpl-mainnet');
       expect(schema.documents).toHaveLength(1);
       expect(schema.rootHash).toBe(wave.getRootHash());
+      expect(schema.dataRoom.structureVersion).toBe(DATA_ROOM_STRUCTURE_VERSION);
+      expect(schema.dataRoom.folders).toBe(7);
+      expect(schema.dataRoom.files).toBe(17);
+      expect(schema.issuer).toBeTruthy();
+      expect(schema.purpose).toBe('Verified delivery of institutional funding package');
+      expect(schema.legalEffect).toBe('Evidence of existence, integrity, and delivery timing');
+    });
+
+    test('MEMO_SCHEMA_ID constant has correct value', () => {
+      expect(MEMO_SCHEMA_ID).toBe('optkas.funding_wave.attestation.v1');
+    });
+
+    test('DATA_ROOM_STRUCTURE_VERSION constant has correct value', () => {
+      expect(DATA_ROOM_STRUCTURE_VERSION).toBe('optkas.lender.dataroom.v1');
     });
   });
 });

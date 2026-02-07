@@ -173,38 +173,63 @@ export type FundingWaveEvent =
 // ─── Memo Schema ─────────────────────────────────────────────────────
 
 /**
- * XRPL Memo Schema for Funding Wave Attestation
+ * Canonical XRPL Attestation Memo Schema — optkas.funding_wave.attestation.v1
+ *
+ * This schema is designed for lawyers, auditors, and credit committees.
+ * Contains ONLY facts: files, hashes, time, structure.
+ * No opinions. No promises. No representations.
+ * This keeps it admissible and non-regulatory.
  *
  * MemoType: "attestation/funding-wave"
- * MemoData (JSON):
- * {
- *   "waveId": "FW-20260207-001",
- *   "spv": "OPTKAS1-MAIN SPV",
- *   "attestedBy": "OPTKAS Platform",
- *   "rootHash": "<sha256 of all document hashes combined>",
- *   "documentCount": 7,
- *   "version": "v1",
- *   "timestamp": "2026-02-07T00:00:00.000Z",
- *   "documents": [
- *     { "name": "DATA_ROOM_INDEX_v1", "sha256": "abc...", "version": "v1" },
- *     ...
- *   ]
- * }
+ * MemoData: Hex-encoded UTF-8 JSON, deterministic key order, no free text.
+ *
+ * XRPL Transaction:
+ *   - Self-payment (1 drop XRP)
+ *   - Submitted via 2-of-3 multisig
+ *   - Memo is the payload
  */
 export interface FundingWaveMemoSchema {
+  /** Schema identifier for versioning and legal traceability */
+  schema: string;
+  /** Funding wave identifier (e.g. FW-2026-01) */
   waveId: string;
+  /** Issuing SPV name */
   spv: string;
-  attestedBy: string;
-  rootHash: string;
-  documentCount: number;
+  /** Network identifier */
+  network: string;
+  /** Schema version */
   version: string;
+  /** ISO 8601 timestamp of attestation */
   timestamp: string;
+
+  /** Per-document hashes — the core payload */
   documents: Array<{
     name: string;
     sha256: string;
-    version: string;
   }>;
+
+  /** Merkle-style root hash of sorted document hashes */
+  rootHash: string;
+
+  /** Data room structure metadata */
+  dataRoom: {
+    structureVersion: string;
+    folders: number;
+    files: number;
+  };
+
+  /** XRPL attestation account address */
+  issuer: string;
+  /** Legal purpose statement — factual, not promissory */
+  purpose: string;
+  /** Legal effect statement — factual, not promissory */
+  legalEffect: string;
 }
+
+/** Schema identifier constant */
+export const MEMO_SCHEMA_ID = 'optkas.funding_wave.attestation.v1';
+/** Data room structure version constant */
+export const DATA_ROOM_STRUCTURE_VERSION = 'optkas.lender.dataroom.v1';
 
 // ─── Canonical Document List ─────────────────────────────────────────
 
@@ -432,19 +457,30 @@ export class FundingWaveAttestation extends EventEmitter {
       throw new Error('Wave not hashed. Call computeRootHash() first.');
     }
 
+    const totalFiles = LENDER_DATA_ROOM_STRUCTURE.reduce(
+      (sum, folder) => sum + folder.files.length, 0
+    );
+
     return {
+      schema: MEMO_SCHEMA_ID,
       waveId: this.waveId,
       spv: this.config.spv,
-      attestedBy: this.config.attestedBy,
-      rootHash: this.rootHash,
-      documentCount: this.documents.length,
+      network: `xrpl-${this.config.xrplNetwork}`,
       version: this.config.version,
       timestamp: new Date().toISOString(),
       documents: this.documents.map(d => ({
-        name: d.name,
+        name: d.fileName,
         sha256: d.sha256,
-        version: d.version,
       })),
+      rootHash: this.rootHash,
+      dataRoom: {
+        structureVersion: DATA_ROOM_STRUCTURE_VERSION,
+        folders: LENDER_DATA_ROOM_STRUCTURE.length,
+        files: totalFiles,
+      },
+      issuer: this.config.xrplAttestationAccount || 'OPTKAS_ATTESTATION_ACCOUNT',
+      purpose: 'Verified delivery of institutional funding package',
+      legalEffect: 'Evidence of existence, integrity, and delivery timing',
     };
   }
 

@@ -110,6 +110,8 @@ export {
   FundingWaveAttestation,
   FUNDING_WAVE_DOCUMENTS,
   LENDER_DATA_ROOM_STRUCTURE,
+  MEMO_SCHEMA_ID,
+  DATA_ROOM_STRUCTURE_VERSION,
   type FundingWaveConfig,
   type FundingWaveSummary,
   type FundingWaveEvent,

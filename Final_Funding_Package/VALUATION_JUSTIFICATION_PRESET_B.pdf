@@ -1,0 +1,58 @@
+VALUATION JUSTIFICATION — PRESET B
+OPTKAS1-MAIN SPV
+
+Date: February 7, 2026
+Prepared by: OPTKAS Platform
+Status: FINAL
+
+SECTION 1 — VALUATION SUMMARY
+
+Layer A — Collateral (Pledged)
+  TC Advantage 5% Secured MTN (87225HAB4): $10,000,000
+  Advance Rate: 40%
+  Borrowing Base Value: $4,000,000
+
+Layer B — Sponsor Consideration Note (Financeable)
+  Face Value: $2,500,000
+  Interest Rate: 6% PIK
+  Maturity: 24 months
+  Governing Law: Wyoming
+  Assignable: Without consent
+  No Setoff: Confirmed
+
+Layer C — Platform & License (Recurring)
+  Monthly License Fee: $20,000 per SPV
+  Utilization Fee: 10%
+  Annual Revenue Potential: $240,000 (base) — $4,200,000 (scaled)
+
+SECTION 2 — REPLACEMENT COST METHODOLOGY
+
+Module                        Build Rate    Est. Cost
+Multi-ledger bridge           $800/hr       $320,000
+Attestation engine            $600/hr       $180,000
+Governance + compliance       $700/hr       $280,000
+Bond pipeline + settlement    $750/hr       $375,000
+Reporting + audit             $600/hr       $240,000
+Data room + legal docs        $500/hr       $300,000
+Dashboard + CLI               $500/hr       $200,000
+Testing + CI/CD               $400/hr       $120,000
+Integration + DevOps          $500/hr       $150,000
+
+Total Replacement Cost:       $2,165,000 — $3,500,000
+
+SECTION 3 — COMPARABLE TRANSACTIONS
+
+Securitize:    $50M+ raised, tokenization platform
+Centrifuge:    $300M+ TVL, real-world asset protocol
+Goldfinch:     $100M+ deployed, credit protocol
+Maple Finance: $2B+ originated, institutional lending
+
+SECTION 4 — RISK-ADJUSTED VALUATION
+
+Conservative: $1,500,000 — $2,500,000
+Base:         $3,000,000 — $3,500,000
+Aggressive:   $4,000,000 — $5,500,000
+
+Coverage Ratio (Conservative): 0.9x — 1.5x
+Coverage Ratio (Base):         1.8x — 2.1x
+Coverage Ratio (Aggressive):   2.4x — 3.3x
