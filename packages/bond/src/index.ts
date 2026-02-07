@@ -8,3 +8,24 @@ export {
   type RedemptionRequest,
   type IssuanceResult,
 } from './lifecycle';
+
+export {
+  BondFactory,
+  type BondProgram,
+  type BondSeries,
+  type SeriesStatus,
+  type BondTranche,
+  type TranchePriority,
+  type WaterfallAccountType,
+  type WaterfallAccount,
+  type WaterfallDefinition,
+  type WaterfallDistribution,
+  type WaterfallAllocation,
+  type AllocationStatus,
+  type Subscriber,
+  type AllocationBook,
+  type DocumentCategory,
+  type ManagedDocument,
+  type DocumentSet,
+  type ScheduledCashflow,
+} from './factory';

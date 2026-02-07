@@ -29,7 +29,12 @@
       "@optkas/bond": ["./packages/bond/src"],
       "@optkas/rwa": ["./packages/rwa/src"],
       "@optkas/portfolio": ["./packages/portfolio/src"],
-      "@optkas/settlement": ["./packages/settlement/src"]
+      "@optkas/settlement": ["./packages/settlement/src"],
+      "@optkas/governance": ["./packages/governance/src"],
+      "@optkas/compliance": ["./packages/compliance/src"],
+      "@optkas/reporting": ["./packages/reporting/src"],
+      "@optkas/bridge": ["./packages/bridge/src"],
+      "@optkas/agents": ["./packages/agents/src"]
     }
   },
   "include": [

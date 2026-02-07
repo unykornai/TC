@@ -19,7 +19,12 @@ module.exports = {
     '^@optkas/bond$': '<rootDir>/packages/bond/src',
     '^@optkas/rwa$': '<rootDir>/packages/rwa/src',
     '^@optkas/portfolio$': '<rootDir>/packages/portfolio/src',
-    '^@optkas/settlement$': '<rootDir>/packages/settlement/src'
+    '^@optkas/settlement$': '<rootDir>/packages/settlement/src',
+    '^@optkas/governance$': '<rootDir>/packages/governance/src',
+    '^@optkas/compliance$': '<rootDir>/packages/compliance/src',
+    '^@optkas/reporting$': '<rootDir>/packages/reporting/src',
+    '^@optkas/bridge$': '<rootDir>/packages/bridge/src',
+    '^@optkas/agents$': '<rootDir>/packages/agents/src'
   },
   collectCoverageFrom: [
     'packages/*/src/**/*.ts',

@@ -307,3 +307,78 @@ audit:
     - "config_changed"
     - "emergency_pause"
     - "emergency_resume"
+    - "bond_created"
+    - "bond_transitioned"
+    - "bond_defaulted"
+    - "bond_cured"
+    - "series_created"
+    - "tranche_activated"
+    - "waterfall_distributed"
+    - "allocation_completed"
+    - "covenant_breach"
+    - "covenant_cured"
+    - "document_attested"
+    - "bridge_configured"
+    - "bridge_activated"
+    - "witness_registered"
+    - "claim_completed"
+    - "strategy_approved"
+    - "agent_executed"
+    - "report_generated"
+
+# ─────────────────────────────────────────
+# BRIDGE READINESS
+# ─────────────────────────────────────────
+bridge_readiness:
+  enabled: false  # Must be explicitly enabled after review
+  bridges: []
+  governance:
+    configure_requires: "multisig"
+    activate_requires: "multisig"
+    pause_requires: 1
+  witness_requirements:
+    minimum_per_chain: 1
+    quorum_percentage: 67
+    rotation_notice_days: 14
+
+# ─────────────────────────────────────────
+# AGENTS / ALGORITHMIC TRADING
+# ─────────────────────────────────────────
+agents:
+  enabled: false  # Must be explicitly enabled
+  default_mode: "dry_run"  # "dry_run" | "simulation" | "paper" | "live"
+  strategies: []
+  risk_controls:
+    max_position_usd: 0
+    max_single_order_usd: 0
+    max_daily_volume_usd: 0
+    max_open_orders: 0
+    circuit_breaker_loss_pct: 5.0
+    kill_switch_loss_pct: 10.0
+  governance:
+    strategy_approval_requires: "multisig"
+    live_mode_requires: "multisig"
+    kill_switch_requires: 1  # Any signer can kill
+
+# ─────────────────────────────────────────
+# REPORTING
+# ─────────────────────────────────────────
+reporting:
+  investor_statements:
+    frequency: "quarterly"
+    format: "json"
+    hash_attested: true
+  trustee_reports:
+    frequency: "monthly"
+    include_covenant_status: true
+    include_waterfall_summary: true
+  payment_reconciliation:
+    enabled: true
+    import_formats:
+      - "csv"
+      - "ofx"
+    auto_match: true
+  nav_snapshots:
+    frequency: "daily"
+    valuation_method: "mark_to_model"  # "mark_to_market" | "mark_to_model" | "amortized_cost"
+  output_path: "./reports/"
