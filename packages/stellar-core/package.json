@@ -1,0 +1,12 @@
+{
+  "name": "@optkas/stellar-core",
+  "version": "1.0.0",
+  "description": "Stellar client abstraction for OPTKAS platform",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": { "build": "tsc", "test": "jest" },
+  "dependencies": {
+    "@stellar/stellar-sdk": "^11.3.0",
+    "winston": "^3.11.0"
+  }
+}

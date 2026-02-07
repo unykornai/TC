@@ -1,0 +1,15 @@
+{
+  "name": "@optkas/dex-amm",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OPTKAS XRPL DEX and AMM pool management",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@optkas/xrpl-core": "1.0.0"
+  }
+}

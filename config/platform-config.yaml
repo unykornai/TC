@@ -1,0 +1,302 @@
+# ══════════════════════════════════════════════════════════════════
+# OPTKAS Sovereign Financial Platform - Configuration
+# ══════════════════════════════════════════════════════════════════
+# Owner:    OPTKAS1-MAIN SPV
+# Builder:  Unykorn 7777, Inc. (Implementation Partner)
+# Version:  1.0.0
+# Date:     2026-02-06
+# ══════════════════════════════════════════════════════════════════
+# This file is the deterministic, OPTKAS-owned configuration.
+# All scripts, modules, and automation reference this file.
+# Changes to this file must be approved by OPTKAS governance.
+# ══════════════════════════════════════════════════════════════════
+
+platform:
+  name: "OPTKAS Sovereign Financial Platform"
+  version: "1.0.0"
+  owner: "OPTKAS1-MAIN SPV"
+  implementation_partner: "Unykorn 7777, Inc."
+  deployment_date: "2026-02-06"
+
+# ─────────────────────────────────────────
+# ENTITIES
+# ─────────────────────────────────────────
+entities:
+  spv:
+    legal_name: "OPTKAS1-MAIN SPV"
+    jurisdiction: "Wyoming, USA"
+    type: "Special Purpose Vehicle"
+    role: "Bond issuer, platform operator"
+    contact: "jimmy@optkas.com"
+
+  trustee:
+    legal_name: "TBD — Appointed Institutional Trustee"
+    role: "Independent escrow oversight, signer"
+    required: true
+
+  custodian:
+    legal_name: "TBD — Qualified Custodian"
+    role: "Off-chain asset custody, fiat escrow"
+    required: true
+
+  implementation_partner:
+    legal_name: "Unykorn 7777, Inc."
+    role: "System architect, implementation, handoff"
+    post_delivery_role: "Advisory only — no operational authority"
+
+# ─────────────────────────────────────────
+# GOVERNANCE
+# ─────────────────────────────────────────
+governance:
+  multisig:
+    threshold: 2
+    total_signers: 3
+    quorum_for_config_change: 3
+    roles:
+      - id: "treasury"
+        description: "OPTKAS Treasury Operations"
+        authority: ["issue_iou", "create_escrow", "provision_amm"]
+      - id: "compliance"
+        description: "OPTKAS Compliance Officer"
+        authority: ["freeze_iou", "pause_issuance", "generate_audit"]
+      - id: "trustee"
+        description: "Independent Trustee / Escrow Agent"
+        authority: ["release_escrow", "approve_settlement"]
+
+  emergency:
+    pause_requires: 1  # Any single signer can pause
+    resume_requires: 2 # Resumption requires threshold
+    freeze_all_requires: 2
+
+  signer_rotation:
+    notice_period_days: 30
+    requires_approval_of: 2
+    must_maintain_minimum_signers: 3
+
+# ─────────────────────────────────────────
+# NETWORKS
+# ─────────────────────────────────────────
+networks:
+  xrpl:
+    testnet:
+      url: "wss://s.altnet.rippletest.net:51233"
+      faucet: "https://faucet.altnet.rippletest.net/accounts"
+      explorer: "https://testnet.xrpl.org"
+    mainnet:
+      url: "wss://xrplcluster.com"
+      explorer: "https://livenet.xrpl.org"
+    active: "testnet"  # MUST be explicitly changed to mainnet
+
+  stellar:
+    testnet:
+      url: "https://horizon-testnet.stellar.org"
+      passphrase: "Test SDF Network ; September 2015"
+      friendbot: "https://friendbot.stellar.org"
+    mainnet:
+      url: "https://horizon.stellar.org"
+      passphrase: "Public Global Stellar Network ; September 2015"
+    active: "testnet"  # MUST be explicitly changed to mainnet
+
+# ─────────────────────────────────────────
+# XRPL ACCOUNTS (OPTKAS-OWNED)
+# ─────────────────────────────────────────
+# Keys are NEVER stored here. Only addresses and roles.
+# Private keys managed via HSM/KMS or offline signing.
+xrpl_accounts:
+  issuer:
+    purpose: "IOU issuance (claims, receipts, participation tokens)"
+    address: null  # Set after key ceremony
+    settings:
+      default_ripple: true
+      require_auth: false
+      disable_master: false  # Set true after multisig configured
+
+  treasury:
+    purpose: "Operational treasury, escrow funding"
+    address: null
+    settings:
+      require_dest_tag: true
+
+  escrow:
+    purpose: "Conditional settlement escrow"
+    address: null
+
+  attestation:
+    purpose: "Document hash anchoring (evidence only)"
+    address: null
+    settings:
+      require_auth: false
+      # This account issues NO value — only memo transactions
+
+  amm_liquidity:
+    purpose: "AMM liquidity provision"
+    address: null
+
+  trading:
+    purpose: "Algorithmic trading and DEX operations"
+    address: null
+    settings:
+      require_dest_tag: true
+
+# ─────────────────────────────────────────
+# STELLAR ACCOUNTS (OPTKAS-OWNED)
+# ─────────────────────────────────────────
+stellar_accounts:
+  issuer:
+    purpose: "Regulated asset issuance"
+    public_key: null
+    settings:
+      authorization_required: true
+      authorization_revocable: true
+      clawback_enabled: false  # Set per-asset policy
+
+  distribution:
+    purpose: "Asset distribution and settlement"
+    public_key: null
+
+  anchor:
+    purpose: "Fiat on/off-ramp anchor operations"
+    public_key: null
+
+# ─────────────────────────────────────────
+# IOU / TOKEN DEFINITIONS
+# ─────────────────────────────────────────
+# Every token must declare what it IS and IS NOT.
+tokens:
+  - code: "OPTKAS.BOND"
+    ledger: "xrpl"
+    type: "claim_receipt"
+    description: "Represents a claim receipt for participation in the OPTKAS bond. Does NOT constitute ownership of the bond itself."
+    legal_basis: "Off-chain bond indenture and participation agreement"
+    issuer_account: "issuer"
+    trustline_limit: 100000000  # $100M notional
+    freeze_enabled: true
+    clawback_enabled: false
+    transferable: false  # Non-transferable by default
+    redemption: "Off-chain via custodian, subject to bond terms"
+
+  - code: "OPTKAS.ESCROW"
+    ledger: "xrpl"
+    type: "settlement_token"
+    description: "Settlement coordination token representing escrowed fiat. 1:1 with USD held in regulated custody."
+    legal_basis: "Escrow agreement with qualified custodian"
+    issuer_account: "issuer"
+    trustline_limit: 500000000
+    freeze_enabled: true
+    clawback_enabled: true
+    transferable: false
+    redemption: "Burn on settlement; fiat released by custodian"
+
+  - code: "OPTKAS.ATTEST"
+    ledger: "xrpl"
+    type: "evidence_token"
+    description: "Non-transferable attestation marker. Carries no economic value. Proves document existence at timestamp."
+    legal_basis: "None — evidence only"
+    issuer_account: "attestation"
+    trustline_limit: 1
+    freeze_enabled: false
+    clawback_enabled: false
+    transferable: false
+    redemption: "N/A — not redeemable"
+
+  - code: "OPTKAS-USD"
+    ledger: "stellar"
+    type: "regulated_asset"
+    description: "USD-denominated regulated asset issued under Stellar compliance framework."
+    legal_basis: "Anchor agreement with regulated financial institution"
+    issuer_account: "issuer"
+    authorization_required: true
+
+# ─────────────────────────────────────────
+# ESCROW TEMPLATES
+# ─────────────────────────────────────────
+escrow_templates:
+  bond_funding:
+    description: "Lender funds held in XRPL escrow pending conditions"
+    condition_type: "crypto_condition"  # XRPL crypto-conditions
+    max_duration_days: 90
+    release_requires:
+      - "compliance_clearance"
+      - "document_verification"
+      - "multisig_approval"
+    cancel_after_days: 120
+    dispute_procedure: "Off-chain arbitration per bond indenture"
+
+  settlement:
+    description: "Settlement escrow for IOU redemption"
+    condition_type: "time_based"
+    release_delay_seconds: 86400  # 24 hours
+    release_requires:
+      - "multisig_approval"
+    cancel_after_days: 30
+
+# ─────────────────────────────────────────
+# AMM / DEX CONFIGURATION
+# ─────────────────────────────────────────
+amm:
+  enabled: false  # Must be explicitly enabled after review
+  pools: []       # Define after regulatory review
+  max_position_usd: 0
+  governance:
+    provision_requires: "multisig"
+    withdraw_requires: "multisig"
+
+# ─────────────────────────────────────────
+# ALGORITHMIC TRADING
+# ─────────────────────────────────────────
+trading:
+  enabled: false  # Must be explicitly enabled
+  mode: "dry_run" # "dry_run" | "live"
+  strategies: []
+  risk_controls:
+    max_single_order_usd: 0
+    max_daily_volume_usd: 0
+    max_open_orders: 0
+    circuit_breaker_loss_pct: 5.0
+    kill_switch_loss_pct: 10.0
+    allowed_pairs: []
+  governance:
+    strategy_change_requires: "multisig"
+    live_mode_requires: "multisig"
+    kill_switch_requires: 1  # Any signer can kill
+
+# ─────────────────────────────────────────
+# COMPLIANCE
+# ─────────────────────────────────────────
+compliance:
+  kyc_provider: null       # Integration stub
+  aml_provider: null       # Integration stub
+  sanctions_screening: null # Integration stub
+  audit_retention_years: 7
+  reporting_frequency: "monthly"
+  regulatory_jurisdictions:
+    - "United States"
+  licenses:
+    - type: "Money Transmission"
+      status: "subject to applicable licensing"
+      note: "Operations conducted through regulated partners"
+
+# ─────────────────────────────────────────
+# AUDIT
+# ─────────────────────────────────────────
+audit:
+  event_log_path: "./logs/audit-events.jsonl"
+  report_output_path: "./reports/"
+  hash_algorithm: "sha256"
+  retention_days: 2555  # ~7 years
+  required_events:
+    - "iou_issued"
+    - "iou_frozen"
+    - "escrow_created"
+    - "escrow_released"
+    - "escrow_cancelled"
+    - "attestation_anchored"
+    - "amm_provisioned"
+    - "amm_withdrawn"
+    - "trade_executed"
+    - "trade_cancelled"
+    - "signer_added"
+    - "signer_removed"
+    - "config_changed"
+    - "emergency_pause"
+    - "emergency_resume"

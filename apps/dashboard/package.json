@@ -1,0 +1,21 @@
+{
+  "name": "@optkas/dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OPTKAS institutional read-only dashboard",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "ts-node src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "@optkas/xrpl-core": "1.0.0",
+    "@optkas/stellar-core": "1.0.0",
+    "@optkas/audit": "1.0.0",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21"
+  }
+}

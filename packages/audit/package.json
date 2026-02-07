@@ -1,0 +1,13 @@
+{
+  "name": "@optkas/audit",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OPTKAS audit event store and report generation",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "dependencies": {}
+}

@@ -1,0 +1,12 @@
+{
+  "name": "@optkas/docs-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OPTKAS documentation site generator",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "ts-node src/build.ts",
+    "dev": "ts-node src/build.ts --watch"
+  },
+  "dependencies": {}
+}

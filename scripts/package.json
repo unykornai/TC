@@ -1,0 +1,32 @@
+{
+  "name": "@optkas/scripts",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OPTKAS platform CLI scripts",
+  "scripts": {
+    "validate": "ts-node validate-config.ts --dry-run",
+    "init": "ts-node init-platform.ts --dry-run --network testnet",
+    "xrpl:trustlines": "ts-node xrpl-deploy-trustlines.ts --dry-run --network testnet",
+    "xrpl:issue": "ts-node xrpl-issue-iou.ts --dry-run --network testnet",
+    "xrpl:escrow": "ts-node xrpl-create-escrow.ts --dry-run --network testnet",
+    "xrpl:attest": "ts-node xrpl-attest-hash.ts --dry-run --network testnet",
+    "xrpl:amm": "ts-node xrpl-provision-amm.ts --dry-run --network testnet",
+    "xrpl:trade": "ts-node xrpl-execute-algo.ts --dry-run --network testnet",
+    "stellar:issue": "ts-node stellar-issue-asset.ts --action issue --dry-run --network testnet",
+    "stellar:sep10": "ts-node stellar-sep10-auth.ts --dry-run --network testnet",
+    "stellar:sep24": "ts-node stellar-sep24-deposit-withdraw.ts --action deposit --dry-run --network testnet",
+    "stellar:attest": "ts-node stellar-attest-hash.ts --dry-run --network testnet",
+    "reconcile": "ts-node reconcile-ledgers.ts --dry-run --network testnet",
+    "audit": "ts-node generate-audit-report.ts --type full --dry-run --network testnet"
+  },
+  "dependencies": {
+    "@optkas/xrpl-core": "1.0.0",
+    "@optkas/stellar-core": "1.0.0",
+    "@optkas/issuance": "1.0.0",
+    "@optkas/escrow": "1.0.0",
+    "@optkas/attestation": "1.0.0",
+    "@optkas/dex-amm": "1.0.0",
+    "@optkas/trading": "1.0.0",
+    "@optkas/audit": "1.0.0"
+  }
+}

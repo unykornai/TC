@@ -1,0 +1,16 @@
+{
+  "name": "@optkas/attestation",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OPTKAS dual-ledger hash attestation engine",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@optkas/xrpl-core": "1.0.0",
+    "@optkas/stellar-core": "1.0.0"
+  }
+}

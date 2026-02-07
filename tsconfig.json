@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "commonjs",
+    "lib": ["ES2022"],
+    "outDir": "./dist",
+    "rootDir": ".",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "composite": true,
+    "paths": {
+      "@optkas/xrpl-core": ["./packages/xrpl-core/src"],
+      "@optkas/stellar-core": ["./packages/stellar-core/src"],
+      "@optkas/issuance": ["./packages/issuance/src"],
+      "@optkas/escrow": ["./packages/escrow/src"],
+      "@optkas/attestation": ["./packages/attestation/src"],
+      "@optkas/dex-amm": ["./packages/dex-amm/src"],
+      "@optkas/trading": ["./packages/trading/src"],
+      "@optkas/audit": ["./packages/audit/src"]
+    }
+  },
+  "include": [
+    "packages/*/src/**/*.ts",
+    "scripts/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

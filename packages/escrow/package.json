@@ -1,0 +1,15 @@
+{
+  "name": "@optkas/escrow",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OPTKAS XRPL escrow management with crypto-conditions",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@optkas/xrpl-core": "1.0.0"
+  }
+}
