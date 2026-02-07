@@ -50,3 +50,25 @@ export {
   type TxStatus,
   type TxLedger,
 } from './tx-queue';
+
+export {
+  AuditBridge,
+  type AuditBridgeEvent,
+  type AuditBridgeConfig,
+  type AuditBridgeSummary,
+  type AuditBridgeStats,
+  type AuditSeverity,
+  type AuditCategory,
+  type AuditAnchorTarget,
+} from './audit-bridge';
+
+export {
+  SettlementConnector,
+  type ConnectedSettlement,
+  type SettlementLegRecord,
+  type SettlementConnectorEvent,
+  type SettlementConnectorConfig,
+  type SettlementConnectorSummary,
+  type SettlementPhase,
+  type SettlementConnectorModel,
+} from './settlement-connector';

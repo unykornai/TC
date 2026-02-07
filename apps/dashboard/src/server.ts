@@ -26,6 +26,8 @@ import { AuditEventStore, ReportGenerator } from '../../../packages/audit/src';
 import { XRPLClient } from '../../../packages/xrpl-core/src';
 import { StellarClient } from '../../../packages/stellar-core/src';
 import { TransactionQueue, type TxQueueSummary } from '../../../packages/funding-ops/src/tx-queue';
+import { AuditBridge, type AuditBridgeSummary } from '../../../packages/funding-ops/src/audit-bridge';
+import { SettlementConnector, type SettlementConnectorSummary } from '../../../packages/funding-ops/src/settlement-connector';
 
 const PORT = parseInt(process.env.PORT || '3000', 10);
 const CONFIG_PATH = process.env.CONFIG_PATH || path.join(__dirname, '..', '..', '..', 'config', 'platform-config.yaml');
@@ -38,6 +40,8 @@ const reporting = new ReportingEngine();
 const auditStore = new AuditEventStore();
 const auditReporter = new ReportGenerator(auditStore);
 const txQueue = new TransactionQueue({ autoExpire: true });
+const auditBridge = new AuditBridge({ network: 'testnet' });
+const settlementConnector = new SettlementConnector({ autoSettle: true });
 
 // ── Live ledger clients ────────────────────────────────────────
 const xrplClient = new XRPLClient({ network: 'testnet' });
@@ -89,6 +93,8 @@ interface DashboardState {
     reportGeneratorReady: boolean;
   };
   txQueue: TxQueueSummary;
+  auditBridge: AuditBridgeSummary;
+  settlementPipeline: SettlementConnectorSummary;
 }
 
 function loadConfig(): any {
@@ -163,6 +169,8 @@ export async function buildState(): Promise<DashboardState> {
       reportGeneratorReady: true,
     },
     txQueue: txQueue.getSummary(),
+    auditBridge: auditBridge.getSummary(),
+    settlementPipeline: settlementConnector.getSummary(),
   };
 
   // ── XRPL live balance queries ──────────────────────────────────
@@ -458,6 +466,33 @@ export function generateDashboardHTML(state: DashboardState): string {
       <div class="stat"><span class="label">Confirmed</span><span class="value">\${state.txQueue.confirmed}</span></div>
       <div class="stat"><span class="label">XRPL Transactions</span><span class="value">\${state.txQueue.byLedger.xrpl}</span></div>
       <div class="stat"><span class="label">Stellar Transactions</span><span class="value">\${state.txQueue.byLedger.stellar}</span></div>
+    </div>
+
+    <!-- Settlement Pipeline -->
+    <div class="card">
+      <h2>Settlement Pipeline</h2>
+      <div class="stat"><span class="label">Total Settlements</span><span class="value">\${state.settlementPipeline.total}</span></div>
+      <div class="stat"><span class="label">Awaiting Funding</span><span class="value">\${state.settlementPipeline.awaitingFunding}</span></div>
+      <div class="stat"><span class="label">Funding Confirmed</span><span class="value">\${state.settlementPipeline.fundingConfirmed}</span></div>
+      <div class="stat"><span class="label">Delivery Pending</span><span class="value">\${state.settlementPipeline.deliveryPending}</span></div>
+      <div class="stat"><span class="label">Payment Pending</span><span class="value">\${state.settlementPipeline.paymentPending}</span></div>
+      <div class="stat"><span class="label">Complete</span><span class="value">\${state.settlementPipeline.complete}</span></div>
+      <div class="stat"><span class="label">Failed / Disputed</span><span class="value">\${state.settlementPipeline.failed} / \${state.settlementPipeline.disputed}</span></div>
+      <div class="stat"><span class="label">XRPL Confirmed</span><span class="value">\${state.settlementPipeline.byLedger.xrpl.confirmed}</span></div>
+      <div class="stat"><span class="label">Stellar Confirmed</span><span class="value">\${state.settlementPipeline.byLedger.stellar.confirmed}</span></div>
+      <div class="stat"><span class="label">Total Value Settled</span><span class="value">\${state.settlementPipeline.totalValueSettled}</span></div>
+    </div>
+
+    <!-- Audit Trail -->
+    <div class="card">
+      <h2>Audit Trail</h2>
+      <div class="stat"><span class="label">Total Events</span><span class="value">\${state.auditBridge.totalEvents}</span></div>
+      <div class="stat"><span class="label">TX Lifecycle Events</span><span class="value">\${state.auditBridge.txLifecycleEvents}</span></div>
+      <div class="stat"><span class="label">Pipeline Events</span><span class="value">\${state.auditBridge.fundingPipelineEvents}</span></div>
+      <div class="stat"><span class="label">Settlement Events</span><span class="value">\${state.auditBridge.settlementEvents}</span></div>
+      <div class="stat"><span class="label">Compliance Pass Rate</span><span class="value">\${(state.auditBridge.compliancePassRate * 100).toFixed(1)}%</span></div>
+      <div class="stat"><span class="label">Unanchored Events</span><span class="value">\${state.auditBridge.unanchoredCount}</span></div>
+      <div class="stat"><span class="label">Last Event</span><span class="value">\${state.auditBridge.lastEventAt || 'none'}</span></div>
     </div>  </div>
 
   <div class="footer">
