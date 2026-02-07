@@ -63,3 +63,8 @@ logs/
 # Testnet secret keys
 .testnet-secrets.json
 config/.testnet-secrets.json
+
+# Mainnet secret keys (Phase 18)
+.mainnet-secrets.json
+config/.mainnet-secrets.json
+*-secrets.json
