@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OPTKAS — Execution Operations Center</title>
+<style>
+  :root {
+    --bg: #0a0e17; --bg2: #111827; --bg3: #1a2234; --border: #2a3548;
+    --accent: #3b82f6; --accent-dim: #1e3a5f;
+    --green: #10b981; --green-dim: rgba(16,185,129,.12);
+    --red: #ef4444; --red-dim: rgba(239,68,68,.12);
+    --yellow: #f59e0b; --yellow-dim: rgba(245,158,11,.12);
+    --purple: #8b5cf6; --purple-dim: rgba(139,92,246,.12);
+    --text: #e2e8f0; --dim: #94a3b8; --muted: #64748b;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'SF Mono','Fira Code','Consolas',monospace; background:var(--bg); color:var(--text); }
+
+  .header { background:linear-gradient(135deg,#0f172a,#1e293b); border-bottom:1px solid var(--border); padding:14px 28px; display:flex; justify-content:space-between; align-items:center; }
+  .header h1 { font-size:16px; font-weight:700; letter-spacing:2px; color:var(--purple); }
+  .header .sub { font-size:10px; color:var(--muted); letter-spacing:1px; }
+  .live { display:inline-flex; align-items:center; gap:6px; background:var(--green-dim); color:var(--green); padding:3px 10px; border-radius:10px; font-size:9px; font-weight:600; }
+  .live::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--green); animation:pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+  .tabs { display:flex; background:var(--bg2); border-bottom:1px solid var(--border); }
+  .tab { padding:10px 20px; font-size:10px; letter-spacing:1.5px; color:var(--muted); cursor:pointer; border-bottom:2px solid transparent; text-transform:uppercase; }
+  .tab.active { color:var(--accent); border-bottom-color:var(--accent); background:rgba(59,130,246,.05); }
+  .tab:hover { color:var(--text); background:rgba(255,255,255,.02); }
+
+  .tab-content { display:none; }
+  .tab-content.active { display:block; }
+
+  /* ── Pipeline View ──────────────────── */
+  .pipeline-header { display:grid; grid-template-columns:repeat(6,1fr); gap:1px; background:var(--border); }
+  .pipeline-stage { background:var(--bg2); padding:14px; text-align:center; }
+  .stage-name { font-size:8px; letter-spacing:1.5px; color:var(--muted); text-transform:uppercase; }
+  .stage-count { font-size:24px; font-weight:700; margin:4px 0; }
+  .stage-sub { font-size:9px; color:var(--dim); }
+
+  .deal-list { padding:12px; }
+  .deal-row { display:grid; grid-template-columns:30px 180px 80px 140px 80px 100px 1fr 100px; align-items:center; padding:10px 14px; border-bottom:1px solid rgba(42,53,72,.5); font-size:11px; }
+  .deal-row:hover { background:rgba(59,130,246,.04); }
+  .deal-header { font-size:9px; color:var(--muted); letter-spacing:1px; text-transform:uppercase; font-weight:400; border-bottom:1px solid var(--border); }
+  .deal-id { color:var(--muted); font-size:9px; }
+  .deal-name { font-weight:600; }
+  .deal-tier { font-size:9px; padding:2px 6px; border-radius:3px; font-weight:600; }
+  .tier-1A { background:var(--purple-dim); color:var(--purple); }
+  .tier-1B { background:var(--accent-dim); color:var(--accent); }
+  .stage-badge { font-size:8px; padding:3px 8px; border-radius:3px; font-weight:600; letter-spacing:.5px; }
+  .badge-identified { background:rgba(100,116,139,.2); color:var(--muted); }
+  .badge-sent { background:var(--accent-dim); color:var(--accent); }
+  .badge-diligence { background:var(--yellow-dim); color:var(--yellow); }
+  .badge-termsheet { background:var(--green-dim); color:var(--green); }
+  .badge-funded { background:var(--green); color:var(--bg); }
+  .health-bar { height:4px; border-radius:2px; background:rgba(42,53,72,.5); }
+  .health-fill { height:100%; border-radius:2px; transition:width .5s; }
+  .next-action { font-size:9px; color:var(--dim); }
+
+  /* ── Pre-Flight View ────────────────── */
+  .preflight-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1px; background:var(--border); padding:1px; }
+  .pf-panel { background:var(--bg3); padding:16px; }
+  .pf-title { font-size:10px; letter-spacing:1.5px; color:var(--muted); text-transform:uppercase; margin-bottom:12px; padding-bottom:6px; border-bottom:1px solid var(--border); }
+  .pf-item { display:flex; align-items:center; gap:8px; padding:5px 0; font-size:11px; }
+  .pf-icon { font-size:12px; }
+  .pf-full { grid-column:span 3; }
+  .go-banner { text-align:center; padding:24px; font-size:22px; font-weight:700; letter-spacing:4px; }
+
+  /* ── Term Sheet View ────────────────── */
+  .ts-comparison { display:grid; grid-template-columns:200px repeat(3,1fr); gap:1px; background:var(--border); margin:12px; }
+  .ts-cell { background:var(--bg3); padding:10px 14px; font-size:11px; }
+  .ts-header { font-size:9px; letter-spacing:1px; color:var(--muted); text-transform:uppercase; font-weight:600; }
+  .ts-lender { font-weight:700; color:var(--accent); text-align:center; }
+  .ts-label { color:var(--dim); }
+  .ts-best { background:rgba(16,185,129,.08); border-left:2px solid var(--green); }
+
+  /* ── Draw Management View ───────────── */
+  .draw-kpis { display:grid; grid-template-columns:repeat(5,1fr); gap:1px; background:var(--border); }
+  .draw-kpi { background:var(--bg2); padding:16px; text-align:center; }
+  .dk-label { font-size:8px; letter-spacing:1.5px; color:var(--muted); text-transform:uppercase; }
+  .dk-value { font-size:20px; font-weight:700; margin:4px 0; }
+  .dk-sub { font-size:9px; color:var(--dim); }
+  .draw-timeline { padding:16px 24px; }
+  .draw-event { display:flex; gap:16px; padding:12px 0; border-bottom:1px solid rgba(42,53,72,.5); }
+  .draw-date { width:100px; font-size:10px; color:var(--muted); }
+  .draw-type { width:80px; }
+  .draw-type-badge { font-size:8px; padding:2px 6px; border-radius:3px; font-weight:600; }
+  .type-draw { background:var(--accent-dim); color:var(--accent); }
+  .type-repay { background:var(--green-dim); color:var(--green); }
+  .type-interest { background:var(--yellow-dim); color:var(--yellow); }
+  .draw-amount { width:120px; font-size:13px; font-weight:600; font-variant-numeric:tabular-nums; }
+  .draw-detail { flex:1; font-size:10px; color:var(--dim); }
+
+  /* ── Utilization Gauge ──────────────── */
+  .gauge-container { display:flex; justify-content:center; padding:20px; }
+  .gauge { position:relative; width:200px; height:100px; overflow:hidden; }
+  .gauge-bg { width:200px; height:200px; border-radius:50%; border:16px solid rgba(42,53,72,.4); border-bottom-color:transparent; border-left-color:transparent; transform:rotate(225deg); position:absolute; top:0; }
+  .gauge-fill { width:200px; height:200px; border-radius:50%; border:16px solid var(--green); border-bottom-color:transparent; border-left-color:transparent; position:absolute; top:0; }
+  .gauge-label { position:absolute; bottom:0; width:100%; text-align:center; }
+  .gauge-value { font-size:28px; font-weight:700; }
+  .gauge-sub { font-size:9px; color:var(--muted); letter-spacing:1px; text-transform:uppercase; }
+
+  .footer { background:var(--bg2); border-top:1px solid var(--border); padding:10px 28px; display:flex; justify-content:space-between; font-size:8px; color:var(--muted); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>◈ EXECUTION OPERATIONS CENTER</h1>
+    <div class="sub">OPTKAS — PHASE 25 — FUNDING LIFECYCLE COMMAND</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:14px;">
+    <span class="live">OPS ACTIVE</span>
+    <span style="font-size:10px;color:var(--muted)" id="clock"></span>
+  </div>
+</div>
+
+<!-- ═══════ TABS ═══════ -->
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('pipeline')">◆ DEAL PIPELINE</div>
+  <div class="tab" onclick="switchTab('preflight')">◆ PRE-FLIGHT</div>
+  <div class="tab" onclick="switchTab('termsheets')">◆ TERM SHEETS</div>
+  <div class="tab" onclick="switchTab('draws')">◆ DRAW MANAGEMENT</div>
+  <div class="tab" onclick="switchTab('calendar')">◆ EXECUTION CALENDAR</div>
+</div>
+
+<!-- ═══════ TAB 1: DEAL PIPELINE ═══════ -->
+<div id="pipeline" class="tab-content active">
+  <div class="pipeline-header">
+    <div class="pipeline-stage">
+      <div class="stage-name">Identified</div>
+      <div class="stage-count" style="color:var(--muted)">14</div>
+      <div class="stage-sub">Wave 1 targets</div>
+    </div>
+    <div class="pipeline-stage">
+      <div class="stage-name">Package Sent</div>
+      <div class="stage-count" style="color:var(--accent)">0</div>
+      <div class="stage-sub">Pending Feb 10</div>
+    </div>
+    <div class="pipeline-stage">
+      <div class="stage-name">Diligence</div>
+      <div class="stage-count" style="color:var(--yellow)">0</div>
+      <div class="stage-sub">Awaiting responses</div>
+    </div>
+    <div class="pipeline-stage">
+      <div class="stage-name">Term Sheet</div>
+      <div class="stage-count" style="color:var(--green)">0</div>
+      <div class="stage-sub">Target: 2-3</div>
+    </div>
+    <div class="pipeline-stage">
+      <div class="stage-name">Documentation</div>
+      <div class="stage-count" style="color:var(--purple)">0</div>
+      <div class="stage-sub">Legal review</div>
+    </div>
+    <div class="pipeline-stage">
+      <div class="stage-name">Funded</div>
+      <div class="stage-count" style="color:var(--green)">0</div>
+      <div class="stage-sub">Target: 1+</div>
+    </div>
+  </div>
+
+  <div class="deal-list">
+    <div class="deal-row deal-header">
+      <div>#</div><div>Lender</div><div>Tier</div><div>Stage</div><div>Health</div><div>Days</div><div>Next Action</div><div>Deadline</div>
+    </div>
+    <div class="deal-row"><div class="deal-id">001</div><div class="deal-name">Ares Management</div><div><span class="deal-tier tier-1A">1A</span></div><div><span class="stage-badge badge-identified">IDENTIFIED</span></div><div><div class="health-bar"><div class="health-fill" style="width:100%;background:var(--green)"></div></div></div><div style="font-size:10px;color:var(--dim)">0d</div><div class="next-action">Send outreach package</div><div style="font-size:9px;color:var(--yellow)">Feb 10</div></div>
+    <div class="deal-row"><div class="deal-id">002</div><div class="deal-name">Apollo</div><div><span class="deal-tier tier-1A">1A</span></div><div><span class="stage-badge badge-identified">IDENTIFIED</span></div><div><div class="health-bar"><div class="health-fill" style="width:100%;background:var(--green)"></div></div></div><div style="font-size:10px;color:var(--dim)">0d</div><div class="next-action">Send outreach package</div><div style="font-size:9px;color:var(--yellow)">Feb 10</div></div>
+    <div class="deal-row"><div class="deal-id">003</div><div class="deal-name">KKR</div><div><span class="deal-tier tier-1A">1A</span></div><div><span class="stage-badge badge-identified">IDENTIFIED</span></div><div><div class="health-bar"><div class="health-fill" style="width:100%;background:var(--green)"></div></div></div><div style="font-size:10px;color:var(--dim)">0d</div><div class="next-action">Send outreach package</div><div style="font-size:9px;color:var(--yellow)">Feb 10</div></div>
+    <div class="deal-row"><div class="deal-id">004</div><div class="deal-name">HPS Partners</div><div><span class="deal-tier tier-1A">1A</span></div><div><span class="stage-badge badge-identified">IDENTIFIED</span></div><div><div class="health-bar"><div class="health-fill" style="width:100%;background:var(--green)"></div></div></div><div style="font-size:10px;color:var(--dim)">0d</div><div class="next-action">Send outreach package</div><div style="font-size:9px;color:var(--yellow)">Feb 10</div></div>
+    <div class="deal-row"><div class="deal-id">005</div><div class="deal-name">Fortress</div><div><span class="deal-tier tier-1A">1A</span></div><div><span class="stage-badge badge-identified">IDENTIFIED</span></div><div><div class="health-bar"><div class="health-fill" style="width:100%;background:var(--green)"></div></div></div><div style="font-size:10px;color:var(--dim)">0d</div><div class="next-action">Send outreach package</div><div style="font-size:9px;color:var(--yellow)">Feb 10</div></div>
+    <div class="deal-row"><div class="deal-id">006</div><div class="deal-name">Stonebriar</div><div><span class="deal-tier tier-1A">1A</span></div><div><span class="stage-badge badge-identified">IDENTIFIED</span></div><div><div class="health-bar"><div class="health-fill" style="width:100%;background:var(--green)"></div></div></div><div style="font-size:10px;color:var(--dim)">0d</div><div class="next-action">Send outreach package</div><div style="font-size:9px;color:var(--yellow)">Feb 10</div></div>
+    <div class="deal-row"><div class="deal-id">007</div><div class="deal-name">Benefit Street</div><div><span class="deal-tier tier-1A">1A</span></div><div><span class="stage-badge badge-identified">IDENTIFIED</span></div><div><div class="health-bar"><div class="health-fill" style="width:100%;background:var(--green)"></div></div></div><div style="font-size:10px;color:var(--dim)">0d</div><div class="next-action">Send outreach package</div><div style="font-size:9px;color:var(--yellow)">Feb 10</div></div>
+    <div class="deal-row"><div class="deal-id">008</div><div class="deal-name">Oaktree Capital</div><div><span class="deal-tier tier-1A">1A</span></div><div><span class="stage-badge badge-identified">IDENTIFIED</span></div><div><div class="health-bar"><div class="health-fill" style="width:100%;background:var(--green)"></div></div></div><div style="font-size:10px;color:var(--dim)">0d</div><div class="next-action">Send outreach package</div><div style="font-size:9px;color:var(--yellow)">Feb 10</div></div>
+    <div class="deal-row"><div class="deal-id">009</div><div class="deal-name">Cerberus Capital</div><div><span class="deal-tier tier-1A">1A</span></div><div><span class="stage-badge badge-identified">IDENTIFIED</span></div><div><div class="health-bar"><div class="health-fill" style="width:100%;background:var(--green)"></div></div></div><div style="font-size:10px;color:var(--dim)">0d</div><div class="next-action">Send outreach package</div><div style="font-size:9px;color:var(--yellow)">Feb 10</div></div>
+    <div class="deal-row"><div class="deal-id">010</div><div class="deal-name">BlueMountain</div><div><span class="deal-tier tier-1A">1A</span></div><div><span class="stage-badge badge-identified">IDENTIFIED</span></div><div><div class="health-bar"><div class="health-fill" style="width:100%;background:var(--green)"></div></div></div><div style="font-size:10px;color:var(--dim)">0d</div><div class="next-action">Send outreach package</div><div style="font-size:9px;color:var(--yellow)">Feb 10</div></div>
+    <div class="deal-row"><div class="deal-id">011</div><div class="deal-name">CS Legacy Desks</div><div><span class="deal-tier tier-1B">1B</span></div><div><span class="stage-badge badge-identified">IDENTIFIED</span></div><div><div class="health-bar"><div class="health-fill" style="width:100%;background:var(--green)"></div></div></div><div style="font-size:10px;color:var(--dim)">0d</div><div class="next-action">Send outreach package</div><div style="font-size:9px;color:var(--yellow)">Feb 10</div></div>
+    <div class="deal-row"><div class="deal-id">012</div><div class="deal-name">Deutsche SBLC</div><div><span class="deal-tier tier-1B">1B</span></div><div><span class="stage-badge badge-identified">IDENTIFIED</span></div><div><div class="health-bar"><div class="health-fill" style="width:100%;background:var(--green)"></div></div></div><div style="font-size:10px;color:var(--dim)">0d</div><div class="next-action">Send outreach package</div><div style="font-size:9px;color:var(--yellow)">Feb 10</div></div>
+    <div class="deal-row"><div class="deal-id">013</div><div class="deal-name">Standard Chartered</div><div><span class="deal-tier tier-1B">1B</span></div><div><span class="stage-badge badge-identified">IDENTIFIED</span></div><div><div class="health-bar"><div class="health-fill" style="width:100%;background:var(--green)"></div></div></div><div style="font-size:10px;color:var(--dim)">0d</div><div class="next-action">Send outreach package</div><div style="font-size:9px;color:var(--yellow)">Feb 10</div></div>
+    <div class="deal-row"><div class="deal-id">014</div><div class="deal-name">Barclays Credit</div><div><span class="deal-tier tier-1B">1B</span></div><div><span class="stage-badge badge-identified">IDENTIFIED</span></div><div><div class="health-bar"><div class="health-fill" style="width:100%;background:var(--green)"></div></div></div><div style="font-size:10px;color:var(--dim)">0d</div><div class="next-action">Send outreach package</div><div style="font-size:9px;color:var(--yellow)">Feb 10</div></div>
+  </div>
+</div>
+
+<!-- ═══════ TAB 2: PRE-FLIGHT ═══════ -->
+<div id="preflight" class="tab-content">
+  <div class="preflight-grid">
+    <div class="pf-panel">
+      <div class="pf-title">Data Room (7 Categories)</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> 00_EXEC_SUMMARY</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> 01_TRANSACTION_STRUCTURE</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> 02_COLLATERAL_AND_CREDIT</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> 03_BOND_AND_NOTE_ISSUANCE</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> 04_COMPLIANCE_AND_RISK</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> 05_CHAIN_OF_CUSTODY</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> 99_APPENDIX</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> INDEX.md + HASHES.txt</div>
+    </div>
+    <div class="pf-panel">
+      <div class="pf-title">Legal Documents (11)</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> Facility Agreement</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> Security Agreement</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> Control Agreement</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> Certificate of Formation</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> Operating Agreement</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> Manager Resolution</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> Signatory Authority</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> Legal Opinion</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> UCC-1 Filing</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> Insurance Certificate</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> Signature Page</div>
+    </div>
+    <div class="pf-panel">
+      <div class="pf-title">Infrastructure (28 Packages)</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> xrpl-core / stellar-core</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> bond / issuance / trading</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> dex-amm / cross-chain-dex</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> reserve-vault / escrow</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> compliance / governance / audit</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> attestation / reporting</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> risk-analytics / borrowing-base</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> deal-pipeline / term-sheet</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> draw-management</div>
+    </div>
+    <div class="pf-panel">
+      <div class="pf-title">Lender Packages (14)</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> Ares Management — email + brief</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> Apollo — email + brief</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> KKR — email + brief</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> HPS Partners — email + brief</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> Fortress — email + brief</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> 9 more lender packages ✅</div>
+    </div>
+    <div class="pf-panel">
+      <div class="pf-title">Dashboards (7)</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> Command Center</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> Investor Portal</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> Data Room Portal</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> Risk Dashboard</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> Execution Ops Center</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> Company Website</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> Engineering Website</div>
+    </div>
+    <div class="pf-panel">
+      <div class="pf-title">Attestation Artifacts</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> Reserve Vault Report (JSON)</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> Elite Deployment Report (JSON)</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> Execution Proof Bundle</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> XRPL Attestation TX verified</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> Stellar Attestation TX verified</div>
+      <div class="pf-item"><span class="pf-icon">✅</span> SHA-256 hashes matching</div>
+    </div>
+    <div class="pf-panel pf-full">
+      <div class="go-banner" style="color:var(--green)">
+        ██████╗  ██████╗ &nbsp;&nbsp;&nbsp; FOR MAINNET ATTESTATION<br>
+        ██╔════╝ ██╔═══██╗<br>
+        ██║ &nbsp;███╗██║ &nbsp;&nbsp;██║ &nbsp;&nbsp; All systems verified<br>
+        ██║ &nbsp;&nbsp;██║██║ &nbsp;&nbsp;██║ &nbsp;&nbsp; Ready for Sunday Feb 9 deployment<br>
+        ╚██████╔╝╚██████╔╝ &nbsp;&nbsp; Monday Feb 10 outreach armed<br>
+        &nbsp;╚═════╝ &nbsp;╚═════╝
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ TAB 3: TERM SHEETS ═══════ -->
+<div id="termsheets" class="tab-content">
+  <div style="padding:20px;text-align:center;">
+    <div style="font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:12px;">Term Sheet Comparison Engine</div>
+    <div style="font-size:48px;color:var(--accent);margin:20px 0;">AWAITING OFFERS</div>
+    <div style="font-size:12px;color:var(--dim);max-width:500px;margin:0 auto;line-height:1.8;">
+      Term sheets will appear here as they arrive from Wave 1 lenders.<br>
+      The scoring engine evaluates: advance rate (25%), pricing (25%),<br>
+      facility size (15%), covenant flexibility (15%), diligence speed (10%),<br>
+      reporting burden (10%).<br><br>
+      Expected first responses: Feb 12-14, 2026
+    </div>
+  </div>
+  <div class="ts-comparison" style="opacity:.3">
+    <div class="ts-cell ts-header">Metric</div>
+    <div class="ts-cell ts-lender">Lender A</div>
+    <div class="ts-cell ts-lender">Lender B</div>
+    <div class="ts-cell ts-lender">Lender C</div>
+    <div class="ts-cell ts-label">Facility Size</div><div class="ts-cell">—</div><div class="ts-cell">—</div><div class="ts-cell">—</div>
+    <div class="ts-cell ts-label">Advance Rate</div><div class="ts-cell">—</div><div class="ts-cell">—</div><div class="ts-cell">—</div>
+    <div class="ts-cell ts-label">Interest Rate</div><div class="ts-cell">—</div><div class="ts-cell">—</div><div class="ts-cell">—</div>
+    <div class="ts-cell ts-label">Spread (bps)</div><div class="ts-cell">—</div><div class="ts-cell">—</div><div class="ts-cell">—</div>
+    <div class="ts-cell ts-label">Covenants</div><div class="ts-cell">—</div><div class="ts-cell">—</div><div class="ts-cell">—</div>
+    <div class="ts-cell ts-label">Closing Days</div><div class="ts-cell">—</div><div class="ts-cell">—</div><div class="ts-cell">—</div>
+    <div class="ts-cell ts-label">All-In Cost</div><div class="ts-cell">—</div><div class="ts-cell">—</div><div class="ts-cell">—</div>
+    <div class="ts-cell ts-label">Score</div><div class="ts-cell">—</div><div class="ts-cell">—</div><div class="ts-cell">—</div>
+    <div class="ts-cell ts-label">Recommendation</div><div class="ts-cell">—</div><div class="ts-cell">—</div><div class="ts-cell">—</div>
+  </div>
+</div>
+
+<!-- ═══════ TAB 4: DRAW MANAGEMENT ═══════ -->
+<div id="draws" class="tab-content">
+  <div class="draw-kpis">
+    <div class="draw-kpi">
+      <div class="dk-label">Total Commitment</div>
+      <div class="dk-value" style="color:var(--accent)">$6,500,000</div>
+      <div class="dk-sub">Senior secured revolver</div>
+    </div>
+    <div class="draw-kpi">
+      <div class="dk-label">Outstanding</div>
+      <div class="dk-value" style="color:var(--text)">$0</div>
+      <div class="dk-sub">Pre-funding</div>
+    </div>
+    <div class="draw-kpi">
+      <div class="dk-label">Available</div>
+      <div class="dk-value" style="color:var(--green)">$6,500,000</div>
+      <div class="dk-sub">Full capacity</div>
+    </div>
+    <div class="draw-kpi">
+      <div class="dk-label">Utilization</div>
+      <div class="dk-value" style="color:var(--green)">0.0%</div>
+      <div class="dk-sub">Pre-funding</div>
+    </div>
+    <div class="draw-kpi">
+      <div class="dk-label">Days to Maturity</div>
+      <div class="dk-value" style="color:var(--dim)">—</div>
+      <div class="dk-sub">Facility not yet active</div>
+    </div>
+  </div>
+  <div class="draw-timeline">
+    <div style="text-align:center;padding:30px;color:var(--muted);font-size:11px;letter-spacing:1px;">
+      Draw history and interest accruals will appear here once the facility is funded.<br>
+      The engine supports: draw requests → approvals → wire funding → interest accrual → repayments.<br><br>
+      <span style="color:var(--dim)">Day count convention: ACT/360 | Interest: SOFR + spread | Commitment fee on undrawn</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ TAB 5: EXECUTION CALENDAR ═══════ -->
+<div id="calendar" class="tab-content">
+  <div style="padding:20px;">
+    <div style="display:grid;grid-template-columns:100px 1fr;gap:0;font-size:11px;">
+      <div style="padding:14px;background:var(--bg3);border:1px solid var(--border);font-weight:700;color:var(--yellow);">TODAY<br>Feb 7</div>
+      <div style="padding:14px;background:var(--bg3);border:1px solid var(--border);">Phase 25 committed. All systems built. Pre-flight checks green. <span style="color:var(--green)">✅ COMPLETE</span></div>
+
+      <div style="padding:14px;background:var(--bg3);border:1px solid var(--border);font-weight:700;color:var(--accent);">SAT<br>Feb 8</div>
+      <div style="padding:14px;background:var(--bg3);border:1px solid var(--border);">Phase B — Dress Rehearsal. Run pre-flight-check.ts. Verify all wallets. Test chain monitor. Generate execution proof. Dry-run complete pipeline.</div>
+
+      <div style="padding:14px;background:var(--bg3);border:1px solid var(--border);font-weight:700;color:var(--purple);">SUN<br>Feb 9</div>
+      <div style="padding:14px;background:var(--bg3);border:1px solid var(--border);">Phase C — Mainnet Attestation. Final hash freeze. XRPL + Stellar attestation. Data room sealed. "This package is already frozen and verifiable."</div>
+
+      <div style="padding:14px;background:var(--green-dim);border:1px solid var(--border);font-weight:700;color:var(--green);">MON<br>Feb 10</div>
+      <div style="padding:14px;background:var(--green-dim);border:1px solid var(--border);color:var(--green);">Phase D — WAVE 1 OUTREACH. 14 personalized packages deployed. Ares → Apollo → KKR → HPS → Fortress → Stonebriar → BSP → Oaktree → Cerberus → BlueMountain + 4 SBLC desks. Posture: "Review when ready."</div>
+
+      <div style="padding:14px;background:var(--bg3);border:1px solid var(--border);font-weight:700;color:var(--yellow);">TUE-WED<br>Feb 10-12</div>
+      <div style="padding:14px;background:var(--bg3);border:1px solid var(--border);">Phase E — Diligence & Follow-Up. Answer questions within 24h. Schedule calls within 48h. Reference CREDIT_COMMITTEE_QA.md. Track all interactions in deal pipeline.</div>
+
+      <div style="padding:14px;background:var(--bg3);border:1px solid var(--border);font-weight:700;color:var(--dim);">WEEK 2+</div>
+      <div style="padding:14px;background:var(--bg3);border:1px solid var(--border);">Phase F — Wave 2 (if triggered). Phase G — Post-Term-Sheet. Track 2 opens only after Track 1 term sheet exists.</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <span>OPTKAS — Execution Operations Center v25.0</span>
+  <span>Phase 25: Execution Operations | 28 packages | 55+ scripts | 7 dashboards</span>
+  <span id="fclock"></span>
+</div>
+
+<script>
+  function switchTab(id) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+  function tick() {
+    const n = new Date().toISOString().replace('T',' ').substring(0,19)+' UTC';
+    document.getElementById('clock').textContent = n;
+    document.getElementById('fclock').textContent = n;
+  }
+  tick(); setInterval(tick, 1000);
+</script>
+</body>
+</html>
