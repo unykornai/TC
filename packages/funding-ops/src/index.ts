@@ -1,0 +1,35 @@
+/**
+ * @optkas/funding-ops — Public API
+ *
+ * Owner: OPTKAS1-MAIN SPV
+ * Implementation: Unykorn 7777, Inc.
+ */
+
+export {
+  FundingPipeline,
+  type FundingPipelineConfig,
+  type FundingPipelineState,
+  type FundingPhase,
+  type FundingStatus,
+  type TokenDefinition,
+  type PhaseResult,
+  type UnsignedTransactionRecord,
+  type FundingError,
+  type ActivationReport,
+  type FundingReadinessReport,
+  type ReadinessCheck,
+} from './pipeline';
+
+export {
+  XRPLActivator,
+  type XRPLActivationConfig,
+  type AccountReadiness,
+  type ActivationResult,
+} from './xrpl-activator';
+
+export {
+  StellarActivator,
+  type StellarActivationConfig,
+  type StellarAccountReadiness,
+  type StellarActivationResult,
+} from './stellar-activator';
