@@ -1,1 +1,1 @@
-export { buildState, generateDashboardHTML } from './server';
+export { buildState, generateDashboardHTML, startServer } from './server';

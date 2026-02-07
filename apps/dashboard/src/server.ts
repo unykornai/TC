@@ -52,7 +52,7 @@ function loadConfig(): any {
   }
 }
 
-function buildState(): DashboardState {
+export function buildState(): DashboardState {
   const config = loadConfig();
   return {
     config: {
@@ -91,7 +91,7 @@ function buildState(): DashboardState {
   };
 }
 
-function generateDashboardHTML(state: DashboardState): string {
+export function generateDashboardHTML(state: DashboardState): string {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -286,34 +286,42 @@ function generateDashboardHTML(state: DashboardState): string {
 </html>`;
 }
 
-const server = http.createServer((req, res) => {
-  if (req.url === '/api/state') {
+export function startServer(port = PORT): http.Server {
+  const server = http.createServer((req, res) => {
+    if (req.url === '/api/state') {
+      const state = buildState();
+      res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+      res.end(JSON.stringify(state, null, 2));
+      return;
+    }
+
+    if (req.url === '/api/health') {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ status: 'ok', mode: 'read-only', timestamp: new Date().toISOString() }));
+      return;
+    }
+
+    // Serve dashboard HTML
     const state = buildState();
-    res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
-    res.end(JSON.stringify(state, null, 2));
-    return;
-  }
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.end(generateDashboardHTML(state));
+  });
 
-  if (req.url === '/api/health') {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ status: 'ok', mode: 'read-only', timestamp: new Date().toISOString() }));
-    return;
-  }
+  server.listen(port, () => {
+    console.log('');
+    console.log('  ◈ OPTKAS Institutional Dashboard');
+    console.log('  ─────────────────────────────────');
+    console.log(`  Mode:    READ-ONLY`);
+    console.log(`  URL:     http://localhost:${port}`);
+    console.log(`  API:     http://localhost:${port}/api/state`);
+    console.log(`  Health:  http://localhost:${port}/api/health`);
+    console.log(`  Config:  ${CONFIG_PATH}`);
+    console.log('');
+  });
 
-  // Serve dashboard HTML
-  const state = buildState();
-  res.writeHead(200, { 'Content-Type': 'text/html' });
-  res.end(generateDashboardHTML(state));
-});
+  return server;
+}
 
-server.listen(PORT, () => {
-  console.log('');
-  console.log('  ◈ OPTKAS Institutional Dashboard');
-  console.log('  ─────────────────────────────────');
-  console.log(`  Mode:    READ-ONLY`);
-  console.log(`  URL:     http://localhost:${PORT}`);
-  console.log(`  API:     http://localhost:${PORT}/api/state`);
-  console.log(`  Health:  http://localhost:${PORT}/api/health`);
-  console.log(`  Config:  ${CONFIG_PATH}`);
-  console.log('');
-});
+if (require.main === module) {
+  startServer();
+}
