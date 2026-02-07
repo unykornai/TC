@@ -17,8 +17,23 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as yaml from 'yaml';
 
+// ── Live package imports ───────────────────────────────────────
+import { MultisigGovernor } from '../../../packages/governance/src';
+import { ComplianceEngine } from '../../../packages/compliance/src';
+import { BondFactory } from '../../../packages/bond/src';
+import { ReportingEngine } from '../../../packages/reporting/src';
+import { AuditEventStore, ReportGenerator } from '../../../packages/audit/src';
+
 const PORT = parseInt(process.env.PORT || '3000', 10);
 const CONFIG_PATH = process.env.CONFIG_PATH || path.join(__dirname, '..', '..', '..', 'config', 'platform-config.yaml');
+
+// ── Singleton engine instances (read-only) ─────────────────────
+const governor = new MultisigGovernor();
+const compliance = new ComplianceEngine();
+const bondFactory = new BondFactory();
+const reporting = new ReportingEngine();
+const auditStore = new AuditEventStore();
+const auditReporter = new ReportGenerator(auditStore);
 
 interface DashboardState {
   config: any;
@@ -40,6 +55,24 @@ interface DashboardState {
     recentEvents: number;
     lastReconciliation: string;
     status: string;
+  };
+  governance: {
+    threshold: number;
+    activeSigners: number;
+    pendingProposals: number;
+    config: any;
+  };
+  compliance: {
+    breachedCovenants: number;
+    overdueCovenants: number;
+    engineStatus: string;
+  };
+  bonds: {
+    factoryStatus: string;
+    programCount: number;
+  };
+  reporting: {
+    engineStatus: string;
   };
 }
 
@@ -87,7 +120,25 @@ export function buildState(): DashboardState {
       recentEvents: 0,
       lastReconciliation: 'never',
       status: 'pending_initial_run'
-    }
+    },
+    governance: {
+      threshold: governor.getConfig().threshold,
+      activeSigners: governor.getActiveSigners().length,
+      pendingProposals: governor.getPendingRequests().length,
+      config: governor.getConfig(),
+    },
+    compliance: {
+      breachedCovenants: compliance.getBreachedCovenants().length,
+      overdueCovenants: compliance.getOverdueCovenants().length,
+      engineStatus: 'active',
+    },
+    bonds: {
+      factoryStatus: 'active',
+      programCount: 0,
+    },
+    reporting: {
+      engineStatus: 'active',
+    },
   };
 }
 
@@ -272,7 +323,36 @@ export function generateDashboardHTML(state: DashboardState): string {
       <div class="stat"><span class="label">Last Reconciliation</span><span class="value">${state.audit.lastReconciliation}</span></div>
       <div class="stat"><span class="label">Overall Status</span><span class="value">${state.audit.status}</span></div>
     </div>
-  </div>
+    <!-- Governance -->
+    <div class="card">
+      <h2>Governance</h2>
+      <div class="stat"><span class="label">Multisig Threshold</span><span class="value">\${state.governance.threshold}-of-\${state.governance.config.totalSigners || 3}</span></div>
+      <div class="stat"><span class="label">Active Signers</span><span class="value">\${state.governance.activeSigners}</span></div>
+      <div class="stat"><span class="label">Pending Proposals</span><span class="value">\${state.governance.pendingProposals}</span></div>
+      <div class="stat"><span class="label">Config Change Quorum</span><span class="value">\${state.governance.config.quorumForConfigChange || 3}</span></div>
+    </div>
+
+    <!-- Compliance -->
+    <div class="card">
+      <h2>Compliance Engine</h2>
+      <div class="stat"><span class="label">Engine Status</span><span class="value"><span class="status-dot status-green"></span>\${state.compliance.engineStatus}</span></div>
+      <div class="stat"><span class="label">Breached Covenants</span><span class="value">\${state.compliance.breachedCovenants}</span></div>
+      <div class="stat"><span class="label">Overdue Covenants</span><span class="value">\${state.compliance.overdueCovenants}</span></div>
+    </div>
+
+    <!-- Bond Pipeline -->
+    <div class="card">
+      <h2>Bond Pipeline</h2>
+      <div class="stat"><span class="label">Factory Status</span><span class="value"><span class="status-dot status-green"></span>\${state.bonds.factoryStatus}</span></div>
+      <div class="stat"><span class="label">Programs</span><span class="value">\${state.bonds.programCount}</span></div>
+    </div>
+
+    <!-- Reporting -->
+    <div class="card">
+      <h2>Reporting Engine</h2>
+      <div class="stat"><span class="label">Engine Status</span><span class="value"><span class="status-dot status-green"></span>\${state.reporting.engineStatus}</span></div>
+      <div class="stat"><span class="label">Available Reports</span><span class="value">investor_statement, trustee_report, reconciliation, nav_snapshot, lifecycle_report</span></div>
+    </div>  </div>
 
   <div class="footer">
     OPTKAS Institutional Dashboard — Read-Only — ${new Date().getFullYear()} OPTKAS1-MAIN SPV — All operations require multisig authorization via CLI
